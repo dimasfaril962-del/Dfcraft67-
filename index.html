@@ -87,13 +87,13 @@
 .auth-note{font-size:13px;color:#b9c4d3;line-height:1.45;margin:8px 0}
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
 // ===== APPWRITE DFCraft =====
 const APPWRITE_ENDPOINT = "https://sgp.cloud.appwrite.io/v1";
 const APPWRITE_PROJECT_ID = "6abc6d9e001123a213d1";
 const APPWRITE_DATABASE_ID = "6abc743a001179d7f44a";
-const APPWRITE_TABLE_ID = "6abc748400257573d303"; // Table: addons
+const APPWRITE_TABLE_ID = "6abc748400257573d303"; // Table internal: tambahan | display: addons
 const APPWRITE_BUCKET_ID = "6abc7be5001e2f4484e2";
 
 const appwriteClient = new Appwrite.Client()
@@ -103,6 +103,15 @@ const appwriteClient = new Appwrite.Client()
 window.dfAppwriteAccount = new Appwrite.Account(appwriteClient);
 window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
 window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
+
+console.log("[DFCraft] Appwrite config:", {
+  endpoint: APPWRITE_ENDPOINT,
+  projectId: APPWRITE_PROJECT_ID,
+  databaseId: APPWRITE_DATABASE_ID,
+  tableId: APPWRITE_TABLE_ID,
+  bucketId: APPWRITE_BUCKET_ID,
+  sdk: "28.1.0"
+});
 
 async function appwriteJsonRequest(path, options={}) {
   const headers = Object.assign(
@@ -129,15 +138,13 @@ async function appwriteJsonRequest(path, options={}) {
 }
 
 async function checkAppwriteTable() {
-  // Jangan GET database/table metadata dari browser.
-  // Endpoint metadata membutuhkan scope databases.read yang tidak dimiliki
-  // session user biasa. Yang dibutuhkan website hanya akses ROWS pada table.
-  const rowsPath =
-    "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
-    "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows";
-
+  // Gunakan TablesDB Web SDK untuk operasi tabel.
+  // SDK otomatis mengirim session user yang sedang login.
   try {
-    const rows = await appwriteJsonRequest(rowsPath);
+    const rows = await window.dfAppwriteTables.listRows({
+      databaseId: APPWRITE_DATABASE_ID,
+      tableId: APPWRITE_TABLE_ID
+    });
     console.log("[DFCraft] TABLE/ROWS OK:", rows);
     return rows;
   } catch (e) {
@@ -146,13 +153,15 @@ async function checkAppwriteTable() {
       projectId: APPWRITE_PROJECT_ID,
       databaseId: APPWRITE_DATABASE_ID,
       tableId: APPWRITE_TABLE_ID,
-      status: e.status,
-      message: e.message,
-      response: e.response
+      status: e && e.code,
+      message: e && e.message,
+      response: e
     });
     throw new Error(
-      "Akses ke baris tabel 'addons' gagal. ID Table: " +
-      APPWRITE_TABLE_ID + ". " + e.message
+      "Akses ke tabel 'tambahan' (nama tampilan: addons) gagal. " +
+      "Database ID: " + APPWRITE_DATABASE_ID +
+      " | Table ID: " + APPWRITE_TABLE_ID +
+      " | " + ((e && e.message) || e)
     );
   }
 }
@@ -169,18 +178,12 @@ async function uploadAddonImage(file) {
 }
 
 async function createAddonRow(data) {
-  return await appwriteJsonRequest(
-    "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
-    "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows",
-    {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        rowId: Appwrite.ID.unique(),
-        data: data
-      })
-    }
-  );
+  return await window.dfAppwriteTables.createRow({
+    databaseId: APPWRITE_DATABASE_ID,
+    tableId: APPWRITE_TABLE_ID,
+    rowId: Appwrite.ID.unique(),
+    data: data
+  });
 }
 </script>
 </head><body>
@@ -284,12 +287,11 @@ function render(){
 async function deleteRemoteAddon(item){
   if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
   try {
-    await appwriteJsonRequest(
-      "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
-      "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) +
-      "/rows/" + encodeURIComponent(item.id),
-      {method:"DELETE"}
-    );
+    await window.dfAppwriteTables.deleteRow({
+      databaseId: APPWRITE_DATABASE_ID,
+      tableId: APPWRITE_TABLE_ID,
+      rowId: item.id
+    });
     items=items.filter(x=>x.id!==item.id);
     downloads=downloads.filter(x=>x.id!==item.id);
     localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
