@@ -103,31 +103,6 @@ const appwriteClient = new Appwrite.Client()
 window.dfAppwriteAccount = new Appwrite.Account(appwriteClient);
 window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
 window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
-
-// Alias kompatibilitas agar kode lama juga tidak menghasilkan "appwriteStorage is not defined".
-window.appwriteAccount = window.dfAppwriteAccount;
-window.appwriteTables = window.dfAppwriteTables;
-window.appwriteStorage = window.dfAppwriteStorage;
-var appwriteAccount = window.dfAppwriteAccount;
-var appwriteTables = window.dfAppwriteTables;
-var appwriteStorage = window.dfAppwriteStorage;
-
-// Ambil Storage secara aman. Tidak bergantung pada global window.dfAppwriteStorage.
-function getAppwriteStorage(){
-  if (window.dfAppwriteStorage && typeof window.dfAppwriteStorage.createFile === "function") {
-    return window.dfAppwriteStorage;
-  }
-  if (window.Appwrite && typeof Appwrite.Storage === "function") {
-    const client = (typeof appwriteClient !== "undefined" && appwriteClient)
-      ? appwriteClient
-      : new Appwrite.Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
-    const storage = new Appwrite.Storage(client);
-    window.dfAppwriteStorage = storage;
-    window.appwriteStorage = storage;
-    return storage;
-  }
-  throw new Error("Appwrite Storage SDK tidak tersedia. Refresh halaman lalu coba lagi.");
-}
 </script>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
@@ -174,8 +149,15 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  try { return String(getAppwriteStorage().getFileView({bucketId:APPWRITE_BUCKET_ID,fileId})); }
-  catch(e) { return ""; }
+  try {
+    return String(window.dfAppwriteStorage.getFileView({
+      bucketId: APPWRITE_BUCKET_ID,
+      fileId: fileId
+    }));
+  } catch(e) {
+    console.error("Gagal membuat URL gambar:", e);
+    return "";
+  }
 }
 function rowToAddon(row){
   const image = String(row.image||"");
@@ -258,8 +240,12 @@ $("save").onclick=async()=>{
   if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
   const btn=$("save");btn.disabled=true;btn.textContent="Mengunggah...";
   try {
-    const storage=getAppwriteStorage();
-    const file=await storage.createFile({bucketId:APPWRITE_BUCKET_ID,fileId:Appwrite.ID.unique(),file:selectedImageFile});
+    const storage = new Appwrite.Storage(appwriteClient);
+    const file = await storage.createFile({
+      bucketId: APPWRITE_BUCKET_ID,
+      fileId: Appwrite.ID.unique(),
+      file: selectedImageFile
+    });
     const imageId=file.$id;
     const imageUrl=appwriteImageUrl(imageId);
     const row=await window.dfAppwriteTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:Appwrite.ID.unique(),data:{name,image:imageId,link,category:cat,owner:currentAppwriteUser.$id},permissions:[Appwrite.Permission.read(Appwrite.Role.any()),Appwrite.Permission.update(Appwrite.Role.user(currentAppwriteUser.$id)),Appwrite.Permission.delete(Appwrite.Role.user(currentAppwriteUser.$id))]});
