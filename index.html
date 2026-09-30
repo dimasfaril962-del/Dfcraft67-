@@ -228,15 +228,12 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  try {
-    return String(window.dfAppwriteStorage.getFileView({
-      bucketId: APPWRITE_BUCKET_ID,
-      fileId: fileId
-    }));
-  } catch(e) {
-    console.error("Gagal membuat URL gambar:", e);
-    return "";
-  }
+  // Gunakan REST File View URL langsung agar gambar dapat dimuat
+  // tanpa bergantung pada hasil toString() dari SDK.
+  return APPWRITE_ENDPOINT +
+    "/storage/buckets/" + encodeURIComponent(APPWRITE_BUCKET_ID) +
+    "/files/" + encodeURIComponent(fileId) + "/view" +
+    "?project=" + encodeURIComponent(APPWRITE_PROJECT_ID);
 }
 function rowToAddon(row){
   const image = String(row.image||"");
