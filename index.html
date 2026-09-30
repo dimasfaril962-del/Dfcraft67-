@@ -138,12 +138,8 @@ const appwriteStorage = new Appwrite.Storage(appwriteClient);
 
 <div class="about" data-i18n="about">DFCraft Web • Versi 2.1</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire"><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
-const starter=[
-  {name:"Contoh Add-On DFCraft",image:"https://dummyimage.com/800x500/26334d/ffffff&text=DFCraft+Add-On",link:"https://www.mediafire.com/",cat:"Add-Ons",id:"starter-0",owner:""},
-  {name:"Contoh World Minecraft",image:"https://dummyimage.com/800x500/304b36/ffffff&text=World",link:"https://www.mediafire.com/",cat:"Worlds",id:"starter-1",owner:""},
-  {name:"Contoh Texture Pack",image:"https://dummyimage.com/800x500/49385d/ffffff&text=Texture+Pack",link:"https://www.mediafire.com/",cat:"Texture Packs",id:"starter-2",owner:""}
-];
-let items=starter.slice();
+// Tidak ada Add-On contoh bawaan.
+let items=[];
 let downloads=JSON.parse(localStorage.getItem("dfcraft_web2_downloads")||"[]");
 let current="Semua",page="home";
 let selectedImageFile=null;
@@ -164,13 +160,13 @@ async function loadRemoteAddons(){
   try {
     const res=await appwriteTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID});
     const remote=res.rows.map(rowToAddon).filter(x=>x.name&&x.link);
-    items=remote.length?remote:starter.slice();
+    items=remote;
     appwriteReady=true;
     render();
   } catch(e) {
     console.error("Appwrite listRows gagal",e);
     appwriteReady=false;
-    items=starter.slice();
+    items=[];
     render();
   }
 }
