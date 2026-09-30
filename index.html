@@ -1,24 +1,4 @@
-<!doctype html><html lang="id"><head>
-  <!-- ===== APPWRITE DFCraft ===== -->
-  <script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
-  <script>
-    const APPWRITE_ENDPOINT = "https://sgp.cloud.appwrite.io/v1";
-    const APPWRITE_PROJECT_ID = "6abc6d9e001123a213d1";
-
-    const appwriteClient = new Appwrite.Client()
-      .setEndpoint(APPWRITE_ENDPOINT)
-      .setProject(APPWRITE_PROJECT_ID);
-
-    const appwriteAccount = new Appwrite.Account(appwriteClient);
-    const appwriteStorage = new Appwrite.Storage(appwriteClient);
-    const appwriteTables = new Appwrite.TablesDB(appwriteClient);
-
-    // ID database/table akan diisi saat sinkronisasi Add-On diaktifkan.
-    const APPWRITE_DATABASE_ID = "";
-    const APPWRITE_ADDONS_TABLE_ID = "";
-    const APPWRITE_STORAGE_BUCKET_ID = "addon-images";
-  </script>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DFCraft Add-on Minecraft</title><style>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DFCraft Add-on Minecraft</title><style>
 *{box-sizing:border-box}body{margin:0;background:#10151b;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}.top{display:flex;gap:10px;padding:18px}.search{flex:1;background:#292e36;border:0;border-radius:30px;padding:16px 20px;color:#fff;font-size:18px;outline:0}.avatar{width:52px;height:52px;border-radius:50%;background:#293852;display:grid;place-items:center;font-weight:bold}.recommend-wrap{padding:0 18px 20px}.recommend-title{font-size:20px;font-weight:bold;margin:0 0 12px}.recommend{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none}.recommend::-webkit-scrollbar{display:none}.recommend .recommend-image{min-width:78%;max-width:78%;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#1c222a;display:block}.recommend .recommend-image img{width:100%;aspect-ratio:1.8;object-fit:cover;display:block}.chips{display:flex;gap:10px;overflow:auto;padding:0 18px 20px}.chip{white-space:nowrap;padding:12px 17px;border-radius:24px;border:1px solid #425064;background:#202832;color:#a9caff;font-weight:bold}.section{padding:0 18px}.title{font-size:20px;font-weight:bold;margin:5px 0 13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.card{background:#1c222a;border-radius:14px;overflow:hidden}.card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.body{padding:11px}.name{font-weight:bold;font-size:15px}.meta{font-size:12px;color:#9da9b8;margin-top:5px}.download{display:block;text-align:center;text-decoration:none;color:#07111d;background:#9fc5ff;padding:9px;border-radius:9px;margin-top:10px;font-weight:bold;font-size:12px}.delete{display:block;width:100%;border:0;color:#fff;background:#b83b46;padding:9px;border-radius:9px;margin-top:8px;font-weight:bold;font-size:12px;cursor:pointer}.empty{padding:25px;color:#919dac}.download-card{background:#1c222a;border-radius:14px;overflow:hidden}.download-card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.download-body{padding:11px}.download-name{font-weight:bold;font-size:15px}.download-date{font-size:12px;color:#9da9b8;margin-top:5px}.download-actions{display:flex;gap:8px;margin-top:10px}.download-actions a,.download-actions button{flex:1;text-align:center;text-decoration:none;border:0;padding:9px;border-radius:9px;font-weight:bold;font-size:12px;cursor:pointer}.redownload{color:#07111d;background:#9fc5ff}.remove-download{color:#fff;background:#b83b46}.bottom{position:fixed;bottom:0;left:0;right:0;height:78px;background:#20252d;border-top:1px solid #303844;display:flex;justify-content:space-around}.nav{border:0;background:transparent;color:#c5ccd7;min-width:70px}.nav b{display:block;font-size:27px}.nav.active{color:#a9caff}.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px}.box{width:100%;max-width:430px;background:#1b222b;border-radius:20px;padding:20px}.box input,.box select{width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff}.file-label{display:block;width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff;text-align:left;cursor:pointer}.image-preview{width:100%;min-height:48px;margin:6px 0;padding:10px;border-radius:10px;border:1px dashed #3c4858;color:#919dac;font-size:13px;text-align:center}.image-preview img{max-width:100%;max-height:180px;border-radius:8px;display:block;margin:auto}.actions{display:flex;gap:10px;margin-top:10px}.actions button{flex:1;padding:12px;border:0;border-radius:10px;font-weight:bold}.cancel{background:#343d49;color:#fff}.save{background:#9fc5ff}@media(max-width:420px){.grid{gap:10px}}.settings-box{max-height:85vh;overflow:auto}.setting-label{display:block;font-size:13px;color:#9da9b8;margin:12px 0 4px}.setting-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:#293544;color:#fff;font-weight:bold;text-align:left;cursor:pointer}.setting-action.danger{background:#5b2930}.about{margin-top:15px;padding:12px;border-radius:10px;background:#141a21;color:#9da9b8;font-size:12px;text-align:center}body.light{background:#f2f4f7;color:#18202a}body.light .search,body.light .box input,body.light .box select,body.light .file-label{background:#fff;color:#18202a;border-color:#c5ccd7}body.light .chip{background:#fff;color:#315d9d;border-color:#aab6c7}body.light .card,body.light .download-card{background:#fff}body.light .meta,body.light .download-date{color:#667383}body.light .bottom{background:#fff;border-color:#d5dbe3}body.light .nav{color:#4e5a68}body.light .nav.active{color:#315d9d}body.light .box{background:#fff;color:#18202a}body.light .about{background:#eef1f5}body.light .recommend .recommend-image{background:#e4e8ee}body.light .title{color:#18202a}body.light .recommend-title{color:#18202a}@media(max-width:420px){.grid{gap:10px}}</style>
 <style>
 .settings-extra{display:grid;gap:12px;margin-top:14px}
@@ -107,6 +87,23 @@
 .auth-note{font-size:13px;color:#b9c4d3;line-height:1.45;margin:8px 0}
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
+<script>
+// ===== APPWRITE DFCraft =====
+const APPWRITE_ENDPOINT = "https://sgp.cloud.appwrite.io/v1";
+const APPWRITE_PROJECT_ID = "6abc6d9e001123a213d1";
+const APPWRITE_DATABASE_ID = "6abc743a001179d7f44a";
+const APPWRITE_TABLE_ID = "6abc748400257573d303";
+const APPWRITE_BUCKET_ID = "addon-images";
+
+const appwriteClient = new Appwrite.Client()
+  .setEndpoint(APPWRITE_ENDPOINT)
+  .setProject(APPWRITE_PROJECT_ID);
+
+const appwriteAccount = new Appwrite.Account(appwriteClient);
+const appwriteTables = new Appwrite.TablesDB(appwriteClient);
+const appwriteStorage = new Appwrite.Storage(appwriteClient);
+</script>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
 
@@ -141,15 +138,46 @@
 
 <div class="about" data-i18n="about">DFCraft Web • Versi 2.1</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire"><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
-const starter=[{name:"Contoh Add-On DFCraft",image:"https://dummyimage.com/800x500/26334d/ffffff&text=DFCraft+Add-On",link:"https://www.mediafire.com/",cat:"Add-Ons"},{name:"Contoh World Minecraft",image:"https://dummyimage.com/800x500/304b36/ffffff&text=World",link:"https://www.mediafire.com/",cat:"Worlds"},{name:"Contoh Texture Pack",image:"https://dummyimage.com/800x500/49385d/ffffff&text=Texture+Pack",link:"https://www.mediafire.com/",cat:"Texture Packs"}];
-let items=JSON.parse(localStorage.getItem("dfcraft_web2_items")||"null")||starter.map((x,i)=>({...x,id:"starter-"+i}));
-items=items.map((x,i)=>({...x,id:x.id||("item-"+i+"-"+Date.now())}));
-localStorage.setItem("dfcraft_web2_items",JSON.stringify(items));
+const starter=[
+  {name:"Contoh Add-On DFCraft",image:"https://dummyimage.com/800x500/26334d/ffffff&text=DFCraft+Add-On",link:"https://www.mediafire.com/",cat:"Add-Ons",id:"starter-0",owner:""},
+  {name:"Contoh World Minecraft",image:"https://dummyimage.com/800x500/304b36/ffffff&text=World",link:"https://www.mediafire.com/",cat:"Worlds",id:"starter-1",owner:""},
+  {name:"Contoh Texture Pack",image:"https://dummyimage.com/800x500/49385d/ffffff&text=Texture+Pack",link:"https://www.mediafire.com/",cat:"Texture Packs",id:"starter-2",owner:""}
+];
+let items=starter.slice();
 let downloads=JSON.parse(localStorage.getItem("dfcraft_web2_downloads")||"[]");
 let current="Semua",page="home";
+let selectedImageFile=null;
+let currentAppwriteUser=null;
+let appwriteReady=false;
 const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
-function cardHTML(x){return `<article class="card"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">DFCraft</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a><button class="delete" data-id="${esc(x.id)}">${t("delete")}</button></div></article>`}
+function appwriteImageUrl(fileId){
+  if(!fileId) return "";
+  try { return String(appwriteStorage.getFileView({bucketId:APPWRITE_BUCKET_ID,fileId})); }
+  catch(e) { return ""; }
+}
+function rowToAddon(row){
+  const image = String(row.image||"");
+  return {id:row.$id,name:row.name||"Tanpa nama",image:image.startsWith("http")?image:appwriteImageUrl(image),link:row.link||"",cat:row.category||"Add-Ons",owner:row.owner||"",fileId:image.startsWith("http")?"":image};
+}
+async function loadRemoteAddons(){
+  try {
+    const res=await appwriteTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID});
+    const remote=res.rows.map(rowToAddon).filter(x=>x.name&&x.link);
+    items=remote.length?remote:starter.slice();
+    appwriteReady=true;
+    render();
+  } catch(e) {
+    console.error("Appwrite listRows gagal",e);
+    appwriteReady=false;
+    items=starter.slice();
+    render();
+  }
+}
+function cardHTML(x){
+  const canDelete=!!currentAppwriteUser && !!x.owner && x.owner===currentAppwriteUser.$id && !String(x.id).startsWith("starter-");
+  return `<article class="card" data-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">DFCraft</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}">${t("delete")}</button>`:""}</div></article>`;
+}
 function render(){
   if(page!=="home") return renderDownloads();
   let q=$("search").value.toLowerCase(),list=items.filter(x=>(current==="Semua"||x.cat===current)&&(!q||x.name.toLowerCase().includes(q)));
@@ -159,8 +187,18 @@ function render(){
   $("recommend").innerHTML=recItems.length?recItems.slice(0,5).map(x=>`<div class="recommend-image"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
   bindDeleteButtons();bindDownloadLinks();startRecommendAuto();
 }
-function bindDeleteButtons(){document.querySelectorAll(".delete").forEach(b=>b.onclick=()=>{const id=b.dataset.id;const item=items.find(x=>x.id===id);if(!item)return;if(confirm(`Hapus Add-On "${item.name}"?`)){items=items.filter(x=>x.id!==id);localStorage.setItem("dfcraft_web2_items",JSON.stringify(items));downloads=downloads.filter(x=>x.id!==id);localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));render()}})}
-function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));});}
+async function deleteRemoteAddon(item){
+  if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
+  try {
+    await appwriteTables.deleteRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:item.id});
+    items=items.filter(x=>x.id!==item.id);
+    downloads=downloads.filter(x=>x.id!==item.id);
+    localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
+    render();
+  } catch(e) { console.error(e); alert("Add-On gagal dihapus. Pastikan akun ini adalah pemilik Add-On."); }
+}
+function bindDeleteButtons(){document.querySelectorAll(".delete").forEach(b=>b.onclick=async()=>{const id=b.dataset.id;const item=items.find(x=>x.id===id);if(!item)return;if(confirm(`Hapus Add-On "${item.name}"?`))await deleteRemoteAddon(item);})}
+function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));})}
 function downloadCardHTML(x){let date=new Date(x.downloadedAt);let when=isNaN(date)?"":date.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});return `<article class="download-card"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="download-body"><div class="download-name">${esc(x.name)}</div><div class="download-date">${t("downloaded")}: ${esc(when)}</div><div class="download-actions"><a class="redownload" href="${esc(x.link)}" target="_blank" rel="noopener">${t("downloadAgain")}</a><button class="remove-download" data-remove-download="${esc(x.id)}">${t("deleteHistory")}</button></div></div></article>`}
 function renderDownloads(){
   $("title").textContent=t("downloads");
@@ -169,12 +207,11 @@ function renderDownloads(){
   document.querySelectorAll("[data-remove-download]").forEach(b=>b.onclick=()=>{downloads=downloads.filter(x=>x.id!==b.dataset.removeDownload);localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));renderDownloads()});
 }
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{page="home";current=b.dataset.cat;render()});
-let selectedImage="";
-$("image").onchange=e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith("image/"))return alert("Pilih file gambar.");const reader=new FileReader();reader.onload=()=>{selectedImage=reader.result;$("imagePreview").innerHTML=`<img src="${reader.result}" alt="Preview">`};reader.readAsDataURL(file)};
+$("image").onchange=e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith("image/"))return alert("Pilih file gambar.");selectedImageFile=file;const url=URL.createObjectURL(file);$("imagePreview").innerHTML=`<img src="${url}" alt="Preview">`;};
 $("search").oninput=()=>{if(page!=="home")return;render()};
 $("home").onclick=()=>{page="home";current="Semua";render()};
 $("downloads").onclick=()=>{page="downloads";renderDownloads()};
-$("settings").onclick=()=>{ $("settingsModal").style.display="flex"; applyLanguage(); };
+$("settings").onclick=()=>{$("settingsModal").style.display="flex";applyLanguage();};
 $("closeSettings").onclick=()=>$("settingsModal").style.display="none";
 const translations={
  id:{home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",clearDownloads:"🗑️ Hapus semua riwayat Unduhan",resetData:"⚠️ Reset semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Rekomendasi",addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",downloaded:"Diunduh",about:"DFCraft Web • Versi 2.1",confirmClear:"Hapus semua riwayat Unduhan?",confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus."},
@@ -191,12 +228,26 @@ function applyLanguage(){document.documentElement.lang=language;document.querySe
 $("languageSelect").onchange=e=>{language=e.target.value;localStorage.setItem("dfcraft_language",language);applyLanguage()};
 $("themeSelect").onchange=e=>{theme=e.target.value;localStorage.setItem("dfcraft_theme",theme);applyLanguage()};
 $("clearDownloads").onclick=()=>{if(confirm(t("confirmClear"))){downloads=[];localStorage.setItem("dfcraft_web2_downloads","[]");renderDownloads()}};
-
-$("add").onclick=()=>$("modal").style.display="flex";
+$("add").onclick=()=>{if(!currentAppwriteUser){alert("Silakan masuk/daftar terlebih dahulu untuk menambahkan Add-On.");$("authModal").style.display="flex";return;}$("modal").style.display="flex"};
 $("cancel").onclick=()=>$("modal").style.display="none";
-$("save").onclick=()=>{let name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value;if(!name||!selectedImage||!link)return alert("Isi nama, pilih gambar dari galeri, dan isi link MediaFire.");let mediafireLink=link;if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(mediafireLink)){return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");}items.unshift({id:"item-"+Date.now()+"-"+Math.random().toString(36).slice(2),name,image:selectedImage,link:mediafireLink,cat});localStorage.setItem("dfcraft_web2_items",JSON.stringify(items));["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImage="";$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render()};
+$("save").onclick=async()=>{
+  const name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value;
+  if(!currentAppwriteUser){alert("Silakan masuk terlebih dahulu.");return;}
+  if(!name||!selectedImageFile||!link)return alert("Isi nama, pilih gambar dari galeri, dan isi link MediaFire.");
+  if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
+  const btn=$("save");btn.disabled=true;btn.textContent="Mengunggah...";
+  try {
+    const file=await appwriteStorage.createFile({bucketId:APPWRITE_BUCKET_ID,fileId:Appwrite.ID.unique(),file:selectedImageFile});
+    const imageId=file.$id;
+    const imageUrl=appwriteImageUrl(imageId);
+    const row=await appwriteTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:Appwrite.ID.unique(),data:{name,image:imageId,link,category:cat,owner:currentAppwriteUser.$id},permissions:[Appwrite.Permission.read(Appwrite.Role.any()),Appwrite.Permission.update(Appwrite.Role.user(currentAppwriteUser.$id)),Appwrite.Permission.delete(Appwrite.Role.user(currentAppwriteUser.$id))]});
+    items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,fileId:imageId});
+    ["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
+  } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
+};
 let recTimer=null;function startRecommendAuto(){const el=$("recommend");if(!el||page!=="home")return;if(recTimer)clearInterval(recTimer);if(!el.children.length)return;recTimer=setInterval(()=>{if(!el.children.length)return;const step=el.clientWidth*0.82;const max=el.scrollWidth-el.clientWidth;if(el.scrollLeft>=max-5)el.scrollTo({left:0,behavior:"smooth"});else el.scrollBy({left:step,behavior:"smooth"})},3500);}
 applyLanguage();
+loadRemoteAddons();
 </script>
 
 
@@ -217,7 +268,7 @@ applyLanguage();
       </div>
 
       <div class="auth-panel active" id="loginPanel">
-        <input id="loginIdentifier" type="text" autocomplete="username" placeholder="📧 Email / 📱 Nomor HP / 👤 Nama pengguna">
+        <input id="loginIdentifier" type="text" autocomplete="username" placeholder="📧 Email">
         <input id="loginPassword" type="password" autocomplete="current-password" placeholder="🔑 Kata sandi">
         <div id="loginMsg" class="auth-msg"></div>
         <button class="auth-main" id="loginBtn">Masuk</button>
@@ -231,7 +282,7 @@ applyLanguage();
         <input id="regConfirm" type="password" autocomplete="new-password" placeholder="🔐 Konfirmasi kata sandi">
         <div id="regMsg" class="auth-msg"></div>
         <button class="auth-main" id="registerBtn">Daftar</button>
-        <div class="auth-note">Data akun versi ini disimpan di perangkat/browser ini. Untuk akun yang benar-benar bisa dipakai di banyak perangkat, DFCraft nantinya memerlukan server/database.</div>
+        <div class="auth-note">Akun DFCraft tersimpan di Appwrite dan dapat digunakan di perangkat lain. Login menggunakan email dan kata sandi.</div>
       </div>
 
       <button class="auth-close" id="authClose">Tutup</button>
@@ -256,251 +307,55 @@ applyLanguage();
 
 <script>
 (function(){
-  const KEY = "dfcraft_user_account_v1";
-  const LOGIN = "dfcraft_user_logged_in_v1";
-
-  const $ = id => document.getElementById(id);
-
-  async function hash(text){
-    const data = new TextEncoder().encode(text);
-    const buf = await crypto.subtle.digest("SHA-256", data);
-    return Array.from(new Uint8Array(buf)).map(x=>x.toString(16).padStart(2,"0")).join("");
-  }
-
-  function getUser(){
-    try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
-    catch(e){ return null; }
-  }
-
-  function setMessage(id, msg){
-    const el = $(id);
-    if(!el) return;
-    el.textContent = msg;
-    el.style.display = msg ? "block" : "none";
-  }
-
-  function switchTab(which){
-    const login = which === "login";
-    $("tabLogin").classList.toggle("active", login);
-    $("tabRegister").classList.toggle("active", !login);
-    $("loginPanel").classList.toggle("active", login);
-    $("registerPanel").classList.toggle("active", !login);
-    setMessage("loginMsg","");
-    setMessage("regMsg","");
-  }
-
-  function refresh(){
-    const logged = localStorage.getItem(LOGIN) === "1";
-    $("authLoggedOut").style.display = logged ? "none" : "block";
-    $("authLoggedIn").classList.toggle("show", logged);
+  const $=id=>document.getElementById(id);
+  function setMessage(id,msg){const el=$(id);if(!el)return;el.textContent=msg;el.style.display=msg?"block":"none";}
+  function switchTab(which){const login=which==="login";$('tabLogin').classList.toggle('active',login);$('tabRegister').classList.toggle('active',!login);$('loginPanel').classList.toggle('active',login);$('registerPanel').classList.toggle('active',!login);setMessage('loginMsg','');setMessage('regMsg','');}
+  async function refresh(){
+    try { currentAppwriteUser=await appwriteAccount.get(); }
+    catch(e){ currentAppwriteUser=null; }
+    const logged=!!currentAppwriteUser;
+    $('authLoggedOut').style.display=logged?'none':'block';
+    $('authLoggedIn').classList.toggle('show',logged);
     if(logged){
-      const u = getUser();
-      if(u){
-        $("profileName").textContent = u.username;
-        $("profileMeta").textContent = "Member";
-        $("profileInitial").textContent = (u.username || "DF").slice(0,2).toUpperCase();
-        $("profileContact").textContent = "📧 " + u.email + "  •  📱 " + u.phone;
-      }
+      const prefs=currentAppwriteUser.prefs||{};
+      const username=prefs.username||currentAppwriteUser.name||'DFCraft';
+      $('profileName').textContent=username;
+      $('profileMeta').textContent='Member • Appwrite';
+      $('profileInitial').textContent=(username||'DF').slice(0,2).toUpperCase();
+      $('profileContact').textContent='📧 '+currentAppwriteUser.email+(prefs.phone?'  •  📱 '+prefs.phone:'');
     }
+    render();
   }
-
-  function openAuth(){
-    $("authModal").style.display = "flex";
-    refresh();
-  }
-
-  document.addEventListener("click", function(e){
-    if(e.target.closest("#accountAvatar")) openAuth();
-    if(e.target.closest("#authClose") || e.target.closest("#authCloseLogged")){
-      $("authModal").style.display = "none";
-    }
-    if(e.target.closest("#tabLogin")) switchTab("login");
-    if(e.target.closest("#tabRegister")) switchTab("register");
-    if(e.target.id === "authModal") $("authModal").style.display = "none";
+  window.DFCraftRefreshAuth=refresh;
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#accountAvatar')){$('authModal').style.display='flex';refresh();}
+    if(e.target.closest('#authClose')||e.target.closest('#authCloseLogged'))$('authModal').style.display='none';
+    if(e.target.closest('#tabLogin'))switchTab('login');
+    if(e.target.closest('#tabRegister'))switchTab('register');
+    if(e.target.id==='authModal')$('authModal').style.display='none';
   });
-
-  $("registerBtn").addEventListener("click", async function(){
-    const email = $("regEmail").value.trim();
-    const phone = $("regPhone").value.trim();
-    const username = $("regUsername").value.trim();
-    const password = $("regPassword").value;
-    const confirm = $("regConfirm").value;
-
-    if(!email || !phone || !username || !password || !confirm){
-      setMessage("regMsg","Lengkapi semua kolom terlebih dahulu.");
-      return;
-    }
-    if(password.length < 6){
-      setMessage("regMsg","Kata sandi minimal 6 karakter.");
-      return;
-    }
-    if(password !== confirm){
-      setMessage("regMsg","Konfirmasi kata sandi tidak sama.");
-      return;
-    }
-    if(getUser()){
-      setMessage("regMsg","Akun di perangkat ini sudah terdaftar. Silakan masuk.");
-      return;
-    }
-
-    const passwordHash = await hash(password);
-    localStorage.setItem(KEY, JSON.stringify({
-      email, phone, username, passwordHash,
-      createdAt: new Date().toISOString()
-    }));
-    localStorage.setItem(LOGIN, "1");
-    refresh();
+  $('registerBtn').addEventListener('click',async function(){
+    const email=$('regEmail').value.trim(),phone=$('regPhone').value.trim(),username=$('regUsername').value.trim(),password=$('regPassword').value,confirm=$('regConfirm').value;
+    if(!email||!phone||!username||!password||!confirm){setMessage('regMsg','Lengkapi semua kolom terlebih dahulu.');return;}
+    if(password.length<8){setMessage('regMsg','Kata sandi minimal 8 karakter.');return;}
+    if(password!==confirm){setMessage('regMsg','Konfirmasi kata sandi tidak sama.');return;}
+    try{
+      await appwriteAccount.create({userId:Appwrite.ID.unique(),email,password,name:username});
+      await appwriteAccount.createEmailPasswordSession({email,password});
+      try{await appwriteAccount.updatePrefs({prefs:{username,phone}});}catch(e){console.warn('Prefs gagal disimpan',e);}
+      $('regEmail').value='';$('regPhone').value='';$('regUsername').value='';$('regPassword').value='';$('regConfirm').value='';
+      setMessage('regMsg','Akun berhasil dibuat.');
+      await refresh();
+    }catch(e){console.error(e);setMessage('regMsg',e.message||'Pendaftaran gagal.');}
   });
-
-  $("loginBtn").addEventListener("click", async function(){
-    const identifier = $("loginIdentifier").value.trim();
-    const password = $("loginPassword").value;
-    const u = getUser();
-
-    if(!u){
-      setMessage("loginMsg","Belum ada akun di perangkat ini. Pilih Daftar terlebih dahulu.");
-      return;
-    }
-
-    const okId = identifier === u.email || identifier === u.phone || identifier === u.username;
-    const okPass = (await hash(password)) === u.passwordHash;
-
-    if(!okId || !okPass){
-      setMessage("loginMsg","Email, nomor HP, nama pengguna, atau kata sandi salah.");
-      return;
-    }
-
-    localStorage.setItem(LOGIN, "1");
-    $("loginIdentifier").value = "";
-    $("loginPassword").value = "";
-    refresh();
+  $('loginBtn').addEventListener('click',async function(){
+    const email=$('loginIdentifier').value.trim(),password=$('loginPassword').value;
+    if(!email||!password){setMessage('loginMsg','Masukkan email dan kata sandi.');return;}
+    try{await appwriteAccount.createEmailPasswordSession({email,password});$('loginIdentifier').value='';$('loginPassword').value='';setMessage('loginMsg','');await refresh();}
+    catch(e){console.error(e);setMessage('loginMsg',e.message||'Login gagal.');}
   });
-
-  $("logoutBtn").addEventListener("click", function(){
-    localStorage.removeItem(LOGIN);
-    refresh();
-    switchTab("login");
-  });
-
+  $('logoutBtn').addEventListener('click',async function(){try{await appwriteAccount.deleteSession({sessionId:'current'});}catch(e){}currentAppwriteUser=null;await refresh();switchTab('login');});
   refresh();
 })();
 </script>
-
-
-<script>
-(function(){
-  const OWNER_KEY = "dfcraft_addon_owners_v1";
-  const ACCOUNT_KEY = "dfcraft_user_account_v1";
-  function currentUser(){
-    try {
-      const u = JSON.parse(localStorage.getItem(ACCOUNT_KEY) || "null");
-      return u && u.username ? u.username : null;
-    } catch(e){ return null; }
-  }
-  function owners(){
-    try { return JSON.parse(localStorage.getItem(OWNER_KEY) || "{}"); }
-    catch(e){ return {}; }
-  }
-  function saveOwners(o){ localStorage.setItem(OWNER_KEY, JSON.stringify(o)); }
-
-  window.DFCraftOwnership = {
-    currentUser,
-    owners,
-    saveOwners,
-    canDelete(id){
-      const u = currentUser();
-      const o = owners();
-      return !!u && !!o[id] && o[id] === u;
-    },
-    claim(id){
-      const u = currentUser();
-      if(!u) return false;
-      const o = owners();
-      if(!o[id]) {
-        o[id] = u;
-        saveOwners(o);
-      }
-      return true;
-    }
-  };
-})();
-</script>
-
-
-<style>
-.owner-only-delete{display:none !important}
-</style>
-<script>
-(function(){
-  function normalize(s){return (s||"").replace(/\s+/g," ").trim();}
-  function applyOwnership(){
-    if(!window.DFCraftOwnership) return;
-    const cards = document.querySelectorAll("[data-addon-id], .addon-card, .card");
-    cards.forEach((card, index)=>{
-      const del = Array.from(card.querySelectorAll("button")).find(b =>
-        /Hapus Add-On|Hapus Add.?On|🗑️/.test(normalize(b.textContent))
-      );
-      if(!del) return;
-      del.classList.add("owner-only-delete");
-      const id = card.getAttribute("data-addon-id") || card.getAttribute("data-id") || ("legacy-"+index);
-      card.dataset.ownerCheckId = id;
-      if(window.DFCraftOwnership.canDelete(id)){
-        del.classList.remove("owner-only-delete");
-      }
-    });
-  }
-  window.DFCraftApplyOwnership = applyOwnership;
-  const obs = new MutationObserver(applyOwnership);
-  obs.observe(document.body,{childList:true,subtree:true});
-  setTimeout(applyOwnership,200);
-  setTimeout(applyOwnership,1000);
-})();
-</script>
-
-
-<script>
-(function(){
-  const originalSetItem = localStorage.setItem.bind(localStorage);
-  localStorage.setItem = function(key, value){
-    try{
-      const text = String(value);
-      if(/addon|add-ons|addons/i.test(key) && text.trim().startsWith("[") && window.DFCraftOwnership){
-        const arr = JSON.parse(text);
-        if(Array.isArray(arr)){
-          const user = window.DFCraftOwnership.currentUser();
-          if(user){
-            const owners = window.DFCraftOwnership.owners();
-            arr.forEach((item, i)=>{
-              if(item && typeof item === "object"){
-                const id = String(item.id || item.name || item.title || ("item-"+i));
-                if(!owners[id]) owners[id] = user;
-              }
-            });
-            window.DFCraftOwnership.saveOwners(owners);
-          }
-        }
-      }
-    }catch(e){}
-    return originalSetItem(key, value);
-  };
-})();
-</script>
-
-
-<script>
-(function(){
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button");
-    if(!btn || !/Hapus Add-On|Hapus Add.?On|🗑️/.test((btn.textContent||"").replace(/\s+/g," "))) return;
-    const card = btn.closest("[data-addon-id], .addon-card, .card");
-    const id = card && (card.getAttribute("data-addon-id") || card.getAttribute("data-id") || card.dataset.ownerCheckId);
-    if(id && window.DFCraftOwnership && !window.DFCraftOwnership.canDelete(id)){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");
-    }
-  }, true);
-})();
-</script>
-
 </body></html>
