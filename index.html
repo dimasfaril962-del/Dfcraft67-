@@ -228,15 +228,12 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  try {
-    return String(window.dfAppwriteStorage.getFileView({
-      bucketId: APPWRITE_BUCKET_ID,
-      fileId: fileId
-    }));
-  } catch(e) {
-    console.error("Gagal membuat URL gambar:", e);
-    return "";
-  }
+  // Gunakan URL File View REST secara langsung agar gambar konsisten
+  // saat website dibuka dari HP/perangkat lain.
+  return APPWRITE_ENDPOINT +
+    "/storage/buckets/" + encodeURIComponent(APPWRITE_BUCKET_ID) +
+    "/files/" + encodeURIComponent(fileId) +
+    "/view?project=" + encodeURIComponent(APPWRITE_PROJECT_ID);
 }
 function parseOwner(raw){
   const value=String(raw||"");
