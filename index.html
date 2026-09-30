@@ -149,25 +149,46 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  try {
-    return String(window.dfAppwriteStorage.getFileView({
-      bucketId: APPWRITE_BUCKET_ID,
-      fileId: fileId
-    }));
-  } catch(e) {
-    console.error("Gagal membuat URL gambar:", e);
-    return "";
-  }
+  return APPWRITE_ENDPOINT+"/storage/buckets/"+encodeURIComponent(APPWRITE_BUCKET_ID)+"/files/"+encodeURIComponent(fileId)+"/view?project="+encodeURIComponent(APPWRITE_PROJECT_ID);
 }
-function rowToAddon(row){
-  const image = String(row.image||"");
-  return {id:row.$id,name:row.name||"Tanpa nama",image:image.startsWith("http")?image:appwriteImageUrl(image),link:row.link||"",cat:row.category||"Add-Ons",owner:row.owner||"",fileId:image.startsWith("http")?"":image};
+
+async function appwriteJsonRequest(path, options={}){
+  const headers=Object.assign({"X-Appwrite-Project":APPWRITE_PROJECT_ID}, options.headers||{});
+  const res=await fetch(APPWRITE_ENDPOINT+path,Object.assign({},options,{credentials:"include",headers}));
+  let data=null;
+  try{data=await res.json();}catch(e){}
+  if(!res.ok){throw new Error(data&&data.message?data.message:("Appwrite error "+res.status));}
+  return data;
 }
+
+async function uploadAddonImage(file){
+  if(!file) throw new Error("Gambar belum dipilih.");
+  const form=new FormData();
+  form.append("fileId",Appwrite.ID.unique());
+  form.append("file",file,file.name||"image.jpg");
+  return await appwriteJsonRequest("/storage/buckets/"+encodeURIComponent(APPWRITE_BUCKET_ID)+"/files",{method:"POST",body:form});
+}
+
+async function createAddonRow(data,userId){
+  return await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      rowId:Appwrite.ID.unique(),
+      data:data,
+      permissions:[
+        Appwrite.Permission.read(Appwrite.Role.any()),
+        Appwrite.Permission.update(Appwrite.Role.user(userId)),
+        Appwrite.Permission.delete(Appwrite.Role.user(userId))
+      ]
+    })
+  });
+}
+
 async function loadRemoteAddons(){
   try {
-    const res=await window.dfAppwriteTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID});
-    const remote=res.rows.map(rowToAddon).filter(x=>x.name&&x.link);
-    items=remote;
+    const res=await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows");
+    items=(res.rows||[]).map(rowToAddon).filter(x=>x.name&&x.link);
     appwriteReady=true;
     render();
   } catch(e) {
@@ -193,7 +214,7 @@ function render(){
 async function deleteRemoteAddon(item){
   if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
   try {
-    await window.dfAppwriteTables.deleteRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:item.id});
+    await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows/"+encodeURIComponent(item.id),{method:"DELETE"});
     items=items.filter(x=>x.id!==item.id);
     downloads=downloads.filter(x=>x.id!==item.id);
     localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
@@ -240,15 +261,18 @@ $("save").onclick=async()=>{
   if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
   const btn=$("save");btn.disabled=true;btn.textContent="Mengunggah...";
   try {
-    const storage = new Appwrite.Storage(appwriteClient);
-    const file = await storage.createFile({
-      bucketId: APPWRITE_BUCKET_ID,
-      fileId: Appwrite.ID.unique(),
-      file: selectedImageFile
-    });
+    // Upload gambar lewat REST API Appwrite. Tidak memakai createFile SDK agar
+    // browser tidak lagi terkena error parameter "field".
+    const file=await uploadAddonImage(selectedImageFile);
     const imageId=file.$id;
     const imageUrl=appwriteImageUrl(imageId);
-    const row=await window.dfAppwriteTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:Appwrite.ID.unique(),data:{name,image:imageId,link,category:cat,owner:currentAppwriteUser.$id},permissions:[Appwrite.Permission.read(Appwrite.Role.any()),Appwrite.Permission.update(Appwrite.Role.user(currentAppwriteUser.$id)),Appwrite.Permission.delete(Appwrite.Role.user(currentAppwriteUser.$id))]});
+    const row=await createAddonRow({
+      name:name,
+      image:imageId,
+      link:link,
+      category:cat,
+      owner:currentAppwriteUser.$id
+    },currentAppwriteUser.$id);
     items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,fileId:imageId});
     ["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
   } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
