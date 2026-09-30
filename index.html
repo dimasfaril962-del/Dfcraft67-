@@ -170,19 +170,18 @@ async function uploadAddonImage(file){
 }
 
 async function createAddonRow(data,userId){
-  return await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      rowId:Appwrite.ID.unique(),
-      data:data,
-      permissions:[
-        Appwrite.Permission.read(Appwrite.Role.any()),
-        Appwrite.Permission.update(Appwrite.Role.user(userId)),
-        Appwrite.Permission.delete(Appwrite.Role.user(userId))
-      ]
-    })
-  });
+  return await appwriteJsonRequest(
+    "/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+    "/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows",
+    {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        rowId:Appwrite.ID.unique(),
+        data:data
+      })
+    }
+  );
 }
 
 async function loadRemoteAddons(){
