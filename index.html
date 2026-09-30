@@ -330,35 +330,47 @@ loadRemoteAddons();
     if(e.target.closest('#tabRegister'))switchTab('register');
     if(e.target.id==='authModal')$('authModal').style.display='none';
   });
+  // Auth menggunakan REST API Appwrite secara langsung agar tidak terpengaruh
+  // perbedaan format method SDK. Data akun tetap tersimpan di Appwrite.
+  async function appwriteAuthRequest(path,body){
+    const res=await fetch(APPWRITE_ENDPOINT+path,{
+      method:'POST',
+      credentials:'include',
+      headers:{'Content-Type':'application/json','X-Appwrite-Project':APPWRITE_PROJECT_ID},
+      body:JSON.stringify(body)
+    });
+    let data=null;
+    try{data=await res.json();}catch(e){}
+    if(!res.ok){
+      const msg=data&&data.message?data.message:('Appwrite error '+res.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
   $('registerBtn').addEventListener('click',async function(){
     const email=$('regEmail').value.trim(),phone=$('regPhone').value.trim(),username=$('regUsername').value.trim(),password=$('regPassword').value,confirm=$('regConfirm').value;
     if(!email||!phone||!username||!password||!confirm){setMessage('regMsg','Lengkapi semua kolom terlebih dahulu.');return;}
     if(password.length<8){setMessage('regMsg','Kata sandi minimal 8 karakter.');return;}
     if(password!==confirm){setMessage('regMsg','Konfirmasi kata sandi tidak sama.');return;}
+    const btn=$('registerBtn');btn.disabled=true;btn.textContent='Mendaftarkan...';
     try{
-      // Compatibility: support Appwrite SDK signatures that expect either
-      // the current object form or the older positional form.
-      try {
-        await appwriteAccount.create({userId:Appwrite.ID.unique(),email,password,name:username});
-      } catch(firstErr) {
-        if (/Missing required parameter:\s*["']email["']/i.test(firstErr?.message || "")) {
-          await appwriteAccount.create(Appwrite.ID.unique(),email,password,username);
-        } else {
-          throw firstErr;
-        }
-      }
-      await appwriteAccount.createEmailPasswordSession({email,password});
+      await appwriteAuthRequest('/account',{userId:Appwrite.ID.unique(),email,password,name:username});
+      await appwriteAuthRequest('/account/sessions/email',{email,password});
       try{await appwriteAccount.updatePrefs({prefs:{username,phone}});}catch(e){console.warn('Prefs gagal disimpan',e);}
       $('regEmail').value='';$('regPhone').value='';$('regUsername').value='';$('regPassword').value='';$('regConfirm').value='';
       setMessage('regMsg','Akun berhasil dibuat.');
       await refresh();
     }catch(e){console.error(e);setMessage('regMsg',e.message||'Pendaftaran gagal.');}
+    finally{btn.disabled=false;btn.textContent='Daftar';}
   });
   $('loginBtn').addEventListener('click',async function(){
     const email=$('loginIdentifier').value.trim(),password=$('loginPassword').value;
     if(!email||!password){setMessage('loginMsg','Masukkan email dan kata sandi.');return;}
-    try{await appwriteAccount.createEmailPasswordSession({email,password});$('loginIdentifier').value='';$('loginPassword').value='';setMessage('loginMsg','');await refresh();}
+    const btn=$('loginBtn');btn.disabled=true;btn.textContent='Masuk...';
+    try{await appwriteAuthRequest('/account/sessions/email',{email,password});$('loginIdentifier').value='';$('loginPassword').value='';setMessage('loginMsg','');await refresh();}
     catch(e){console.error(e);setMessage('loginMsg',e.message||'Login gagal.');}
+    finally{btn.disabled=false;btn.textContent='Masuk';}
   });
   $('logoutBtn').addEventListener('click',async function(){try{await appwriteAccount.deleteSession({sessionId:'current'});}catch(e){}currentAppwriteUser=null;await refresh();switchTab('login');});
   refresh();
