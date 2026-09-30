@@ -100,9 +100,9 @@ const appwriteClient = new Appwrite.Client()
   .setEndpoint(APPWRITE_ENDPOINT)
   .setProject(APPWRITE_PROJECT_ID);
 
-const appwriteAccount = new Appwrite.Account(appwriteClient);
-const appwriteTables = new Appwrite.TablesDB(appwriteClient);
-const appwriteStorage = new Appwrite.Storage(appwriteClient);
+window.dfAppwriteAccount = new Appwrite.Account(appwriteClient);
+window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
+window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
 </script>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
@@ -149,7 +149,7 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  try { return String(appwriteStorage.getFileView({bucketId:APPWRITE_BUCKET_ID,fileId})); }
+  try { return String(window.dfAppwriteStorage.getFileView({bucketId:APPWRITE_BUCKET_ID,fileId})); }
   catch(e) { return ""; }
 }
 function rowToAddon(row){
@@ -158,7 +158,7 @@ function rowToAddon(row){
 }
 async function loadRemoteAddons(){
   try {
-    const res=await appwriteTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID});
+    const res=await window.dfAppwriteTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID});
     const remote=res.rows.map(rowToAddon).filter(x=>x.name&&x.link);
     items=remote;
     appwriteReady=true;
@@ -186,7 +186,7 @@ function render(){
 async function deleteRemoteAddon(item){
   if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
   try {
-    await appwriteTables.deleteRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:item.id});
+    await window.dfAppwriteTables.deleteRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:item.id});
     items=items.filter(x=>x.id!==item.id);
     downloads=downloads.filter(x=>x.id!==item.id);
     localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
@@ -233,10 +233,10 @@ $("save").onclick=async()=>{
   if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
   const btn=$("save");btn.disabled=true;btn.textContent="Mengunggah...";
   try {
-    const file=await appwriteStorage.createFile({bucketId:APPWRITE_BUCKET_ID,fileId:Appwrite.ID.unique(),file:selectedImageFile});
+    const file=await window.dfAppwriteStorage.createFile({bucketId:APPWRITE_BUCKET_ID,fileId:Appwrite.ID.unique(),file:selectedImageFile});
     const imageId=file.$id;
     const imageUrl=appwriteImageUrl(imageId);
-    const row=await appwriteTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:Appwrite.ID.unique(),data:{name,image:imageId,link,category:cat,owner:currentAppwriteUser.$id},permissions:[Appwrite.Permission.read(Appwrite.Role.any()),Appwrite.Permission.update(Appwrite.Role.user(currentAppwriteUser.$id)),Appwrite.Permission.delete(Appwrite.Role.user(currentAppwriteUser.$id))]});
+    const row=await window.dfAppwriteTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:APPWRITE_TABLE_ID,rowId:Appwrite.ID.unique(),data:{name,image:imageId,link,category:cat,owner:currentAppwriteUser.$id},permissions:[Appwrite.Permission.read(Appwrite.Role.any()),Appwrite.Permission.update(Appwrite.Role.user(currentAppwriteUser.$id)),Appwrite.Permission.delete(Appwrite.Role.user(currentAppwriteUser.$id))]});
     items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,fileId:imageId});
     ["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
   } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
@@ -307,7 +307,7 @@ loadRemoteAddons();
   function setMessage(id,msg){const el=$(id);if(!el)return;el.textContent=msg;el.style.display=msg?"block":"none";}
   function switchTab(which){const login=which==="login";$('tabLogin').classList.toggle('active',login);$('tabRegister').classList.toggle('active',!login);$('loginPanel').classList.toggle('active',login);$('registerPanel').classList.toggle('active',!login);setMessage('loginMsg','');setMessage('regMsg','');}
   async function refresh(){
-    try { currentAppwriteUser=await appwriteAccount.get(); }
+    try { currentAppwriteUser=await window.dfAppwriteAccount.get(); }
     catch(e){ currentAppwriteUser=null; }
     const logged=!!currentAppwriteUser;
     $('authLoggedOut').style.display=logged?'none':'block';
@@ -357,7 +357,7 @@ loadRemoteAddons();
     try{
       await appwriteAuthRequest('/account',{userId:Appwrite.ID.unique(),email,password,name:username});
       await appwriteAuthRequest('/account/sessions/email',{email,password});
-      try{await appwriteAccount.updatePrefs({prefs:{username,phone}});}catch(e){console.warn('Prefs gagal disimpan',e);}
+      try{await window.dfAppwriteAccount.updatePrefs({prefs:{username,phone}});}catch(e){console.warn('Prefs gagal disimpan',e);}
       $('regEmail').value='';$('regPhone').value='';$('regUsername').value='';$('regPassword').value='';$('regConfirm').value='';
       setMessage('regMsg','Akun berhasil dibuat.');
       await refresh();
@@ -372,7 +372,7 @@ loadRemoteAddons();
     catch(e){console.error(e);setMessage('loginMsg',e.message||'Login gagal.');}
     finally{btn.disabled=false;btn.textContent='Masuk';}
   });
-  $('logoutBtn').addEventListener('click',async function(){try{await appwriteAccount.deleteSession({sessionId:'current'});}catch(e){}currentAppwriteUser=null;await refresh();switchTab('login');});
+  $('logoutBtn').addEventListener('click',async function(){try{await window.dfAppwriteAccount.deleteSession({sessionId:'current'});}catch(e){}currentAppwriteUser=null;await refresh();switchTab('login');});
   refresh();
 })();
 </script>
