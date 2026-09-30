@@ -336,7 +336,17 @@ loadRemoteAddons();
     if(password.length<8){setMessage('regMsg','Kata sandi minimal 8 karakter.');return;}
     if(password!==confirm){setMessage('regMsg','Konfirmasi kata sandi tidak sama.');return;}
     try{
-      await appwriteAccount.create({userId:Appwrite.ID.unique(),email,password,name:username});
+      // Compatibility: support Appwrite SDK signatures that expect either
+      // the current object form or the older positional form.
+      try {
+        await appwriteAccount.create({userId:Appwrite.ID.unique(),email,password,name:username});
+      } catch(firstErr) {
+        if (/Missing required parameter:\s*["']email["']/i.test(firstErr?.message || "")) {
+          await appwriteAccount.create(Appwrite.ID.unique(),email,password,username);
+        } else {
+          throw firstErr;
+        }
+      }
       await appwriteAccount.createEmailPasswordSession({email,password});
       try{await appwriteAccount.updatePrefs({prefs:{username,phone}});}catch(e){console.warn('Prefs gagal disimpan',e);}
       $('regEmail').value='';$('regPhone').value='';$('regUsername').value='';$('regPassword').value='';$('regConfirm').value='';
