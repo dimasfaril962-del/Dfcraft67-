@@ -103,6 +103,96 @@ const appwriteClient = new Appwrite.Client()
 window.dfAppwriteAccount = new Appwrite.Account(appwriteClient);
 window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
 window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
+
+async function appwriteJsonRequest(path, options={}) {
+  const headers = Object.assign(
+    {"X-Appwrite-Project": APPWRITE_PROJECT_ID},
+    options.headers || {}
+  );
+  const res = await fetch(
+    APPWRITE_ENDPOINT + path,
+    Object.assign({}, options, {
+      credentials: "include",
+      headers
+    })
+  );
+  let data = null;
+  try { data = await res.json(); } catch(e) {}
+  if (!res.ok) {
+    const msg = data && data.message ? data.message : ("Appwrite error " + res.status);
+    const err = new Error(msg);
+    err.status = res.status;
+    err.response = data;
+    throw err;
+  }
+  return data;
+}
+
+async function checkAppwriteTable() {
+  const dbPath = "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID);
+  const tablePath = dbPath + "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID);
+
+  try {
+    const db = await appwriteJsonRequest(dbPath);
+    console.log("[DFCraft] Database OK:", db);
+  } catch (e) {
+    console.error("[DFCraft] DATABASE CHECK GAGAL", {
+      endpoint: APPWRITE_ENDPOINT,
+      projectId: APPWRITE_PROJECT_ID,
+      databaseId: APPWRITE_DATABASE_ID,
+      status: e.status,
+      message: e.message,
+      response: e.response
+    });
+    throw new Error("Database Appwrite tidak ditemukan: " + e.message);
+  }
+
+  try {
+    const table = await appwriteJsonRequest(tablePath);
+    console.log("[DFCraft] TABLE OK:", table);
+    return table;
+  } catch (e) {
+    console.error("[DFCraft] TABLE CHECK GAGAL", {
+      endpoint: APPWRITE_ENDPOINT,
+      projectId: APPWRITE_PROJECT_ID,
+      databaseId: APPWRITE_DATABASE_ID,
+      tableId: APPWRITE_TABLE_ID,
+      status: e.status,
+      message: e.message,
+      response: e.response
+    });
+    throw new Error(
+      "Tabel 'tambahan' tidak ditemukan oleh API. ID yang dikirim: " +
+      APPWRITE_TABLE_ID + ". " + e.message
+    );
+  }
+}
+
+async function uploadAddonImage(file) {
+  if (!file) throw new Error("Gambar belum dipilih.");
+  const form = new FormData();
+  form.append("fileId", Appwrite.ID.unique());
+  form.append("file", file, file.name || "image.jpg");
+  return await appwriteJsonRequest(
+    "/storage/buckets/" + encodeURIComponent(APPWRITE_BUCKET_ID) + "/files",
+    {method:"POST", body:form}
+  );
+}
+
+async function createAddonRow(data, userId) {
+  return await appwriteJsonRequest(
+    "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
+    "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows",
+    {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        rowId: Appwrite.ID.unique(),
+        data: data
+      })
+    }
+  );
+}
 </script>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
@@ -149,52 +239,49 @@ const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
   if(!fileId) return "";
-  return APPWRITE_ENDPOINT+"/storage/buckets/"+encodeURIComponent(APPWRITE_BUCKET_ID)+"/files/"+encodeURIComponent(fileId)+"/view?project="+encodeURIComponent(APPWRITE_PROJECT_ID);
+  try {
+    return String(window.dfAppwriteStorage.getFileView({
+      bucketId: APPWRITE_BUCKET_ID,
+      fileId: fileId
+    }));
+  } catch(e) {
+    console.error("Gagal membuat URL gambar:", e);
+    return "";
+  }
 }
-
-async function appwriteJsonRequest(path, options={}){
-  const headers=Object.assign({"X-Appwrite-Project":APPWRITE_PROJECT_ID}, options.headers||{});
-  const res=await fetch(APPWRITE_ENDPOINT+path,Object.assign({},options,{credentials:"include",headers}));
-  let data=null;
-  try{data=await res.json();}catch(e){}
-  if(!res.ok){throw new Error(data&&data.message?data.message:("Appwrite error "+res.status));}
-  return data;
+function rowToAddon(row){
+  const image = String(row.image||"");
+  return {id:row.$id,name:row.name||"Tanpa nama",image:image.startsWith("http")?image:appwriteImageUrl(image),link:row.link||"",cat:row.category||"Add-Ons",owner:row.owner||"",fileId:image.startsWith("http")?"":image};
 }
-
-async function uploadAddonImage(file){
-  if(!file) throw new Error("Gambar belum dipilih.");
-  const form=new FormData();
-  form.append("fileId",Appwrite.ID.unique());
-  form.append("file",file,file.name||"image.jpg");
-  return await appwriteJsonRequest("/storage/buckets/"+encodeURIComponent(APPWRITE_BUCKET_ID)+"/files",{method:"POST",body:form});
-}
-
-async function createAddonRow(data,userId){
-  return await appwriteJsonRequest(
-    "/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
-    "/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows",
-    {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        rowId:Appwrite.ID.unique(),
-        data:data
-      })
-    }
-  );
-}
-
 async function loadRemoteAddons(){
   try {
-    const res=await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows");
-    items=(res.rows||[]).map(rowToAddon).filter(x=>x.name&&x.link);
+    await checkAppwriteTable();
+
+    const res = await appwriteJsonRequest(
+      "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
+      "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows"
+    );
+
+    const remote=(res.rows||[]).map(rowToAddon).filter(x=>x.name&&x.link);
+    items=remote;
     appwriteReady=true;
     render();
   } catch(e) {
-    console.error("Appwrite listRows gagal",e);
+    console.error("[DFCraft] Appwrite load gagal:", e);
     appwriteReady=false;
     items=[];
     render();
+
+    // Tampilkan pesan yang berguna, bukan error generik.
+    setTimeout(()=>{
+      alert(
+        "Koneksi Appwrite belum berhasil.\n\n" +
+        (e.message || e) +
+        "\n\nID Project: " + APPWRITE_PROJECT_ID +
+        "\nID Database: " + APPWRITE_DATABASE_ID +
+        "\nID Table: " + APPWRITE_TABLE_ID
+      );
+    }, 300);
   }
 }
 function cardHTML(x){
@@ -213,7 +300,12 @@ function render(){
 async function deleteRemoteAddon(item){
   if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
   try {
-    await appwriteJsonRequest("/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+"/tables/"+encodeURIComponent(APPWRITE_TABLE_ID)+"/rows/"+encodeURIComponent(item.id),{method:"DELETE"});
+    await appwriteJsonRequest(
+      "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
+      "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) +
+      "/rows/" + encodeURIComponent(item.id),
+      {method:"DELETE"}
+    );
     items=items.filter(x=>x.id!==item.id);
     downloads=downloads.filter(x=>x.id!==item.id);
     localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
@@ -260,18 +352,16 @@ $("save").onclick=async()=>{
   if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
   const btn=$("save");btn.disabled=true;btn.textContent="Mengunggah...";
   try {
-    // Upload gambar lewat REST API Appwrite. Tidak memakai createFile SDK agar
-    // browser tidak lagi terkena error parameter "field".
-    const file=await uploadAddonImage(selectedImageFile);
-    const imageId=file.$id;
-    const imageUrl=appwriteImageUrl(imageId);
-    const row=await createAddonRow({
-      name:name,
-      image:imageId,
-      link:link,
-      category:cat,
-      owner:currentAppwriteUser.$id
-    },currentAppwriteUser.$id);
+    const file = await uploadAddonImage(selectedImageFile);
+    const imageId = file.$id;
+    const imageUrl = appwriteImageUrl(imageId);
+    const row = await createAddonRow({
+      name,
+      image: imageId,
+      link,
+      category: cat,
+      owner: currentAppwriteUser.$id
+    }, currentAppwriteUser.$id);
     items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,fileId:imageId});
     ["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
   } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
