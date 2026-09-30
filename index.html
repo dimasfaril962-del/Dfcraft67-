@@ -103,6 +103,14 @@ const appwriteClient = new Appwrite.Client()
 window.dfAppwriteAccount = new Appwrite.Account(appwriteClient);
 window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
 window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
+
+// Alias kompatibilitas agar kode lama juga tidak menghasilkan "appwriteStorage is not defined".
+window.appwriteAccount = window.dfAppwriteAccount;
+window.appwriteTables = window.dfAppwriteTables;
+window.appwriteStorage = window.dfAppwriteStorage;
+var appwriteAccount = window.dfAppwriteAccount;
+var appwriteTables = window.dfAppwriteTables;
+var appwriteStorage = window.dfAppwriteStorage;
 </script>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
