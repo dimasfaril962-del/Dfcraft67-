@@ -129,30 +129,19 @@ async function appwriteJsonRequest(path, options={}) {
 }
 
 async function checkAppwriteTable() {
-  const dbPath = "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID);
-  const tablePath = dbPath + "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID);
+  // Jangan GET database/table metadata dari browser.
+  // Endpoint metadata membutuhkan scope databases.read yang tidak dimiliki
+  // session user biasa. Yang dibutuhkan website hanya akses ROWS pada table.
+  const rowsPath =
+    "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
+    "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows";
 
   try {
-    const db = await appwriteJsonRequest(dbPath);
-    console.log("[DFCraft] Database OK:", db);
+    const rows = await appwriteJsonRequest(rowsPath);
+    console.log("[DFCraft] TABLE/ROWS OK:", rows);
+    return rows;
   } catch (e) {
-    console.error("[DFCraft] DATABASE CHECK GAGAL", {
-      endpoint: APPWRITE_ENDPOINT,
-      projectId: APPWRITE_PROJECT_ID,
-      databaseId: APPWRITE_DATABASE_ID,
-      status: e.status,
-      message: e.message,
-      response: e.response
-    });
-    throw new Error("Database Appwrite tidak ditemukan: " + e.message);
-  }
-
-  try {
-    const table = await appwriteJsonRequest(tablePath);
-    console.log("[DFCraft] TABLE OK:", table);
-    return table;
-  } catch (e) {
-    console.error("[DFCraft] TABLE CHECK GAGAL", {
+    console.error("[DFCraft] TABLE ROW CHECK GAGAL", {
       endpoint: APPWRITE_ENDPOINT,
       projectId: APPWRITE_PROJECT_ID,
       databaseId: APPWRITE_DATABASE_ID,
@@ -162,7 +151,7 @@ async function checkAppwriteTable() {
       response: e.response
     });
     throw new Error(
-      "Tabel 'tambahan' tidak ditemukan oleh API. ID yang dikirim: " +
+      "Akses ke baris tabel 'tambahan' gagal. ID Table: " +
       APPWRITE_TABLE_ID + ". " + e.message
     );
   }
@@ -255,12 +244,7 @@ function rowToAddon(row){
 }
 async function loadRemoteAddons(){
   try {
-    await checkAppwriteTable();
-
-    const res = await appwriteJsonRequest(
-      "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
-      "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) + "/rows"
-    );
+    const res = await checkAppwriteTable();
 
     const remote=(res.rows||[]).map(rowToAddon).filter(x=>x.name&&x.link);
     items=remote;
