@@ -282,9 +282,12 @@ function cardHTML(x){
 }
 function render(){
   if(page!=="home") return renderDownloads();
-  let q=$("search").value.toLowerCase(),list=items.filter(x=>(current==="Semua"||x.cat===current)&&(!q||x.name.toLowerCase().includes(q)));
+  let q=$("search").value.trim().toLowerCase(),list=items.filter(x=>(current==="Semua"||x.cat===current)&&(!q||x.name.toLowerCase().includes(q)));
   $("title").textContent=current==="Semua"?t("all"):current==="Add-Ons"?t("addOns"):current==="Worlds"?t("worlds"):current==="Texture Packs"?t("textures"):current==="Skin"?t("skins"):t("minecraftApk");
   $("grid").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty">${t("empty")}</div>`;
+  // Sembunyikan bagian rekomendasi saat pengguna sedang mencari.
+  const recommendWrap=document.querySelector(".recommend-wrap");
+  if(recommendWrap) recommendWrap.style.display=q?"none":"";
   let recItems=items.filter(x=>x.cat==="Add-Ons");if(!recItems.length)recItems=items.slice(0,5);
   $("recommend").innerHTML=recItems.length?recItems.slice(0,5).map(x=>`<div class="recommend-image"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
   bindDeleteButtons();bindDownloadLinks();startRecommendAuto();
