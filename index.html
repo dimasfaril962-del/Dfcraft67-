@@ -263,6 +263,7 @@ body.downloads-page #title{margin-top:0}
 <div class="df-settings-social">
   <button class="settings-action" id="youtubeDfcraftBtn">▶️ YouTube DFCraft</button>
   <button class="settings-action" id="tiktokDfcraftBtn">🎵 TikTok DFCraft</button>
+  <button class="settings-action" id="whatsappDfcraftBtn">💬 Saluran WhatsApp DFCraft</button>
 </div>
 <style>
 .df-settings-social{display:grid;gap:12px;margin-top:12px}
@@ -275,11 +276,12 @@ body.downloads-page #title{margin-top:0}
   document.addEventListener('click', function(e){
     if(e.target.closest('#youtubeDfcraftBtn')) openLink('https://youtube.com/@dfcraft0');
     if(e.target.closest('#tiktokDfcraftBtn')) openLink('https://www.tiktok.com/@dfcraft67');
+    if(e.target.closest('#whatsappDfcraftBtn')) openLink('https://whatsapp.com/channel/0029Vb8xnha59PwJeeYlTi3t');
   });
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 2.2</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire"><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 2.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire"><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
