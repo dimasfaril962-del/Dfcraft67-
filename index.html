@@ -221,7 +221,12 @@ body.searching .top{padding-bottom:10px}
 .search-category-close{text-align:center;background:#9fc5ff;color:#111;margin-top:14px}
 .search-result-item{cursor:pointer}
 </style>
-</head><body>
+<style>
+body.downloads-page .recommend-wrap{display:none!important}
+body.downloads-page .chips{display:none!important}
+body.downloads-page .section{padding-top:12px}
+body.downloads-page #title{margin-top:0}
+</style></head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
 
 <section class="recommend-wrap"><div class="recommend-title">⭐ Add-On Rekomendasi</div><div id="recommend" class="recommend"></div></section><div class="chips"><button class="chip" data-cat="Semua">📦 <span data-i18n="all">Semua</span></button><button class="chip" data-cat="Add-Ons">🧩 <span data-i18n="addOns">Add-Ons</span></button><button class="chip" data-cat="Worlds">🌍 <span data-i18n="worlds">Worlds</span></button><button class="chip" data-cat="Texture Packs">🎨 <span data-i18n="textures">Texture Packs</span></button><button class="chip" data-cat="Skin">🧍 <span data-i18n="skins">Skin</span></button><button class="chip" data-cat="Minecraft APK">📱 <span data-i18n="minecraftApk">Minecraft APK</span></button></div>
@@ -383,6 +388,8 @@ function render(){
   }
 
   document.body.classList.remove("searching");
+  document.body.classList.remove("downloads-page");
+  setActiveNav("home");
   let list=items.filter(x=>(current==="Semua"||x.cat===current));
   $("title").textContent=current==="Semua"?t("all"):current==="Add-Ons"?t("addOns"):current==="Worlds"?t("worlds"):current==="Texture Packs"?t("textures"):current==="Skin"?t("skins"):t("minecraftApk");
   $("grid").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty">${t("empty")}</div>`;
@@ -410,7 +417,15 @@ async function deleteRemoteAddon(item){
 function bindDeleteButtons(){document.querySelectorAll(".delete").forEach(b=>b.onclick=async()=>{const id=b.dataset.id;const item=items.find(x=>x.id===id);if(!item)return;if(confirm(`Hapus Add-On "${item.name}"?`))await deleteRemoteAddon(item);})}
 function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));})}
 function downloadCardHTML(x){let date=new Date(x.downloadedAt);let when=isNaN(date)?"":date.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});return `<article class="download-card"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="download-body"><div class="download-name">${esc(x.name)}</div><div class="download-date">${t("downloaded")}: ${esc(when)}</div><div class="download-actions"><a class="redownload" href="${esc(x.link)}" target="_blank" rel="noopener">${t("downloadAgain")}</a><button class="remove-download" data-remove-download="${esc(x.id)}">${t("deleteHistory")}</button></div></div></article>`}
+function setActiveNav(activeId){
+  document.querySelectorAll(".bottom .nav").forEach(n=>n.classList.remove("active"));
+  const el=$(activeId);
+  if(el) el.classList.add("active");
+}
 function renderDownloads(){
+  document.body.classList.remove("searching");
+  document.body.classList.add("downloads-page");
+  setActiveNav("downloads");
   $("title").textContent=t("downloads");
   $("grid").innerHTML=downloads.length?downloads.map(downloadCardHTML).join(""):`<div class="empty">${t("emptyDownloads")}</div>`;
   $("recommend").innerHTML="";
@@ -450,7 +465,16 @@ $("searchCategoryModal").onclick=e=>{
 };
 $("home").onclick=()=>{page="home";current="Semua";render()};
 $("downloads").onclick=()=>{page="downloads";renderDownloads()};
-$("settings").onclick=()=>{$("settingsModal").style.display="flex";applyLanguage();};
+$("add").onclick=()=>{
+  setActiveNav("add");
+  if(!currentAppwriteUser){
+    alert("Silakan masuk/daftar terlebih dahulu untuk menambahkan Add-On.");
+    $("authModal").style.display="flex";
+    return;
+  }
+  $("modal").style.display="flex";
+};
+$("settings").onclick=()=>{$("settingsModal").style.display="flex";setActiveNav("settings");applyLanguage();};
 $("closeSettings").onclick=()=>$("settingsModal").style.display="none";
 const translations={
  id:{all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",clearDownloads:"🗑️ Hapus semua riwayat Unduhan",resetData:"⚠️ Reset semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Rekomendasi",addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",downloaded:"Diunduh",about:"DFCraft Web • Versi 2.2",confirmClear:"Hapus semua riwayat Unduhan?",confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus."},
@@ -467,7 +491,7 @@ function applyLanguage(){document.documentElement.lang=language;document.querySe
 $("languageSelect").onchange=e=>{language=e.target.value;localStorage.setItem("dfcraft_language",language);applyLanguage()};
 $("themeSelect").onchange=e=>{theme=e.target.value;localStorage.setItem("dfcraft_theme",theme);applyLanguage()};
 $("clearDownloads").onclick=()=>{if(confirm(t("confirmClear"))){downloads=[];localStorage.setItem("dfcraft_web2_downloads","[]");renderDownloads()}};
-$("add").onclick=()=>{if(!currentAppwriteUser){alert("Silakan masuk/daftar terlebih dahulu untuk menambahkan Add-On.");$("authModal").style.display="flex";return;}$("modal").style.display="flex"};
+
 $("cancel").onclick=()=>$("modal").style.display="none";
 $("save").onclick=async()=>{
   const name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value;
