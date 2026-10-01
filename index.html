@@ -211,6 +211,16 @@ body.searching .top{padding-bottom:10px}
   .search-result-meta{font-size:13px}
 }
 </style>
+
+<style>
+.search-category-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100000}
+.search-category-box{width:min(430px,100%);background:#1b222b;border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.search-category-title{font-size:22px;font-weight:900;margin-bottom:12px}
+.search-category-option,.search-category-close{display:block;width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:8px;text-align:left;font-size:16px;font-weight:800;background:#293544;color:#fff}
+.search-category-option:active,.search-category-close:active{transform:scale(.99)}
+.search-category-close{text-align:center;background:#9fc5ff;color:#111;margin-top:14px}
+.search-result-item{cursor:pointer}
+</style>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
 
@@ -220,9 +230,22 @@ body.searching .top{padding-bottom:10px}
 <div id="searchModeResults" class="search-mode-results">
   <div class="search-tools">
     <button class="search-icon-btn" id="searchRunBtn" aria-label="Cari">⌕</button>
-    <button class="search-filter-btn" id="searchFilterBtn" aria-label="Filter">▾</button>
+    <button class="search-filter-btn" id="searchFilterBtn" aria-label="Pilih kategori">▾</button>
   </div>
   <div id="searchResultList" class="search-result-list"></div>
+</div>
+
+<div id="searchCategoryModal" class="search-category-modal" style="display:none">
+  <div class="search-category-box">
+    <div class="search-category-title">🔎 Pilih Kategori</div>
+    <button class="search-category-option" data-search-cat="Semua">📦 Semua</button>
+    <button class="search-category-option" data-search-cat="Add-Ons">🧩 Add-Ons</button>
+    <button class="search-category-option" data-search-cat="Worlds">🌍 Worlds</button>
+    <button class="search-category-option" data-search-cat="Texture Packs">🎨 Texture Packs</button>
+    <button class="search-category-option" data-search-cat="Skin">🧍 Skin</button>
+    <button class="search-category-option" data-search-cat="Minecraft APK">📱 Minecraft APK</button>
+    <button class="search-category-close" id="searchCategoryClose">Tutup</button>
+  </div>
 </div>
 <nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b>⚙</b><span data-i18n="settings">Pengaturan</span></button></nav>
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">⚙️ Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">🌐 Bahasa</label><select id="languageSelect"><option value="id">🇮🇩 Bahasa Indonesia</option><option value="en">🇬🇧 English</option><option value="ms">🇲🇾 Bahasa Melayu</option><option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option><option value="ja">🇯🇵 日本語</option></select><label class="setting-label" data-i18n="themeLabel">🎨 Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">🌙 Gelap</option><option value="light" data-i18n="light">☀️ Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">🗑️ Hapus semua riwayat Unduhan</button>
@@ -326,7 +349,7 @@ function searchResultHTML(x){
       <div class="search-result-meta">oleh ${esc(creator)}</div>
       <div class="search-result-cat">${esc(cat)}</div>
     </div>
-    <input class="search-result-check" type="checkbox" aria-label="Pilih ${esc(x.name)}">
+    
   </article>`;
 }
 function renderSearchMode(q){
@@ -412,10 +435,18 @@ $("search").addEventListener("keydown",e=>{
 $("searchRunBtn").onclick=()=>{$("search").focus();render()};
 $("searchFilterBtn").onclick=()=>{
   if(page!=="home")return;
-  const cats=["Semua","Add-Ons","Worlds","Texture Packs","Skin","Minecraft APK"];
-  const i=Math.max(0,cats.indexOf(current));
-  current=cats[(i+1)%cats.length];
-  render();
+  $("searchCategoryModal").style.display="flex";
+};
+document.querySelectorAll("[data-search-cat]").forEach(btn=>{
+  btn.onclick=()=>{
+    current=btn.dataset.searchCat;
+    $("searchCategoryModal").style.display="none";
+    render();
+  };
+});
+$("searchCategoryClose").onclick=()=>{$("searchCategoryModal").style.display="none"};
+$("searchCategoryModal").onclick=e=>{
+  if(e.target===$("searchCategoryModal")) $("searchCategoryModal").style.display="none";
 };
 $("home").onclick=()=>{page="home";current="Semua";render()};
 $("downloads").onclick=()=>{page="downloads";renderDownloads()};
