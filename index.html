@@ -183,11 +183,47 @@ async function createAddonRow(data) {
   );
 }
 </script>
+
+<style>
+/* ===== DFCraft Search Mode ===== */
+.search-mode-results{display:none;padding:0 20px 20px}
+body.searching .recommend-wrap,
+body.searching .chips,
+body.searching .section{display:none}
+body.searching .search-mode-results{display:block}
+body.searching .top{padding-bottom:10px}
+.search-tools{display:flex;gap:10px;margin:0 0 14px}
+.search-icon-btn{width:64px;min-width:64px;border:0;border-radius:28px;background:#292e36;color:#fff;font-size:27px;font-weight:800}
+.search-filter-btn{border:0;border-radius:28px;background:#292e36;color:#cbd3df;padding:0 14px;font-size:18px}
+.search-result-list{display:grid;gap:10px}
+.search-result-item{display:flex;align-items:stretch;min-height:112px;background:#1c222a;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+.search-result-item img{width:48%;max-width:320px;min-height:112px;object-fit:cover;background:#303844}
+.search-result-info{flex:1;padding:14px 13px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.search-result-name{font-size:17px;font-weight:900;line-height:1.25}
+.search-result-meta{margin-top:6px;color:#aab5c4;font-size:14px;line-height:1.35}
+.search-result-cat{margin-top:3px;color:#8996a7;font-size:13px}
+.search-result-check{width:34px;min-width:34px;margin:auto 12px auto 4px;height:34px;accent-color:#9fc5ff}
+.search-no-result{padding:35px 10px;text-align:center;color:#aab5c4}
+@media(max-width:420px){
+  .search-result-item{min-height:102px}
+  .search-result-item img{width:47%;min-height:102px}
+  .search-result-name{font-size:16px}
+  .search-result-meta{font-size:13px}
+}
+</style>
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
 
 <section class="recommend-wrap"><div class="recommend-title">⭐ Add-On Rekomendasi</div><div id="recommend" class="recommend"></div></section><div class="chips"><button class="chip" data-cat="Semua">📦 <span data-i18n="all">Semua</span></button><button class="chip" data-cat="Add-Ons">🧩 <span data-i18n="addOns">Add-Ons</span></button><button class="chip" data-cat="Worlds">🌍 <span data-i18n="worlds">Worlds</span></button><button class="chip" data-cat="Texture Packs">🎨 <span data-i18n="textures">Texture Packs</span></button><button class="chip" data-cat="Skin">🧍 <span data-i18n="skins">Skin</span></button><button class="chip" data-cat="Minecraft APK">📱 <span data-i18n="minecraftApk">Minecraft APK</span></button></div>
 <main class="section"><div class="title" id="title">ADD-ONS</div><div id="grid" class="grid"></div></main>
+
+<div id="searchModeResults" class="search-mode-results">
+  <div class="search-tools">
+    <button class="search-icon-btn" id="searchRunBtn" aria-label="Cari">⌕</button>
+    <button class="search-filter-btn" id="searchFilterBtn" aria-label="Filter">▾</button>
+  </div>
+  <div id="searchResultList" class="search-result-list"></div>
+</div>
 <nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b>⚙</b><span data-i18n="settings">Pengaturan</span></button></nav>
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">⚙️ Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">🌐 Bahasa</label><select id="languageSelect"><option value="id">🇮🇩 Bahasa Indonesia</option><option value="en">🇬🇧 English</option><option value="ms">🇲🇾 Bahasa Melayu</option><option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option><option value="ja">🇯🇵 日本語</option></select><label class="setting-label" data-i18n="themeLabel">🎨 Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">🌙 Gelap</option><option value="light" data-i18n="light">☀️ Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">🗑️ Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
@@ -280,15 +316,56 @@ function cardHTML(x){
   const creator=x.ownerName||"DFCraft";
   return `<article class="card" data-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">${esc(creator)}</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}">${t("delete")}</button>`:""}</div></article>`;
 }
+function searchResultHTML(x){
+  const creator=x.ownerName||"DFCraft";
+  const cat=x.cat||"Add-Ons";
+  return `<article class="search-result-item" data-search-addon-id="${esc(x.id)}">
+    <img src="${esc(x.image)}" alt="${esc(x.name)}">
+    <div class="search-result-info">
+      <div class="search-result-name">${esc(x.name)}</div>
+      <div class="search-result-meta">oleh ${esc(creator)}</div>
+      <div class="search-result-cat">${esc(cat)}</div>
+    </div>
+    <input class="search-result-check" type="checkbox" aria-label="Pilih ${esc(x.name)}">
+  </article>`;
+}
+function renderSearchMode(q){
+  document.body.classList.add("searching");
+  const filter=current==="Semua"?"Semua":current;
+  const list=items.filter(x=>
+    (filter==="Semua"||x.cat===filter) &&
+    (x.name||"").toLowerCase().includes(q)
+  );
+  $("searchResultList").innerHTML=list.length
+    ? list.map(searchResultHTML).join("")
+    : `<div class="search-no-result">🔎 Tidak ada hasil untuk <b>${esc(q)}</b></div>`;
+  document.querySelectorAll("[data-search-addon-id]").forEach(card=>{
+    card.onclick=()=>{
+      const id=card.dataset.searchAddonId;
+      const item=items.find(x=>x.id===id);
+      if(item && item.link) window.open(item.link,"_blank","noopener");
+    };
+  });
+}
 function render(){
-  if(page!=="home") return renderDownloads();
-  let q=$("search").value.trim().toLowerCase(),list=items.filter(x=>(current==="Semua"||x.cat===current)&&(!q||x.name.toLowerCase().includes(q)));
+  if(page!=="home") {
+    document.body.classList.remove("searching");
+    return renderDownloads();
+  }
+  let q=$("search").value.trim().toLowerCase();
+
+  if(q){
+    renderSearchMode(q);
+    return;
+  }
+
+  document.body.classList.remove("searching");
+  let list=items.filter(x=>(current==="Semua"||x.cat===current));
   $("title").textContent=current==="Semua"?t("all"):current==="Add-Ons"?t("addOns"):current==="Worlds"?t("worlds"):current==="Texture Packs"?t("textures"):current==="Skin"?t("skins"):t("minecraftApk");
   $("grid").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty">${t("empty")}</div>`;
-  // Sembunyikan bagian rekomendasi saat pengguna sedang mencari.
-  const recommendWrap=document.querySelector(".recommend-wrap");
-  if(recommendWrap) recommendWrap.style.display=q?"none":"";
-  let recItems=items.filter(x=>x.cat==="Add-Ons");if(!recItems.length)recItems=items.slice(0,5);
+
+  let recItems=items.filter(x=>x.cat==="Add-Ons");
+  if(!recItems.length)recItems=items.slice(0,5);
   $("recommend").innerHTML=recItems.length?recItems.slice(0,5).map(x=>`<div class="recommend-image"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
   bindDeleteButtons();bindDownloadLinks();startRecommendAuto();
 }
@@ -318,7 +395,28 @@ function renderDownloads(){
 }
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{page="home";current=b.dataset.cat;render()});
 $("image").onchange=e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith("image/"))return alert("Pilih file gambar.");selectedImageFile=file;const url=URL.createObjectURL(file);$("imagePreview").innerHTML=`<img src="${url}" alt="Preview">`;};
-$("search").oninput=()=>{if(page!=="home")return;render()};
+$("search").oninput=()=>{
+  if(page!=="home")return;
+  render();
+};
+$("search").addEventListener("focus",()=>{
+  if($("search").value.trim()) render();
+});
+$("search").addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    $("search").value="";
+    render();
+    $("search").blur();
+  }
+});
+$("searchRunBtn").onclick=()=>{$("search").focus();render()};
+$("searchFilterBtn").onclick=()=>{
+  if(page!=="home")return;
+  const cats=["Semua","Add-Ons","Worlds","Texture Packs","Skin","Minecraft APK"];
+  const i=Math.max(0,cats.indexOf(current));
+  current=cats[(i+1)%cats.length];
+  render();
+};
 $("home").onclick=()=>{page="home";current="Semua";render()};
 $("downloads").onclick=()=>{page="downloads";renderDownloads()};
 $("settings").onclick=()=>{$("settingsModal").style.display="flex";applyLanguage();};
