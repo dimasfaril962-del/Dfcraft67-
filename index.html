@@ -587,6 +587,11 @@ $("cat").addEventListener("change",updateLinkValidationStatus);
  */
 async function checkAddonContentWithFunction(link){
   try{
+    console.log("[DFCraft] Memanggil Content Checker", {
+      functionId: APPWRITE_FUNCTION_ID,
+      endpoint: APPWRITE_ENDPOINT,
+      link
+    });
     const result = await window.dfAppwriteFunctions.createExecution({
       functionId: APPWRITE_FUNCTION_ID,
       body: JSON.stringify({url: link}),
@@ -647,11 +652,16 @@ async function checkAddonContentWithFunction(link){
         ("Pemeriksaan konten gagal (HTTP "+(statusCode || "tidak diketahui")+").")
     };
   }catch(e){
-    console.error("[DFCraft] Content Checker gagal:",e);
+    const detail = [
+      e && (e.code || e.status) ? ("HTTP/Code: " + (e.code || e.status)) : "",
+      e && e.type ? ("Type: " + e.type) : "",
+      e && e.message ? ("Pesan: " + e.message) : ""
+    ].filter(Boolean).join(" | ");
+    console.error("[DFCraft] Content Checker gagal:", {error:e, detail});
     return {
       ok:false,
       code:"CHECKER_CONNECTION_ERROR",
-      message:"Pemeriksa Konten DFCraft tidak dapat dijalankan. Add-On tidak jadi ditambahkan."
+      message:detail || "Tidak ada detail error dari Appwrite."
     };
   }
 }
@@ -701,7 +711,7 @@ $("save").onclick=async()=>{
       }else if(checkResult.code==="DOWNLOAD_FILE_NOT_FOUND"){
         alert("⚠️ Add-On belum dapat ditambahkan.\n\nFile asli dari MediaFire belum berhasil diambil untuk diperiksa. Silakan pastikan link MediaFire masih aktif.");
       }else if(checkResult.code==="CHECKER_CONNECTION_ERROR"){
-        alert("⚠️ Pemeriksa Konten DFCraft sedang tidak dapat dihubungi.\n\nAdd-On tidak ditambahkan demi keamanan.");
+        alert("⚠️ Pemeriksa Konten DFCraft tidak dapat dihubungi.\n\n" + checkResult.message + "\n\nAdd-On tidak ditambahkan demi keamanan.");
       }else{
         alert("❌ Pemeriksaan konten gagal.\n\nAdd-On tidak ditambahkan demi keamanan.\n\n"+checkResult.message);
       }
