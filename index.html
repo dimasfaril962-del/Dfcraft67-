@@ -584,7 +584,7 @@ $("save").onclick=async()=>{
   if(!currentAppwriteUser){alert("Silakan masuk terlebih dahulu.");return;}
   if(!name||!selectedImageFile||!link)return alert("Isi nama, pilih gambar dari galeri, dan isi link MediaFire.");
   if(isBlockedAddonName(name)){
-    alert("❌ Add-On dengan nama "Janny" tidak dapat ditambahkan ke DFCraft.\n\nNama tersebut diblokir untuk menjaga DFCraft tetap sesuai untuk pengguna di bawah 18 tahun.");
+    alert("❌ Add-On dengan nama \"Janny\" tidak dapat ditambahkan ke DFCraft.\n\nNama tersebut diblokir untuk menjaga DFCraft tetap sesuai untuk pengguna di bawah 18 tahun.");
     return;
   }
   if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link))return alert("Link tidak cocok. Kolom ini hanya menerima link MediaFire, misalnya https://www.mediafire.com/file/...");
