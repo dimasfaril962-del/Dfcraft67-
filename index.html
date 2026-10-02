@@ -587,19 +587,43 @@ $("cat").addEventListener("change",updateLinkValidationStatus);
  */
 async function checkAddonContentWithFunction(link){
   try{
-    console.log("[DFCraft] Memanggil Content Checker", {
+    console.log("[DFCraft] Memanggil Content Checker via REST", {
       functionId: APPWRITE_FUNCTION_ID,
       endpoint: APPWRITE_ENDPOINT,
       link
     });
-    const result = await window.dfAppwriteFunctions.createExecution({
-      functionId: APPWRITE_FUNCTION_ID,
-      body: JSON.stringify({url: link}),
-      async: false,
-      path: "/",
-      method: "POST",
-      headers: {"Content-Type":"application/json"}
+
+    // Gunakan REST API langsung agar tidak bergantung pada Functions SDK.
+    const execUrl = APPWRITE_ENDPOINT + "/functions/" + encodeURIComponent(APPWRITE_FUNCTION_ID) + "/executions";
+    const res = await fetch(execUrl,{
+      method:"POST",
+      credentials:"include",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "X-Appwrite-Project":APPWRITE_PROJECT_ID,
+        "X-Appwrite-Response-Format":"2.3.0"
+      },
+      body:JSON.stringify({
+        body:JSON.stringify({url:link}),
+        async:false,
+        path:"/",
+        method:"POST",
+        headers:{"Content-Type":"application/json"}
+      })
     });
+
+    let result=null;
+    try{ result=await res.json(); }catch(e){}
+    if(!res.ok){
+      const detail=result && (result.message || result.type || result.code)
+        ? ((result.message||"") + (result.type?" ["+result.type+"]":""))
+        : ("HTTP "+res.status);
+      const err=new Error(detail);
+      err.status=res.status;
+      err.response=result;
+      throw err;
+    }
 
     const statusCode = Number(
       result.responseStatusCode ??
