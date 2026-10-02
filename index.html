@@ -19,7 +19,7 @@
     <p>Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.</p>
     <p>DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.</p>
     <p>Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.</p>
-    <p><b>Versi 3.6</b></p>
+    <p><b>Versi 3.8</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
@@ -300,7 +300,7 @@ body.downloads-page #title{margin-top:0}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 3.6</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 3.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -360,10 +360,15 @@ async function loadRemoteAddons(){
     }, 300);
   }
 }
+function isAddonOwner(x){
+  if(!currentAppwriteUser || !x || !x.owner || !x.id) return false;
+  if(String(x.id).startsWith("starter-")) return false;
+  return String(x.owner) === String(currentAppwriteUser.$id);
+}
 function cardHTML(x){
-  const canDelete=!!currentAppwriteUser && !!x.owner && x.owner===currentAppwriteUser.$id && !String(x.id).startsWith("starter-");
+  const canDelete=isAddonOwner(x);
   const creator=x.ownerName||"DFCraft";
-  return `<article class="card" data-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">${esc(creator)}</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}">${t("delete")}</button>`:""}</div></article>`;
+  return `<article class="card" data-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">${esc(creator)}</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}" title="Hanya pemilik Add-On yang dapat menghapus">${t("delete")}</button>`:""}</div></article>`;
 }
 function searchResultHTML(x){
   const creator=x.ownerName||"DFCraft";
@@ -421,19 +426,48 @@ function render(){
   bindDeleteButtons();bindDownloadLinks();startRecommendAuto();
 }
 async function deleteRemoteAddon(item){
-  if(!currentAppwriteUser || item.owner!==currentAppwriteUser.$id){alert("Hanya orang yang menambahkan Add-On ini yang dapat menghapusnya.");return;}
+  if(!isAddonOwner(item)){
+    alert("❌ Kamu hanya bisa menghapus Add-On yang kamu tambahkan dengan akun yang sedang login.");
+    return;
+  }
+  if(!item.id || String(item.id).startsWith("starter-")){
+    alert("Add-On ini tidak dapat dihapus.");
+    return;
+  }
   try {
-    await appwriteJsonRequest(
-      "/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
+    const path="/tablesdb/" + encodeURIComponent(APPWRITE_DATABASE_ID) +
       "/tables/" + encodeURIComponent(APPWRITE_TABLE_ID) +
-      "/rows/" + encodeURIComponent(item.id),
-      {method:"DELETE"}
-    );
+      "/rows/" + encodeURIComponent(item.id);
+
+    await appwriteJsonRequest(path,{method:"DELETE"});
+
+    // Hapus juga gambar dari Storage jika ID file tersedia.
+    if(item.fileId){
+      try{
+        await appwriteJsonRequest(
+          "/storage/buckets/" + encodeURIComponent(APPWRITE_BUCKET_ID) +
+          "/files/" + encodeURIComponent(item.fileId),
+          {method:"DELETE"}
+        );
+      }catch(storageErr){
+        console.warn("[DFCraft] Row terhapus, tetapi gambar gagal dihapus:",storageErr);
+      }
+    }
+
     items=items.filter(x=>x.id!==item.id);
     downloads=downloads.filter(x=>x.id!==item.id);
     localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));
     render();
-  } catch(e) { console.error(e); alert("Add-On gagal dihapus. Pastikan akun ini adalah pemilik Add-On."); }
+    alert("✅ Add-On berhasil dihapus.");
+  } catch(e) {
+    console.error("[DFCraft] Delete gagal:",e);
+    const msg=(e && e.message)?e.message:String(e);
+    if(e && (e.status===401 || e.status===403)){
+      alert("❌ Tidak dapat menghapus Add-On.\n\nAppwrite masih menolak izin DELETE. Pada Table DFCraft, aktifkan permission DELETE untuk pengguna yang login. Tombol Hapus di website tetap hanya ditampilkan kepada pemilik Add-On.");
+    }else{
+      alert("❌ Add-On gagal dihapus.\n\n"+msg);
+    }
+  }
 }
 function bindDeleteButtons(){document.querySelectorAll(".delete").forEach(b=>b.onclick=async()=>{const id=b.dataset.id;const item=items.find(x=>x.id===id);if(!item)return;if(confirm(`Hapus Add-On "${item.name}"?`))await deleteRemoteAddon(item);})}
 function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));})}
@@ -498,9 +532,9 @@ $("add").onclick=()=>{
 $("settings").onclick=()=>{$("settingsModal").style.display="flex";setActiveNav("settings");applyLanguage();};
 $("closeSettings").onclick=()=>$("settingsModal").style.display="none";
 const translations={
- id:{all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",clearDownloads:"🗑️ Hapus semua riwayat Unduhan",resetData:"⚠️ Reset semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Rekomendasi",addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",downloaded:"Diunduh",about:"DFCraft Web • Versi 3.3",confirmClear:"Hapus semua riwayat Unduhan?",confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus."},
+ id:{all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",clearDownloads:"🗑️ Hapus semua riwayat Unduhan",resetData:"⚠️ Reset semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Rekomendasi",addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",downloaded:"Diunduh",about:"DFCraft Web • Versi 3.8",confirmClear:"Hapus semua riwayat Unduhan?",confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus."},
  en:{all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:"⚙️ Settings",languageLabel:"🌐 Language",themeLabel:"🎨 Appearance",dark:"🌙 Dark",light:"☀️ Light",clearDownloads:"🗑️ Clear download history",resetData:"⚠️ Reset all DFCraft data",close:"Close",search:"Search...",recommend:"⭐ Recommended Add-Ons",addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",download:"Download",downloadAgain:"Download Again",delete:"🗑️ Delete Add-On",deleteHistory:"🗑️ Delete",empty:"No items yet.",emptyDownloads:"No downloaded Add-Ons yet. Press Download on an Add-On to add it here.",downloaded:"Downloaded",about:"DFCraft Web • Version 3.3",confirmClear:"Clear all download history?",confirmReset:"Reset all DFCraft data? Add-Ons and download history will be deleted."},
- ms:{all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:"⚙️ Tetapan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Paparan",dark:"🌙 Gelap",light:"☀️ Cerah",clearDownloads:"🗑️ Padam semua sejarah muat turun",resetData:"⚠️ Tetapkan semula semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Disyorkan",addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"🗑️ Padam Add-On",deleteHistory:"🗑️ Padam",empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",downloaded:"Dimuat turun",about:"DFCraft Web • Versi 3.3",confirmClear:"Padam semua sejarah muat turun?",confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam."},
+ ms:{all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:"⚙️ Tetapan",languageLabel:"🌐 Bahasa",themeLabel:"🎨 Paparan",dark:"🌙 Gelap",light:"☀️ Cerah",clearDownloads:"🗑️ Padam semua sejarah muat turun",resetData:"⚠️ Tetapkan semula semua data DFCraft",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Disyorkan",addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"🗑️ Padam Add-On",deleteHistory:"🗑️ Padam",empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",downloaded:"Dimuat turun",about:"DFCraft Web • Versi 3.8",confirmClear:"Padam semua sejarah muat turun?",confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam."},
  es:{all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:"⚙️ Ajustes",languageLabel:"🌐 Idioma",themeLabel:"🎨 Apariencia",dark:"🌙 Oscuro",light:"☀️ Claro",clearDownloads:"🗑️ Borrar historial de descargas",resetData:"⚠️ Restablecer todos los datos de DFCraft",close:"Cerrar",search:"Buscar...",recommend:"⭐ Add-Ons recomendados",addOns:"ADD-ONS",worlds:"Mundos",textures:"Paquetes de texturas",skins:"Skins",minecraftApk:"APK de Minecraft",download:"Descargar",downloadAgain:"Descargar de nuevo",delete:"🗑️ Eliminar Add-On",deleteHistory:"🗑️ Eliminar",empty:"Aún no hay elementos.",emptyDownloads:"Aún no hay Add-Ons descargados. Pulsa Descargar en un Add-On para añadirlo aquí.",downloaded:"Descargado",about:"DFCraft Web • Versión 3.3",confirmClear:"¿Borrar todo el historial de descargas?",confirmReset:"¿Restablecer todos los datos de DFCraft? Se eliminarán los Add-Ons y el historial de descargas."},
  pt:{all:"TODOS",home:"Início",downloads:"Downloads",add:"Adicionar",settings:"Configurações",settingsTitle:"⚙️ Configurações",languageLabel:"🌐 Idioma",themeLabel:"🎨 Aparência",dark:"🌙 Escuro",light:"☀️ Claro",clearDownloads:"🗑️ Limpar histórico de downloads",resetData:"⚠️ Redefinir todos os dados do DFCraft",close:"Fechar",search:"Pesquisar...",recommend:"⭐ Add-Ons recomendados",addOns:"ADD-ONS",worlds:"Mundos",textures:"Pacotes de textura",skins:"Skins",minecraftApk:"APK do Minecraft",download:"Baixar",downloadAgain:"Baixar novamente",delete:"🗑️ Excluir Add-On",deleteHistory:"🗑️ Excluir",empty:"Nenhum item ainda.",emptyDownloads:"Nenhum Add-On baixado. Pressione Baixar em um Add-On para adicioná-lo aqui.",downloaded:"Baixado",about:"DFCraft Web • Versão 3.3",confirmClear:"Limpar todo o histórico de downloads?",confirmReset:"Redefinir todos os dados do DFCraft? Add-Ons e histórico de downloads serão excluídos."},
  ja:{all:"すべて",home:"ホーム",downloads:"ダウンロード",add:"追加",settings:"設定",settingsTitle:"⚙️ 設定",languageLabel:"🌐 言語",themeLabel:"🎨 外観",dark:"🌙 ダーク",light:"☀️ ライト",clearDownloads:"🗑️ ダウンロード履歴を削除",resetData:"⚠️ DFCraftの全データをリセット",close:"閉じる",search:"検索...",recommend:"⭐ おすすめAdd-On",addOns:"ADD-ONS",worlds:"ワールド",textures:"テクスチャパック",skins:"スキン",minecraftApk:"Minecraft APK",download:"ダウンロード",downloadAgain:"再ダウンロード",delete:"🗑️ Add-Onを削除",deleteHistory:"🗑️ 削除",empty:"まだ項目がありません。",emptyDownloads:"ダウンロードしたAdd-Onはありません。Add-Onのダウンロードを押すとここに追加されます。",downloaded:"ダウンロード日時",about:"DFCraft Web • バージョン2.2",confirmClear:"ダウンロード履歴をすべて削除しますか？",confirmReset:"DFCraftの全データをリセットしますか？Add-Onとダウンロード履歴が削除されます。"}
