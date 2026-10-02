@@ -19,7 +19,7 @@
     <p>Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.</p>
     <p>DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.</p>
     <p>Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.</p>
-    <p><b>Versi 3.5</b></p>
+    <p><b>Versi 3.6</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
@@ -300,7 +300,7 @@ body.downloads-page #title{margin-top:0}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 3.5</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 3.6</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -514,6 +514,31 @@ $("themeSelect").onchange=e=>{theme=e.target.value;localStorage.setItem("dfcraft
 $("clearDownloads").onclick=()=>{if(confirm(t("confirmClear"))){downloads=[];localStorage.setItem("dfcraft_web2_downloads","[]");renderDownloads()}};
 
 $("cancel").onclick=()=>$("modal").style.display="none";
+function updateLinkValidationStatus(){
+  const linkEl=$("link"), status=$("linkValidationStatus"), catEl=$("cat");
+  if(!linkEl||!status||!catEl)return;
+  const link=linkEl.value.trim();
+  if(!link){status.textContent="";return;}
+  if(!/^https?:\/\/(?:www\.)?mediafire\.com\//i.test(link)){
+    status.textContent="❌ Link harus berasal dari MediaFire.";
+    status.style.color="#ff8a8a";
+    return;
+  }
+  const check=validateCategoryLink(link,catEl.value);
+  if(check.ok){
+    status.textContent="✅ Jenis file cocok dengan kategori: "+check.type;
+    status.style.color="#8ee6a8";
+  }else{
+    const detected=detectMediaFileType(link);
+    status.textContent=detected.known
+      ?"❌ File terdeteksi: "+detected.type+" — kategori saat ini: "+catEl.value
+      :"⚠️ Jenis file belum dapat dikenali dari link.";
+    status.style.color="#ffb36b";
+  }
+}
+$("link").addEventListener("input",updateLinkValidationStatus);
+$("cat").addEventListener("change",updateLinkValidationStatus);
+
 $("save").onclick=async()=>{
   const name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value;
   if(!currentAppwriteUser){alert("Silakan masuk terlebih dahulu.");return;}
@@ -538,30 +563,60 @@ $("save").onclick=async()=>{
     });
     const creatorName=((currentAppwriteUser.prefs||{}).username || currentAppwriteUser.name || "DFCraft");
     items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,ownerName:creatorName,fileId:imageId});
-    ["name","link"].forEach(id=>$(id).value="");$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
+    ["name","link"].forEach(id=>$(id).value="");if($("linkValidationStatus"))$("linkValidationStatus").textContent="";$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
   } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
 };
 let recTimer=null;
-function validateCategoryLink(link,cat){
-  let u=String(link||"").toLowerCase();
-  try{u=decodeURIComponent(u);}catch(e){}
-  const rules={
-    "Add-Ons":[".mcaddon",".mcpack"],
-    "Worlds":[".mcworld"],
-    "Texture Packs":[".mcpack",".zip"],
-    "Skin":[".mcpack",".png"],
-    "Minecraft APK":[".apk"]
-  };
-  const knownExts=[".mcaddon",".mcworld",".mcpack",".apk",".zip",".png"];
-  const detected=knownExts.find(ext=>u.includes(ext));
-  if(!detected)return {ok:true};
-  const allowed=rules[cat]||[];
-  if(!allowed.includes(detected)){
-    return {ok:false,message:"Kategori tidak sesuai dengan file MediaFire.\n\nLink tersebut terlihat seperti file "+detected+".\nKategori yang dipilih: "+cat+".\n\nSilakan pilih kategori yang sesuai dengan jenis file tersebut."};
+function detectMediaFileType(link){
+  let u=String(link||"").trim();
+  // Decode repeatedly because MediaFire links can contain %252E etc.
+  for(let i=0;i<4;i++){
+    try{
+      const d=decodeURIComponent(u);
+      if(d===u)break;
+      u=d;
+    }catch(e){break;}
   }
-  return {ok:true};
+  u=u.toLowerCase();
+
+  // Look for the real file extension in the MediaFire URL filename.
+  const patterns=[
+    ["Minecraft APK",/\.apk(?:$|[/?#&])/i],
+    ["Add-Ons",/\.mcaddon(?:$|[/?#&])/i],
+    ["Worlds",/\.mcworld(?:$|[/?#&])/i],
+    ["Texture Packs",/\.mcpack(?:$|[/?#&])/i],
+    ["Skin",/\.png(?:$|[/?#&])/i],
+    ["Texture Packs",/\.zip(?:$|[/?#&])/i]
+  ];
+  for(const [type,re] of patterns) if(re.test(u)) return {type,url:u,known:true};
+  return {type:null,url:u,known:false};
 }
 
+function validateCategoryLink(link,cat){
+  const detected=detectMediaFileType(link);
+  if(!detected.known){
+    return {
+      ok:false,
+      message:"Jenis file tidak dapat dikenali dari link MediaFire.\n\nPastikan link MediaFire menyertakan nama file, misalnya:\n.../Minecraft.apk/file\n.../Nama_Addon.mcaddon/file\n.../Map.mcworld/file\n\nKonten tidak akan ditambahkan sampai jenis file dapat dikenali."
+    };
+  }
+
+  const allowed={
+    "Add-Ons":["Add-Ons"],
+    "Worlds":["Worlds"],
+    "Texture Packs":["Texture Packs"],
+    "Skin":["Skin"],
+    "Minecraft APK":["Minecraft APK"]
+  };
+
+  if(!(allowed[cat]||[]).includes(detected.type)){
+    return {
+      ok:false,
+      message:"❌ Kategori tidak sesuai!\n\nFile MediaFire terdeteksi sebagai: "+detected.type+"\nKategori yang dipilih: "+cat+"\n\nSilakan pilih kategori "+detected.type+" terlebih dahulu."
+    };
+  }
+  return {ok:true,type:detected.type};
+}
 function startRecommendAuto(){const el=$("recommend");if(!el||page!=="home")return;if(recTimer)clearInterval(recTimer);if(!el.children.length)return;recTimer=setInterval(()=>{if(!el.children.length)return;const step=el.clientWidth*0.82;const max=el.scrollWidth-el.clientWidth;if(el.scrollLeft>=max-5)el.scrollTo({left:0,behavior:"smooth"});else el.scrollBy({left:step,behavior:"smooth"})},3500);}
 applyLanguage();
 loadRemoteAddons();
