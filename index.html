@@ -302,7 +302,7 @@ body.downloads-page #title{margin-top:0}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.4</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 4.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2>➕ Tambah Add-On</h2><input id="name" placeholder="Nama Add-On"><label class="file-label" for="image">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview">Belum ada gambar dipilih</div><input id="link" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel">Batal</button><button class="save" id="save">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -567,7 +567,9 @@ function updateLinkValidationStatus(){
   }
   const check=validateCategoryLink(link,catEl.value);
   if(check.ok){
-    status.textContent="✅ Jenis file cocok dengan kategori: "+check.type;
+    status.textContent = (catEl.value === "Add-Ons" && check.type === "Texture Packs")
+      ? "✅ File .mcpack diterima untuk kategori Add-Ons."
+      : "✅ Jenis file cocok dengan kategori: "+check.type;
     status.style.color="#8ee6a8";
   }else{
     const detected=detectMediaFileType(link);
@@ -802,12 +804,15 @@ function validateCategoryLink(link,cat){
   if(!detected.known){
     return {
       ok:false,
-      message:"Jenis file tidak dapat dikenali dari link MediaFire.\n\nPastikan link MediaFire menyertakan nama file, misalnya:\n.../Minecraft.apk/file\n.../Nama_Addon.mcaddon/file\n.../Map.mcworld/file\n\nKonten tidak akan ditambahkan sampai jenis file dapat dikenali."
+      message:"Jenis file tidak dapat dikenali dari link MediaFire.\n\nPastikan link MediaFire menyertakan nama file, misalnya:\n.../Minecraft.apk/file\n.../Nama_Addon.mcaddon/file\n.../Nama_Addon.mcpack/file\n.../Map.mcworld/file\n\nKonten tidak akan ditambahkan sampai jenis file dapat dikenali."
     };
   }
 
+  // Kategori "Add-Ons" menerima .mcaddon DAN .mcpack.
+  // Tulisan dropdown tetap "Add-Ons"; pengguna tidak perlu mengganti kategori
+  // hanya karena file Minecraft yang dipakai berformat .mcpack.
   const allowed={
-    "Add-Ons":["Add-Ons"],
+    "Add-Ons":["Add-Ons","Texture Packs"],
     "Worlds":["Worlds"],
     "Texture Packs":["Texture Packs"],
     "Skin":["Skin"],
