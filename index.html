@@ -1,4 +1,4 @@
-<!-- DFCraft v4.7 — Jenny/Janny-only blocking + REST Appwrite checker -->
+<!-- DFCraft v4.9 — APK support + Jenny/Janny-only blocking + REST Appwrite checker -->
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DFCraft Add-on Minecraft</title><style>
 *{box-sizing:border-box}body{margin:0;background:#10151b;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}.top{display:flex;gap:10px;padding:18px}.search{flex:1;background:#292e36;border:0;border-radius:30px;padding:16px 20px;color:#fff;font-size:18px;outline:0}.avatar{width:52px;height:52px;border-radius:50%;background:#293852;display:grid;place-items:center;font-weight:bold}.recommend-wrap{padding:0 18px 20px}.recommend-title{font-size:20px;font-weight:bold;margin:0 0 12px}.recommend{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none}.recommend::-webkit-scrollbar{display:none}.recommend .recommend-image{min-width:78%;max-width:78%;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#1c222a;display:block}.recommend .recommend-image img{width:100%;aspect-ratio:1.8;object-fit:cover;display:block}.chips{display:flex;gap:10px;overflow:auto;padding:0 18px 20px}.chip{white-space:nowrap;padding:12px 17px;border-radius:24px;border:1px solid #425064;background:#202832;color:#a9caff;font-weight:bold}.section{padding:0 18px}.title{font-size:20px;font-weight:bold;margin:5px 0 13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.card{background:#1c222a;border-radius:14px;overflow:hidden}.card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.body{padding:11px}.name{font-weight:bold;font-size:15px}.meta{font-size:12px;color:#9da9b8;margin-top:5px}.download{display:block;text-align:center;text-decoration:none;color:#07111d;background:#9fc5ff;padding:9px;border-radius:9px;margin-top:10px;font-weight:bold;font-size:12px}.delete{display:block;width:100%;border:0;color:#fff;background:#b83b46;padding:9px;border-radius:9px;margin-top:8px;font-weight:bold;font-size:12px;cursor:pointer}.empty{padding:25px;color:#919dac}.download-card{background:#1c222a;border-radius:14px;overflow:hidden}.download-card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.download-body{padding:11px}.download-name{font-weight:bold;font-size:15px}.download-date{font-size:12px;color:#9da9b8;margin-top:5px}.download-actions{display:flex;gap:8px;margin-top:10px}.download-actions a,.download-actions button{flex:1;text-align:center;text-decoration:none;border:0;padding:9px;border-radius:9px;font-weight:bold;font-size:12px;cursor:pointer}.redownload{color:#07111d;background:#9fc5ff}.remove-download{color:#fff;background:#b83b46}.bottom{position:fixed;bottom:0;left:0;right:0;height:78px;background:#20252d;border-top:1px solid #303844;display:flex;justify-content:space-around}.nav{border:0;background:transparent;color:#c5ccd7;min-width:70px}.nav b{display:block;font-size:27px}.nav.active{color:#a9caff}.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px}.box{width:100%;max-width:430px;background:#1b222b;border-radius:20px;padding:20px}.box input,.box select{width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff}.file-label{display:block;width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff;text-align:left;cursor:pointer}.image-preview{width:100%;min-height:48px;margin:6px 0;padding:10px;border-radius:10px;border:1px dashed #3c4858;color:#919dac;font-size:13px;text-align:center}.image-preview img{max-width:100%;max-height:180px;border-radius:8px;display:block;margin:auto}.actions{display:flex;gap:10px;margin-top:10px}.actions button{flex:1;padding:12px;border:0;border-radius:10px;font-weight:bold}.cancel{background:#343d49;color:#fff}.save{background:#9fc5ff}@media(max-width:420px){.grid{gap:10px}}.settings-box{max-height:85vh;overflow:auto}.setting-label{display:block;font-size:13px;color:#9da9b8;margin:12px 0 4px}.setting-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:#293544;color:#fff;font-weight:bold;text-align:left;cursor:pointer}.setting-action.danger{background:#5b2930}.about{margin-top:15px;padding:12px;border-radius:10px;background:#141a21;color:#9da9b8;font-size:12px;text-align:center}body.light{background:#f2f4f7;color:#18202a}body.light .search,body.light .box input,body.light .box select,body.light .file-label{background:#fff;color:#18202a;border-color:#c5ccd7}body.light .chip{background:#fff;color:#315d9d;border-color:#aab6c7}body.light .card,body.light .download-card{background:#fff}body.light .meta,body.light .download-date{color:#667383}body.light .bottom{background:#fff;border-color:#d5dbe3}body.light .nav{color:#4e5a68}body.light .nav.active{color:#315d9d}body.light .box{background:#fff;color:#18202a}body.light .about{background:#eef1f5}body.light .recommend .recommend-image{background:#e4e8ee}body.light .title{color:#18202a}body.light .recommend-title{color:#18202a}@media(max-width:420px){.grid{gap:10px}}</style>
 <style>
@@ -20,7 +20,7 @@
     <p>Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.</p>
     <p>DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.</p>
     <p>Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.</p>
-    <p><b>Versi 4.1</b></p>
+    <p><b>Versi 4.9</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
@@ -567,9 +567,11 @@ function updateLinkValidationStatus(){
   }
   const check=validateCategoryLink(link,catEl.value);
   if(check.ok){
-    status.textContent = (catEl.value === "Add-Ons" && check.type === "Texture Packs")
-      ? "✅ File .mcpack diterima untuk kategori Add-Ons."
-      : "✅ Jenis file cocok dengan kategori: "+check.type;
+    status.textContent = catEl.value === "Minecraft APK"
+      ? "✅ File .apk diterima untuk kategori Minecraft APK."
+      : ((catEl.value === "Add-Ons" && check.type === "Texture Packs")
+        ? "✅ File .mcpack diterima untuk kategori Add-Ons."
+        : "✅ Jenis file cocok dengan kategori: "+check.type);
     status.style.color="#8ee6a8";
   }else{
     const detected=detectMediaFileType(link);
@@ -738,8 +740,14 @@ $("save").onclick=async()=>{
   if(!categoryCheck.ok)return alert(categoryCheck.message);
   const btn=$("save");btn.disabled=true;btn.textContent="Memeriksa...";
   try {
-    // Pemeriksaan isi file dilakukan SEBELUM gambar/row diunggah ke Appwrite.
-    const checkResult = await checkAddonContentWithFunction(link);
+    // Untuk Minecraft APK, checker ZIP lama tidak dipakai karena APK dapat
+    // berukuran sangat besar (contoh yang diuji sekitar 604 MB).
+    // Validasi kategori + blokir Jenny/Janny tetap dijalankan sebelum titik ini.
+    // Konten Minecraft seperti mcaddon/mcpack/mcworld tetap memakai checker.
+    const isMinecraftApk = cat === "Minecraft APK";
+    const checkResult = isMinecraftApk
+      ? {ok:true, code:"APK_CATEGORY_ALLOWED", message:"APK diterima untuk kategori Minecraft APK."}
+      : await checkAddonContentWithFunction(link);
 
     if(!checkResult.ok){
       if(checkResult.code==="BLOCKED_PATTERN"){
@@ -809,8 +817,8 @@ function validateCategoryLink(link,cat){
   }
 
   // Kategori "Add-Ons" menerima .mcaddon DAN .mcpack.
-  // Tulisan dropdown tetap "Add-Ons"; pengguna tidak perlu mengganti kategori
-  // hanya karena file Minecraft yang dipakai berformat .mcpack.
+  // Minecraft APK memakai kategori khusus dan diproses terpisah karena ukuran
+  // APK bisa jauh lebih besar daripada batas pemeriksaan arsip Minecraft.
   const allowed={
     "Add-Ons":["Add-Ons","Texture Packs"],
     "Worlds":["Worlds"],
