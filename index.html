@@ -351,7 +351,7 @@ body.downloads-page #title{margin-top:0}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.7</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">➕ Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">➕ Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -473,10 +473,10 @@ function render(){
 
   // Rekomendasi dipilih secara acak setiap kali halaman web dimuat ulang.
   // Pool rekomendasi mencakup SEMUA kategori, bukan hanya Add-Ons.
-  // Pilihan disimpan hanya selama sesi halaman ini supaya refresh/relog
-  // mendapatkan 3 rekomendasi yang bisa berbeda, tetapi render ulang karena
-  // filter, bahasa, atau Add-On baru tidak mengacak ulang rekomendasi.
-  if(!window.dfRecommendationItemsInitialized){
+  // PENTING: jangan mengunci rekomendasi saat items masih kosong, karena
+  // loadRemoteAddons() mengambil data Appwrite secara async. Jika dikunci
+  // terlalu awal, rekomendasi akan tetap kosong sampai halaman ditutup.
+  if(items.length && !window.dfRecommendationItemsInitialized){
     const pool=[...items];
     for(let i=pool.length-1;i>0;i--){
       const j=Math.floor(Math.random()*(i+1));
