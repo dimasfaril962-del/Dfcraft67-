@@ -351,7 +351,7 @@ body.downloads-page #title{margin-top:0}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.5</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">➕ Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.7</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">➕ Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -471,9 +471,22 @@ function render(){
   $("title").textContent=current==="Semua"?t("all"):current==="Add-Ons"?t("addOns"):current==="Worlds"?t("worlds"):current==="Texture Packs"?t("textures"):current==="Skin"?t("skins"):t("minecraftApk");
   $("grid").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty">${t("empty")}</div>`;
 
-  let recItems=items.filter(x=>x.cat==="Add-Ons");
-  if(!recItems.length)recItems=items.slice(0,5);
-  $("recommend").innerHTML=recItems.length?recItems.slice(0,5).map(x=>`<div class="recommend-image"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
+  // Rekomendasi dipilih secara acak setiap kali halaman web dimuat ulang.
+  // Pool rekomendasi mencakup SEMUA kategori, bukan hanya Add-Ons.
+  // Pilihan disimpan hanya selama sesi halaman ini supaya refresh/relog
+  // mendapatkan 3 rekomendasi yang bisa berbeda, tetapi render ulang karena
+  // filter, bahasa, atau Add-On baru tidak mengacak ulang rekomendasi.
+  if(!window.dfRecommendationItemsInitialized){
+    const pool=[...items];
+    for(let i=pool.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [pool[i],pool[j]]=[pool[j],pool[i]];
+    }
+    window.dfRecommendationItems=pool.slice(0,3);
+    window.dfRecommendationItemsInitialized=true;
+  }
+  const recItems=Array.isArray(window.dfRecommendationItems)?window.dfRecommendationItems:[];
+  $("recommend").innerHTML=recItems.length?recItems.map(x=>`<div class="recommend-image"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
   bindDeleteButtons();bindDownloadLinks();startRecommendAuto();
 }
 async function deleteRemoteAddon(item){
@@ -586,7 +599,7 @@ const translations={
  id:{
   all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",
   languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",
-  clearDownloads:"🗑️ Hapus semua riwayat Unduhan",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Rekomendasi",
+  clearDownloads:"🗑️ Hapus semua riwayat Unduhan",close:"Tutup",search:"Cari...",recommend:"⭐ Rekomendasi",
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",
   empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",
@@ -614,7 +627,7 @@ const translations={
  en:{
   all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:"⚙️ Settings",
   languageLabel:"🌐 Language",themeLabel:"🎨 Appearance",dark:"🌙 Dark",light:"☀️ Light",
-  clearDownloads:"🗑️ Clear download history",close:"Close",search:"Search...",recommend:"⭐ Recommended Add-Ons",
+  clearDownloads:"🗑️ Clear download history",close:"Close",search:"Search...",recommend:"⭐ Recommendations",
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skins",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Again",delete:"🗑️ Delete Add-On",deleteHistory:"🗑️ Delete",
   empty:"No items yet.",emptyDownloads:"No downloaded Add-Ons yet. Press Download on an Add-On to add it here.",
@@ -642,7 +655,7 @@ const translations={
  ms:{
   all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:"⚙️ Tetapan",
   languageLabel:"🌐 Bahasa",themeLabel:"🎨 Paparan",dark:"🌙 Gelap",light:"☀️ Cerah",
-  clearDownloads:"🗑️ Padam semua sejarah muat turun",close:"Tutup",search:"Cari...",recommend:"⭐ Add-On Disyorkan",
+  clearDownloads:"🗑️ Padam semua sejarah muat turun",close:"Tutup",search:"Cari...",recommend:"⭐ Disyorkan",
   addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",
   download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"🗑️ Padam Add-On",deleteHistory:"🗑️ Padam",
   empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",
@@ -670,7 +683,7 @@ const translations={
  es:{
   all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:"⚙️ Ajustes",
   languageLabel:"🌐 Idioma",themeLabel:"🎨 Apariencia",dark:"🌙 Oscuro",light:"☀️ Claro",
-  clearDownloads:"🗑️ Borrar historial de descargas",close:"Cerrar",search:"Buscar...",recommend:"⭐ Add-Ons recomendados",
+  clearDownloads:"🗑️ Borrar historial de descargas",close:"Cerrar",search:"Buscar...",recommend:"⭐ Recomendaciones",
   addOns:"ADD-ONS",worlds:"Mundos",textures:"Paquetes de texturas",skins:"Skins",minecraftApk:"APK de Minecraft",
   download:"Descargar",downloadAgain:"Descargar de nuevo",delete:"🗑️ Eliminar Add-On",deleteHistory:"🗑️ Eliminar",
   empty:"Aún no hay elementos.",emptyDownloads:"Aún no hay Add-Ons descargados. Pulsa Descargar en un Add-On para añadirlo aquí.",
@@ -698,7 +711,7 @@ const translations={
  pt:{
   all:"TODOS",home:"Início",downloads:"Downloads",add:"Adicionar",settings:"Configurações",settingsTitle:"⚙️ Configurações",
   languageLabel:"🌐 Idioma",themeLabel:"🎨 Aparência",dark:"🌙 Escuro",light:"☀️ Claro",
-  clearDownloads:"🗑️ Limpar histórico de downloads",close:"Fechar",search:"Pesquisar...",recommend:"⭐ Add-Ons recomendados",
+  clearDownloads:"🗑️ Limpar histórico de downloads",close:"Fechar",search:"Pesquisar...",recommend:"⭐ Recomendaciones",
   addOns:"ADD-ONS",worlds:"Mundos",textures:"Pacotes de textura",skins:"Skins",minecraftApk:"APK do Minecraft",
   download:"Baixar",downloadAgain:"Baixar novamente",delete:"🗑️ Excluir Add-On",deleteHistory:"🗑️ Excluir",
   empty:"Nenhum item ainda.",emptyDownloads:"Nenhum Add-On baixado. Pressione Baixar em um Add-On para adicioná-lo aqui.",
@@ -726,7 +739,7 @@ const translations={
  ja:{
   all:"すべて",home:"ホーム",downloads:"ダウンロード",add:"追加",settings:"設定",settingsTitle:"⚙️ 設定",
   languageLabel:"🌐 言語",themeLabel:"🎨 外観",dark:"🌙 ダーク",light:"☀️ ライト",
-  clearDownloads:"🗑️ ダウンロード履歴を削除",close:"閉じる",search:"検索...",recommend:"⭐ おすすめAdd-On",
+  clearDownloads:"🗑️ ダウンロード履歴を削除",close:"閉じる",search:"検索...",recommend:"⭐ おすすめ",
   addOns:"ADD-ONS",worlds:"ワールド",textures:"テクスチャパック",skins:"スキン",minecraftApk:"Minecraft APK",
   download:"ダウンロード",downloadAgain:"再ダウンロード",delete:"🗑️ Add-Onを削除",deleteHistory:"🗑️ 削除",
   empty:"まだ項目がありません。",emptyDownloads:"ダウンロードしたAdd-Onはありません。Add-Onのダウンロードを押すとここに追加されます。",
