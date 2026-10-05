@@ -36,7 +36,7 @@
     <p data-i18n="aboutP3">Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.</p>
     <p data-i18n="aboutP4">DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.</p>
     <p data-i18n="aboutP5">Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.</p>
-    <p><b data-i18n="aboutVersion">Versi 4.10.1</b></p>
+    <p><b data-i18n="aboutVersion">Versi 4.10.2</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
@@ -619,7 +619,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",
   empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",
-  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10.1",confirmClear:"Hapus semua riwayat Unduhan?",
+  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Hapus semua riwayat Unduhan?",
   confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Worlds",
   searchTextures:"🎨 Texture Packs",searchSkin:"🧍 Skin",searchApk:"📱 Minecraft APK",
@@ -638,7 +638,7 @@ const translations={
   aboutP3:"Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.",
   aboutP4:"DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.",
   aboutP5:"Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.",
-  aboutVersion:"Versi 4.10.1",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
  },
  en:{
   all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:"⚙️ Settings",
@@ -675,7 +675,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",
   download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"🗑️ Padam Add-On",deleteHistory:"🗑️ Padam",
   empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",
-  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10.1",confirmClear:"Padam semua sejarah muat turun?",
+  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Padam semua sejarah muat turun?",
   confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Dunia",
   searchTextures:"🎨 Pek Tekstur",searchSkin:"🧍 Skin",searchApk:"📱 APK Minecraft",
@@ -694,7 +694,7 @@ const translations={
   aboutP3:"Pengguna yang mempunyai akaun juga boleh menambah kandungan ke DFCraft dengan imej, nama, kategori dan pautan muat turun. Nama akaun pemilik akan dipaparkan pada kandungan.",
   aboutP4:"DFCraft terus dibangunkan dengan carian kategori, sejarah muat turun, tetapan paparan, pilihan bahasa dan pautan ke media sosial serta saluran komuniti DFCraft.",
   aboutP5:"Matlamat DFCraft adalah menyediakan tempat yang mudah dan selesa untuk pemain Minecraft mencari kandungan yang mereka perlukan.",
-  aboutVersion:"Versi 4.10.1",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
  },
  es:{
   all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:"⚙️ Ajustes",
@@ -1478,7 +1478,7 @@ loadRemoteAddons();
       // Ini menghindari perbedaan format SDK updatePrefs dan memastikan
       // avatarFileId + username benar-benar tersimpan di akun.
       const prefsRes=await fetch(APPWRITE_ENDPOINT+'/account/prefs',{
-        method:'PUT',
+        method:'PATCH',
         credentials:'include',
         headers:{
           'Content-Type':'application/json',
