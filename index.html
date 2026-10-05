@@ -1140,9 +1140,6 @@ loadRemoteAddons();
         </div>
       </div>
       <input id="profileImageInput" type="file" accept="image/*" style="display:none">
-      <div class="profile-photo-actions">
-        <button type="button" id="chooseProfilePhotoBtn" data-i18n="chooseProfilePhoto">🖼️ Foto Profil</button>
-      </div>
       <div class="profile-crop" id="profileCropEditor">
         <div class="crop-title" data-i18n="cropTitle">🖼️ Atur Foto Profil</div>
         <div class="crop-stage" id="profileCropStage">
@@ -1157,7 +1154,6 @@ loadRemoteAddons();
         </div>
       </div>
       <div class="profile-edit">
-        <div class="profile-edit-label" data-i18n="profileNameLabel">👤 Nama profil</div>
         <input id="profileNameInput" type="text" maxlength="40" autocomplete="nickname" data-i18n-placeholder="profileNamePlaceholder" placeholder="Nama profil">
         <button class="profile-save" id="saveProfileBtn" data-i18n="saveProfile">💾 Simpan Profil</button>
         <div class="profile-msg" id="profileMsg"></div>
@@ -1339,8 +1335,6 @@ loadRemoteAddons();
     if(input) input.click();
   }
 
-  $('chooseProfilePhotoBtn').addEventListener('click',openProfileGallery);
-
   $('profileImageInput').addEventListener('change',function(){
     const file=this.files&&this.files[0];
     if(!file)return;
@@ -1401,6 +1395,15 @@ loadRemoteAddons();
   });
 
   $('profileInitial').addEventListener('click',openProfileGallery);
+  $('profileName').addEventListener('click',function(){
+    const input=$('profileNameInput');
+    if(input){
+      input.focus();
+      input.select();
+    }
+  });
+  $('profileName').style.cursor='text';
+
   $('profileInitial').addEventListener('keydown',function(e){
     if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfileGallery();}
   });
