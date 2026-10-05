@@ -1,6 +1,22 @@
 <!-- DFCraft v4.9.3 — APK support + Appwrite pagination fix + Jenny/Janny-only blocking + REST Appwrite checker -->
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DFCraft Add-on Minecraft</title><style>
-*{box-sizing:border-box}body{margin:0;background:#10151b;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}.top{display:flex;gap:10px;padding:18px}.search{flex:1;background:#292e36;border:0;border-radius:30px;padding:16px 20px;color:#fff;font-size:18px;outline:0}.avatar{width:52px;height:52px;border-radius:50%;background:#293852;display:grid;place-items:center;font-weight:bold}.recommend-wrap{padding:0 18px 20px}.recommend-title{font-size:20px;font-weight:bold;margin:0 0 12px}.recommend{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none}.recommend::-webkit-scrollbar{display:none}.recommend .recommend-image{min-width:78%;max-width:78%;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#1c222a;display:block}.recommend .recommend-image img{width:100%;aspect-ratio:1.8;object-fit:cover;display:block}.chips{display:flex;gap:10px;overflow:auto;padding:0 18px 20px}.chip{white-space:nowrap;padding:12px 17px;border-radius:24px;border:1px solid #425064;background:#202832;color:#a9caff;font-weight:bold}.section{padding:0 18px}.title{font-size:20px;font-weight:bold;margin:5px 0 13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.card{background:#1c222a;border-radius:14px;overflow:hidden}.card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.body{padding:11px}.name{font-weight:bold;font-size:15px}.meta{font-size:12px;color:#9da9b8;margin-top:5px}.download{display:block;text-align:center;text-decoration:none;color:#07111d;background:#9fc5ff;padding:9px;border-radius:9px;margin-top:10px;font-weight:bold;font-size:12px}.delete{display:block;width:100%;border:0;color:#fff;background:#b83b46;padding:9px;border-radius:9px;margin-top:8px;font-weight:bold;font-size:12px;cursor:pointer}.empty{padding:25px;color:#919dac}.download-card{background:#1c222a;border-radius:14px;overflow:hidden}.download-card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.download-body{padding:11px}.download-name{font-weight:bold;font-size:15px}.download-date{font-size:12px;color:#9da9b8;margin-top:5px}.download-actions{display:flex;gap:8px;margin-top:10px}.download-actions a,.download-actions button{flex:1;text-align:center;text-decoration:none;border:0;padding:9px;border-radius:9px;font-weight:bold;font-size:12px;cursor:pointer}.redownload{color:#07111d;background:#9fc5ff}.remove-download{color:#fff;background:#b83b46}.bottom{position:fixed;bottom:0;left:0;right:0;height:78px;background:#20252d;border-top:1px solid #303844;display:flex;justify-content:space-around}.nav{border:0;background:transparent;color:#c5ccd7;min-width:70px}.nav b{display:block;font-size:27px}.nav.active{color:#a9caff}.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px}.box{width:100%;max-width:430px;background:#1b222b;border-radius:20px;padding:20px}.box input,.box select{width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff}.file-label{display:block;width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff;text-align:left;cursor:pointer}.image-preview{width:100%;min-height:48px;margin:6px 0;padding:10px;border-radius:10px;border:1px dashed #3c4858;color:#919dac;font-size:13px;text-align:center}.image-preview img{max-width:100%;max-height:180px;border-radius:8px;display:block;margin:auto}.actions{display:flex;gap:10px;margin-top:10px}.actions button{flex:1;padding:12px;border:0;border-radius:10px;font-weight:bold}.cancel{background:#343d49;color:#fff}.save{background:#9fc5ff}@media(max-width:420px){.grid{gap:10px}}.settings-box{max-height:85vh;overflow:auto}.setting-label{display:block;font-size:13px;color:#9da9b8;margin:12px 0 4px}.setting-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:#293544;color:#fff;font-weight:bold;text-align:left;cursor:pointer}.setting-action.danger{background:#5b2930}.about{margin-top:15px;padding:12px;border-radius:10px;background:#141a21;color:#9da9b8;font-size:12px;text-align:center}body.light{background:#f2f4f7;color:#18202a}body.light .search,body.light .box input,body.light .box select,body.light .file-label{background:#fff;color:#18202a;border-color:#c5ccd7}body.light .chip{background:#fff;color:#315d9d;border-color:#aab6c7}body.light .card,body.light .download-card{background:#fff}body.light .meta,body.light .download-date{color:#667383}body.light .bottom{background:#fff;border-color:#d5dbe3}body.light .nav{color:#4e5a68}body.light .nav.active{color:#315d9d}body.light .box{background:#fff;color:#18202a}body.light .about{background:#eef1f5}body.light .recommend .recommend-image{background:#e4e8ee}body.light .title{color:#18202a}body.light .recommend-title{color:#18202a}@media(max-width:420px){.grid{gap:10px}}</style>
+*{box-sizing:border-box}body{margin:0;background:#10151b;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}.top{display:flex;gap:10px;padding:18px}.search{flex:1;background:#292e36;border:0;border-radius:30px;padding:16px 20px;color:#fff;font-size:18px;outline:0}.avatar{width:52px;height:52px;border-radius:50%;background:#293852;display:grid;place-items:center;font-weight:bold}.recommend-wrap{padding:0 18px 20px}.recommend-title{font-size:20px;font-weight:bold;margin:0 0 12px}.recommend{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none}.recommend::-webkit-scrollbar{display:none}.recommend .recommend-image{min-width:78%;max-width:78%;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#1c222a;display:block}.recommend .recommend-image img{width:100%;aspect-ratio:1.8;object-fit:cover;display:block}.chips{display:flex;gap:10px;overflow:auto;padding:0 18px 20px}.chip{white-space:nowrap;padding:12px 17px;border-radius:24px;border:1px solid #425064;background:#202832;color:#a9caff;font-weight:bold}.section{padding:0 18px}.title{font-size:20px;font-weight:bold;margin:5px 0 13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.card{background:#1c222a;border-radius:14px;overflow:hidden}.card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.body{padding:11px}.name{font-weight:bold;font-size:15px}.meta{font-size:12px;color:#9da9b8;margin-top:5px}.download{display:block;text-align:center;text-decoration:none;color:#07111d;background:#9fc5ff;padding:9px;border-radius:9px;margin-top:10px;font-weight:bold;font-size:12px}.delete{display:block;width:100%;border:0;color:#fff;background:#b83b46;padding:9px;border-radius:9px;margin-top:8px;font-weight:bold;font-size:12px;cursor:pointer}.empty{padding:25px;color:#919dac}.download-card{background:#1c222a;border-radius:14px;overflow:hidden}.download-card img{width:100%;aspect-ratio:1.4;object-fit:cover;background:#303844}.download-body{padding:11px}.download-name{font-weight:bold;font-size:15px}.download-date{font-size:12px;color:#9da9b8;margin-top:5px}.download-actions{display:flex;gap:8px;margin-top:10px}.download-actions a,.download-actions button{flex:1;text-align:center;text-decoration:none;border:0;padding:9px;border-radius:9px;font-weight:bold;font-size:12px;cursor:pointer}.redownload{color:#07111d;background:#9fc5ff}.remove-download{color:#fff;background:#b83b46}.bottom{position:fixed;bottom:0;left:0;right:0;height:78px;background:#20252d;border-top:1px solid #303844;display:flex;justify-content:space-around}.nav{border:0;background:transparent;color:#c5ccd7;min-width:70px}.nav b{display:block;font-size:27px}.nav.active{color:#a9caff}.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px}.box{width:100%;max-width:430px;background:#1b222b;border-radius:20px;padding:20px}.box input,.box select{width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff}.file-label{display:block;width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #3c4858;background:#10151b;color:#fff;text-align:left;cursor:pointer}.image-preview{width:100%;min-height:48px;margin:6px 0;padding:10px;border-radius:10px;border:1px dashed #3c4858;color:#919dac;font-size:13px;text-align:center}.image-preview img{max-width:100%;max-height:180px;border-radius:8px;display:block;margin:auto}.actions{display:flex;gap:10px;margin-top:10px}.actions button{flex:1;padding:12px;border:0;border-radius:10px;font-weight:bold}.cancel{background:#343d49;color:#fff}.save{background:#9fc5ff}@media(max-width:420px){.grid{gap:10px}}.settings-box{max-height:85vh;overflow:auto}.setting-label{display:block;font-size:13px;color:#9da9b8;margin:12px 0 4px}.setting-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:#293544;color:#fff;font-weight:bold;text-align:left;cursor:pointer}.setting-action.danger{background:#5b2930}.about{margin-top:15px;padding:12px;border-radius:10px;background:#141a21;color:#9da9b8;font-size:12px;text-align:center}body.light{background:#f2f4f7;color:#18202a}body.light .search,body.light .box input,body.light .box select,body.light .file-label{background:#fff;color:#18202a;border-color:#c5ccd7}body.light .chip{background:#fff;color:#315d9d;border-color:#aab6c7}body.light .card,body.light .download-card{background:#fff}body.light .meta,body.light .download-date{color:#667383}body.light .bottom{background:#fff;border-color:#d5dbe3}body.light .nav{color:#4e5a68}body.light .nav.active{color:#315d9d}body.light .box{background:#fff;color:#18202a}body.light .about{background:#eef1f5}body.light .recommend .recommend-image{background:#e4e8ee}body.light .title{color:#18202a}body.light .recommend-title{color:#18202a}@media(max-width:420px){.grid{gap:10px}}
+/* DFCraft profile crop editor */
+.profile-crop{display:none;margin-top:12px;padding:14px;border-radius:18px;background:#101721;border:1px solid #344154}
+.profile-crop.show{display:block}
+.crop-title{font-weight:900;font-size:16px;margin-bottom:10px}
+.crop-stage{width:240px;height:240px;margin:0 auto;border-radius:18px;overflow:hidden;background:#080d13;position:relative;touch-action:none}
+#profileCropCanvas{width:240px;height:240px;display:block}
+.crop-help{font-size:12px;color:#aeb8c7;text-align:center;margin:8px 0}
+.crop-range{width:100%;margin:5px 0 10px}
+.crop-actions{display:flex;gap:8px}
+.crop-actions button{flex:1;border:0;border-radius:11px;padding:11px;font-weight:900}
+#applyCropBtn{background:#9fc5ff;color:#111}
+#cancelCropBtn{background:#2a3749;color:#fff}
+.profile-photo-actions{display:flex;gap:8px;margin-top:9px}
+.profile-photo-actions button{flex:1;border:0;border-radius:11px;padding:10px;background:#2a3749;color:#fff;font-weight:800}
+
+</style>
 <style>
 .settings-extra{display:grid;gap:12px;margin-top:14px}
 .settings-action{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:16px;font-weight:700;background:#2d3a50;color:#fff}
@@ -20,7 +36,7 @@
     <p data-i18n="aboutP3">Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.</p>
     <p data-i18n="aboutP4">DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.</p>
     <p data-i18n="aboutP5">Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.</p>
-    <p><b data-i18n="aboutVersion">Versi 4.9.9</b></p>
+    <p><b data-i18n="aboutVersion">Versi 4.10</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
@@ -603,7 +619,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Lagi",delete:"🗑️ Hapus Add-On",deleteHistory:"🗑️ Hapus",
   empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",
-  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.9.9",confirmClear:"Hapus semua riwayat Unduhan?",
+  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10",confirmClear:"Hapus semua riwayat Unduhan?",
   confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Worlds",
   searchTextures:"🎨 Texture Packs",searchSkin:"🧍 Skin",searchApk:"📱 Minecraft APK",
@@ -615,14 +631,14 @@ const translations={
   support:"💖 Support DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Saluran WhatsApp DFCraft",
   accountTitle:"👤 Masuk / Daftar",login:"Masuk",register:"Daftar",email:"📧 Email",emailGmail:"📧 Gmail / Email",
   phone:"📱 Nomor HP",username:"👤 Nama pengguna",password:"🔑 Kata sandi",confirmPassword:"🔐 Konfirmasi kata sandi",
-  registerNote:"Silakan daftar kalau kamu belum punya akun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Ganti foto profil",profileSaved:"Profil berhasil diperbarui.",profileSaving:"Menyimpan...",profileImageUploading:"Mengunggah foto profil...",profileImageError:"Foto profil gagal diunggah.",account:"👤 Akun DFCraft",member:"Member",logout:"🚪 Keluar",
+  registerNote:"Silakan daftar kalau kamu belum punya akun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Ganti foto profil",profileSaved:"Profil berhasil diperbarui.",profileSaving:"Menyimpan...",profileImageUploading:"Mengunggah foto profil...",profileImageError:"Foto profil gagal diunggah.",chooseProfilePhoto:"🖼️ Foto Profil",cropTitle:"🖼️ Atur Foto Profil",cropHelp:"Geser gambar untuk mengatur posisi",cropZoom:"Gunakan slider untuk memperbesar / memperkecil",applyCrop:"Terapkan",cancelCrop:"Batal",account:"👤 Akun DFCraft",member:"Member",logout:"🚪 Keluar",
   showPassword:"Tampilkan kata sandi",showConfirmPassword:"Tampilkan konfirmasi kata sandi",
   aboutP1:"DFCraft adalah website komunitas untuk mencari, menemukan, dan berbagi berbagai konten Minecraft dalam satu tempat. Di sini tersedia kategori Add-Ons, Worlds, Texture Packs, Skin, dan Minecraft APK.",
   aboutP2:"DFCraft dibuat agar pencarian konten Minecraft menjadi lebih mudah. Kamu bisa menggunakan fitur pencarian, memilih kategori, melihat gambar konten, serta membuka link download yang tersedia.",
   aboutP3:"Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.",
   aboutP4:"DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.",
   aboutP5:"Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.",
-  aboutVersion:"Versi 4.9.9",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10",aboutBrand:"DFCraft Web"
  },
  en:{
   all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:"⚙️ Settings",
@@ -631,7 +647,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skins",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Again",delete:"🗑️ Delete Add-On",deleteHistory:"🗑️ Delete",
   empty:"No items yet.",emptyDownloads:"No downloaded Add-Ons yet. Press Download on an Add-On to add it here.",
-  downloaded:"Downloaded",about:"DFCraft Web • Version 4.9.9",confirmClear:"Clear all download history?",
+  downloaded:"Downloaded",about:"DFCraft Web • Version 4.10",confirmClear:"Clear all download history?",
   confirmReset:"Reset all DFCraft data? Add-Ons and download history will be deleted.",
   searchCategory:"🔎 Choose Category",searchAll:"📦 All",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Worlds",
   searchTextures:"🎨 Texture Packs",searchSkin:"🧍 Skin",searchApk:"📱 Minecraft APK",
@@ -643,14 +659,14 @@ const translations={
   support:"💖 Support DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 DFCraft WhatsApp Channel",
   accountTitle:"👤 Login / Register",login:"Login",register:"Register",email:"📧 Email",emailGmail:"📧 Gmail / Email",
   phone:"📱 Phone Number",username:"👤 Username",password:"🔑 Password",confirmPassword:"🔐 Confirm Password",
-  registerNote:"Please register if you don't have an account yet.",profileNameLabel:"👤 Profile name",profileNamePlaceholder:"Profile name",saveProfile:"💾 Save Profile",changeProfilePhoto:"Change profile photo",profileSaved:"Profile updated successfully.",profileSaving:"Saving...",profileImageUploading:"Uploading profile photo...",profileImageError:"Profile photo upload failed.",account:"👤 DFCraft Account",member:"Member",logout:"🚪 Log Out",
+  registerNote:"Please register if you don't have an account yet.",profileNameLabel:"👤 Profile name",profileNamePlaceholder:"Profile name",saveProfile:"💾 Save Profile",changeProfilePhoto:"Change profile photo",profileSaved:"Profile updated successfully.",profileSaving:"Saving...",profileImageUploading:"Uploading profile photo...",profileImageError:"Profile photo upload failed.",chooseProfilePhoto:"🖼️ Profile Photo",cropTitle:"🖼️ Adjust Profile Photo",cropHelp:"Drag the image to adjust its position",cropZoom:"Use the slider to zoom in / out",applyCrop:"Apply",cancelCrop:"Cancel",account:"👤 DFCraft Account",member:"Member",logout:"🚪 Log Out",
   showPassword:"Show password",showConfirmPassword:"Show password confirmation",
   aboutP1:"DFCraft is a community website for finding, discovering, and sharing Minecraft content in one place. Available categories include Add-Ons, Worlds, Texture Packs, Skin, and Minecraft APK.",
   aboutP2:"DFCraft makes it easier to find Minecraft content. You can search, choose categories, view content images, and open available download links.",
   aboutP3:"Users with an account can also add content to DFCraft with an image, name, category, and download link. The owner's account name is displayed on added content.",
   aboutP4:"DFCraft continues to grow with category search, download history, appearance settings, language options, and links to DFCraft social media and community channels.",
   aboutP5:"The goal of DFCraft is to provide a simple and comfortable place for Minecraft players to find the content they are looking for.",
-  aboutVersion:"Version 4.9.9",aboutBrand:"DFCraft Web"
+  aboutVersion:"Version 4.10",aboutBrand:"DFCraft Web"
  },
  ms:{
   all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:"⚙️ Tetapan",
@@ -659,7 +675,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",
   download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"🗑️ Padam Add-On",deleteHistory:"🗑️ Padam",
   empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",
-  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.9.9",confirmClear:"Padam semua sejarah muat turun?",
+  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10",confirmClear:"Padam semua sejarah muat turun?",
   confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Dunia",
   searchTextures:"🎨 Pek Tekstur",searchSkin:"🧍 Skin",searchApk:"📱 APK Minecraft",
@@ -671,14 +687,14 @@ const translations={
   support:"💖 Sokong DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Saluran WhatsApp DFCraft",
   accountTitle:"👤 Log Masuk / Daftar",login:"Log Masuk",register:"Daftar",email:"📧 E-mel",emailGmail:"📧 Gmail / E-mel",
   phone:"📱 Nombor Telefon",username:"👤 Nama pengguna",password:"🔑 Kata laluan",confirmPassword:"🔐 Sahkan kata laluan",
-  registerNote:"Sila daftar jika kamu belum mempunyai akaun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Tukar foto profil",profileSaved:"Profil berjaya dikemas kini.",profileSaving:"Menyimpan...",profileImageUploading:"Memuat naik foto profil...",profileImageError:"Foto profil gagal dimuat naik.",account:"👤 Akaun DFCraft",member:"Ahli",logout:"🚪 Log Keluar",
+  registerNote:"Sila daftar jika kamu belum mempunyai akaun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Tukar foto profil",profileSaved:"Profil berjaya dikemas kini.",profileSaving:"Menyimpan...",profileImageUploading:"Memuat naik foto profil...",profileImageError:"Foto profil gagal dimuat naik.",chooseProfilePhoto:"🖼️ Foto Profil",cropTitle:"🖼️ Laraskan Foto Profil",cropHelp:"Seret gambar untuk melaraskan kedudukan",cropZoom:"Gunakan peluncur untuk zum",applyCrop:"Guna",cancelCrop:"Batal",account:"👤 Akaun DFCraft",member:"Ahli",logout:"🚪 Log Keluar",
   showPassword:"Tunjukkan kata laluan",showConfirmPassword:"Tunjukkan pengesahan kata laluan",
   aboutP1:"DFCraft ialah laman komuniti untuk mencari, menemui dan berkongsi kandungan Minecraft dalam satu tempat. Kategori yang tersedia termasuk Add-Ons, Dunia, Pek Tekstur, Skin dan APK Minecraft.",
   aboutP2:"DFCraft memudahkan pencarian kandungan Minecraft. Kamu boleh mencari, memilih kategori, melihat imej kandungan dan membuka pautan muat turun yang tersedia.",
   aboutP3:"Pengguna yang mempunyai akaun juga boleh menambah kandungan ke DFCraft dengan imej, nama, kategori dan pautan muat turun. Nama akaun pemilik akan dipaparkan pada kandungan.",
   aboutP4:"DFCraft terus dibangunkan dengan carian kategori, sejarah muat turun, tetapan paparan, pilihan bahasa dan pautan ke media sosial serta saluran komuniti DFCraft.",
   aboutP5:"Matlamat DFCraft adalah menyediakan tempat yang mudah dan selesa untuk pemain Minecraft mencari kandungan yang mereka perlukan.",
-  aboutVersion:"Versi 4.9.9",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10",aboutBrand:"DFCraft Web"
  },
  es:{
   all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:"⚙️ Ajustes",
@@ -699,7 +715,7 @@ const translations={
   support:"💖 Apoyar DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Canal de WhatsApp de DFCraft",
   accountTitle:"👤 Iniciar sesión / Registrarse",login:"Iniciar sesión",register:"Registrarse",email:"📧 Correo electrónico",emailGmail:"📧 Gmail / Correo",
   phone:"📱 Número de teléfono",username:"👤 Nombre de usuario",password:"🔑 Contraseña",confirmPassword:"🔐 Confirmar contraseña",
-  registerNote:"Regístrate si todavía no tienes una cuenta.",profileNameLabel:"👤 Nombre del perfil",profileNamePlaceholder:"Nombre del perfil",saveProfile:"💾 Guardar perfil",changeProfilePhoto:"Cambiar foto de perfil",profileSaved:"Perfil actualizado correctamente.",profileSaving:"Guardando...",profileImageUploading:"Subiendo foto de perfil...",profileImageError:"No se pudo subir la foto de perfil.",account:"👤 Cuenta DFCraft",member:"Miembro",logout:"🚪 Cerrar sesión",
+  registerNote:"Regístrate si todavía no tienes una cuenta.",profileNameLabel:"👤 Nombre del perfil",profileNamePlaceholder:"Nombre del perfil",saveProfile:"💾 Guardar perfil",changeProfilePhoto:"Cambiar foto de perfil",profileSaved:"Perfil actualizado correctamente.",profileSaving:"Guardando...",profileImageUploading:"Subiendo foto de perfil...",profileImageError:"No se pudo subir la foto de perfil.",chooseProfilePhoto:"🖼️ Foto de perfil",cropTitle:"🖼️ Ajustar foto de perfil",cropHelp:"Arrastra la imagen para ajustar su posición",cropZoom:"Usa el control para acercar / alejar",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"👤 Cuenta DFCraft",member:"Miembro",logout:"🚪 Cerrar sesión",
   showPassword:"Mostrar contraseña",showConfirmPassword:"Mostrar confirmación de contraseña",
   aboutP1:"DFCraft es un sitio web comunitario para buscar, descubrir y compartir contenido de Minecraft en un solo lugar. Hay categorías de Add-Ons, Mundos, Paquetes de texturas, Skins y APK de Minecraft.",
   aboutP2:"DFCraft facilita encontrar contenido de Minecraft. Puedes buscar, elegir categorías, ver imágenes y abrir los enlaces de descarga disponibles.",
@@ -715,7 +731,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Mundos",textures:"Pacotes de textura",skins:"Skins",minecraftApk:"APK do Minecraft",
   download:"Baixar",downloadAgain:"Baixar novamente",delete:"🗑️ Excluir Add-On",deleteHistory:"🗑️ Excluir",
   empty:"Nenhum item ainda.",emptyDownloads:"Nenhum Add-On baixado. Pressione Baixar em um Add-On para adicioná-lo aqui.",
-  downloaded:"Baixado",about:"DFCraft Web • Versão 4.9.9",confirmClear:"Limpar todo o histórico de downloads?",
+  downloaded:"Baixado",about:"DFCraft Web • Versão 4.10",confirmClear:"Limpar todo o histórico de downloads?",
   confirmReset:"Redefinir todos os dados do DFCraft? Add-Ons e histórico de downloads serão excluídos.",
   searchCategory:"🔎 Escolher categoria",searchAll:"📦 Todos",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Mundos",
   searchTextures:"🎨 Pacotes de textura",searchSkin:"🧍 Skins",searchApk:"📱 APK do Minecraft",
@@ -727,14 +743,14 @@ const translations={
   support:"💖 Apoiar o DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Canal do WhatsApp DFCraft",
   accountTitle:"👤 Entrar / Cadastrar",login:"Entrar",register:"Cadastrar",email:"📧 E-mail",emailGmail:"📧 Gmail / E-mail",
   phone:"📱 Número de telefone",username:"👤 Nome de usuário",password:"🔑 Senha",confirmPassword:"🔐 Confirmar senha",
-  registerNote:"Cadastre-se se você ainda não tiver uma conta.",profileNameLabel:"👤 Nome do perfil",profileNamePlaceholder:"Nome do perfil",saveProfile:"💾 Salvar perfil",changeProfilePhoto:"Alterar foto do perfil",profileSaved:"Perfil atualizado com sucesso.",profileSaving:"Salvando...",profileImageUploading:"Enviando foto do perfil...",profileImageError:"Falha ao enviar a foto do perfil.",account:"👤 Conta DFCraft",member:"Membro",logout:"🚪 Sair",
+  registerNote:"Cadastre-se se você ainda não tiver uma conta.",profileNameLabel:"👤 Nome do perfil",profileNamePlaceholder:"Nome do perfil",saveProfile:"💾 Salvar perfil",changeProfilePhoto:"Alterar foto do perfil",profileSaved:"Perfil atualizado com sucesso.",profileSaving:"Salvando...",profileImageUploading:"Enviando foto do perfil...",profileImageError:"Falha ao enviar a foto do perfil.",chooseProfilePhoto:"🖼️ Foto do perfil",cropTitle:"🖼️ Ajustar foto do perfil",cropHelp:"Arraste a imagem para ajustar a posição",cropZoom:"Use o controle para ampliar / reduzir",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"👤 Conta DFCraft",member:"Membro",logout:"🚪 Sair",
   showPassword:"Mostrar senha",showConfirmPassword:"Mostrar confirmação da senha",
   aboutP1:"DFCraft é um site comunitário para encontrar, descobrir e compartilhar conteúdo de Minecraft em um só lugar. Há categorias de Add-Ons, Mundos, Pacotes de textura, Skins e APK do Minecraft.",
   aboutP2:"O DFCraft facilita encontrar conteúdo de Minecraft. Você pode pesquisar, escolher categorias, ver imagens e abrir os links de download disponíveis.",
   aboutP3:"Usuários com conta também podem adicionar conteúdo ao DFCraft com imagem, nome, categoria e link de download. O nome da conta do proprietário será exibido no conteúdo.",
   aboutP4:"O DFCraft continua sendo desenvolvido com busca por categorias, histórico de downloads, configurações de aparência, opções de idioma e links para as redes sociais e canais da comunidade DFCraft.",
   aboutP5:"O objetivo do DFCraft é oferecer um lugar simples e confortável para jogadores de Minecraft encontrarem o conteúdo que procuram.",
-  aboutVersion:"Versão 4.9.9",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versão 4.10",aboutBrand:"DFCraft Web"
  },
  ja:{
   all:"すべて",home:"ホーム",downloads:"ダウンロード",add:"追加",settings:"設定",settingsTitle:"⚙️ 設定",
@@ -755,7 +771,7 @@ const translations={
   support:"💖 DFCraftをサポート",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 DFCraft WhatsAppチャンネル",
   accountTitle:"👤 ログイン / 登録",login:"ログイン",register:"登録",email:"📧 メール",emailGmail:"📧 Gmail / メール",
   phone:"📱 電話番号",username:"👤 ユーザー名",password:"🔑 パスワード",confirmPassword:"🔐 パスワードを確認",
-  registerNote:"アカウントをお持ちでない場合は登録してください。",profileNameLabel:"👤 プロフィール名",profileNamePlaceholder:"プロフィール名",saveProfile:"💾 プロフィールを保存",changeProfilePhoto:"プロフィール写真を変更",profileSaved:"プロフィールを更新しました。",profileSaving:"保存中...",profileImageUploading:"プロフィール写真をアップロード中...",profileImageError:"プロフィール写真のアップロードに失敗しました。",account:"👤 DFCraftアカウント",member:"メンバー",logout:"🚪 ログアウト",
+  registerNote:"アカウントをお持ちでない場合は登録してください。",profileNameLabel:"👤 プロフィール名",profileNamePlaceholder:"プロフィール名",saveProfile:"💾 プロフィールを保存",changeProfilePhoto:"プロフィール写真を変更",profileSaved:"プロフィールを更新しました。",profileSaving:"保存中...",profileImageUploading:"プロフィール写真をアップロード中...",profileImageError:"プロフィール写真のアップロードに失敗しました。",chooseProfilePhoto:"🖼️ プロフィール写真",cropTitle:"🖼️ プロフィール写真を調整",cropHelp:"画像をドラッグして位置を調整",cropZoom:"スライダーで拡大・縮小",applyCrop:"適用",cancelCrop:"キャンセル",account:"👤 DFCraftアカウント",member:"メンバー",logout:"🚪 ログアウト",
   showPassword:"パスワードを表示",showConfirmPassword:"確認用パスワードを表示",
   aboutP1:"DFCraftは、Minecraftのコンテンツを一か所で探したり、見つけたり、共有したりできるコミュニティサイトです。Add-Ons、ワールド、テクスチャパック、スキン、Minecraft APKのカテゴリがあります。",
   aboutP2:"DFCraftではMinecraftコンテンツを簡単に探せます。検索、カテゴリ選択、画像の確認、利用可能なダウンロードリンクを開くことができます。",
@@ -1116,7 +1132,6 @@ loadRemoteAddons();
     </div>
 
     <div id="authLoggedIn" class="auth-profile">
-      <div class="auth-title" data-i18n="account">👤 Akun DFCraft</div>
       <div class="auth-card">
         <div class="auth-avatar" id="profileInitial" role="button" tabindex="0" title="Ganti foto profil" data-i18n-title="changeProfilePhoto">DF</div>
         <div>
@@ -1125,6 +1140,22 @@ loadRemoteAddons();
         </div>
       </div>
       <input id="profileImageInput" type="file" accept="image/*" style="display:none">
+      <div class="profile-photo-actions">
+        <button type="button" id="chooseProfilePhotoBtn" data-i18n="chooseProfilePhoto">🖼️ Foto Profil</button>
+      </div>
+      <div class="profile-crop" id="profileCropEditor">
+        <div class="crop-title" data-i18n="cropTitle">🖼️ Atur Foto Profil</div>
+        <div class="crop-stage" id="profileCropStage">
+          <canvas id="profileCropCanvas" width="480" height="480"></canvas>
+        </div>
+        <div class="crop-help" data-i18n="cropHelp">Geser gambar untuk mengatur posisi</div>
+        <input class="crop-range" id="profileCropZoom" type="range" min="1" max="3" step="0.01" value="1">
+        <div class="crop-help" data-i18n="cropZoom">Gunakan slider untuk memperbesar / memperkecil</div>
+        <div class="crop-actions">
+          <button type="button" id="cancelCropBtn" data-i18n="cancelCrop">Batal</button>
+          <button type="button" id="applyCropBtn" data-i18n="applyCrop">Terapkan</button>
+        </div>
+      </div>
       <div class="profile-edit">
         <div class="profile-edit-label" data-i18n="profileNameLabel">👤 Nama profil</div>
         <input id="profileNameInput" type="text" maxlength="40" autocomplete="nickname" data-i18n-placeholder="profileNamePlaceholder" placeholder="Nama profil">
@@ -1257,15 +1288,58 @@ loadRemoteAddons();
       btn.setAttribute('aria-label',showing?'Tampilkan kata sandi':'Sembunyikan kata sandi');
     });
   });
+  let cropImage = null;
+  let cropScale = 1;
+  let cropX = 0;
+  let cropY = 0;
+  let cropStartX = 0;
+  let cropStartY = 0;
+  let cropDragging = false;
+  let pendingProfileBlob = null;
+
+  function drawCrop(){
+    const canvas=$('profileCropCanvas');
+    if(!canvas || !cropImage)return;
+    const ctx=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#080d13';
+    ctx.fillRect(0,0,W,H);
+
+    const base=Math.max(W/cropImage.width,H/cropImage.height);
+    const scale=base*cropScale;
+    const dw=cropImage.width*scale;
+    const dh=cropImage.height*scale;
+    const dx=(W-dw)/2+cropX;
+    const dy=(H-dh)/2+cropY;
+    ctx.drawImage(cropImage,dx,dy,dw,dh);
+  }
+
+  function openCropEditor(file){
+    const reader=new FileReader();
+    reader.onload=function(){
+      const img=new Image();
+      img.onload=function(){
+        cropImage=img;
+        cropScale=1;
+        cropX=0;
+        cropY=0;
+        pendingProfileBlob=null;
+        $('profileCropZoom').value='1';
+        $('profileCropEditor').classList.add('show');
+        drawCrop();
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   function openProfileGallery(){
     const input=$('profileImageInput');
     if(input) input.click();
   }
 
-  $('profileInitial').addEventListener('click',openProfileGallery);
-  $('profileInitial').addEventListener('keydown',function(e){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfileGallery();}
-  });
+  $('chooseProfilePhotoBtn').addEventListener('click',openProfileGallery);
 
   $('profileImageInput').addEventListener('change',function(){
     const file=this.files&&this.files[0];
@@ -1274,11 +1348,61 @@ loadRemoteAddons();
       setMessage('profileMsg',t('profileImageError'));
       return;
     }
-    const reader=new FileReader();
-    reader.onload=function(){
-      setProfileAvatar(reader.result, $('profileNameInput').value.trim()||'DF');
-    };
-    reader.readAsDataURL(file);
+    if(file.size>10*1024*1024){
+      setMessage('profileMsg',t('profileImageError'));
+      return;
+    }
+    openCropEditor(file);
+    this.value='';
+  });
+
+  $('profileCropZoom').addEventListener('input',function(){
+    cropScale=parseFloat(this.value)||1;
+    drawCrop();
+  });
+
+  const cropStage=$('profileCropStage');
+  cropStage.addEventListener('pointerdown',function(e){
+    if(!cropImage)return;
+    cropDragging=true;
+    cropStartX=e.clientX-cropX;
+    cropStartY=e.clientY-cropY;
+    cropStage.setPointerCapture?.(e.pointerId);
+  });
+  cropStage.addEventListener('pointermove',function(e){
+    if(!cropDragging)return;
+    cropX=e.clientX-cropStartX;
+    cropY=e.clientY-cropStartY;
+    drawCrop();
+  });
+  cropStage.addEventListener('pointerup',function(){cropDragging=false;});
+  cropStage.addEventListener('pointercancel',function(){cropDragging=false;});
+
+  $('cancelCropBtn').addEventListener('click',function(){
+    cropImage=null;
+    pendingProfileBlob=null;
+    $('profileCropEditor').classList.remove('show');
+  });
+
+  $('applyCropBtn').addEventListener('click',function(){
+    if(!cropImage)return;
+    const canvas=$('profileCropCanvas');
+    canvas.toBlob(function(blob){
+      if(!blob){
+        setMessage('profileMsg',t('profileImageError'));
+        return;
+      }
+      pendingProfileBlob=blob;
+      const previewUrl=URL.createObjectURL(blob);
+      setProfileAvatar(previewUrl,$('profileNameInput').value.trim()||'DF');
+      $('profileCropEditor').classList.remove('show');
+      setMessage('profileMsg',t('profileSaved'));
+    },'image/jpeg',0.9);
+  });
+
+  $('profileInitial').addEventListener('click',openProfileGallery);
+  $('profileInitial').addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfileGallery();}
   });
 
   $('saveProfileBtn').addEventListener('click',async function(){
@@ -1286,15 +1410,14 @@ loadRemoteAddons();
       setMessage('profileMsg',t('login'));
       return;
     }
+
     const btn=$('saveProfileBtn');
-    const msg=$('profileMsg');
     const newName=$('profileNameInput').value.trim();
-    const file=$('profileImageInput').files&&$('profileImageInput').files[0];
     if(!newName){
       setMessage('profileMsg',t('profileNamePlaceholder'));
       return;
     }
-    if(newName.length>40){
+    if(newName.length>128){
       setMessage('profileMsg',t('profileNamePlaceholder'));
       return;
     }
@@ -1302,20 +1425,35 @@ loadRemoteAddons();
     const oldText=btn.textContent;
     btn.disabled=true;
     btn.textContent=t('profileSaving');
+
     try{
-      // Nama akun utama Appwrite + username di prefs tetap disinkronkan.
-      await window.dfAppwriteAccount.updateName({name:newName});
       const currentPrefs=currentAppwriteUser.prefs||{};
       let avatarFileId=currentPrefs.avatarFileId||'';
 
-      if(file){
-        if(file.size>5*1024*1024) throw new Error(t('profileImageError'));
+      // Appwrite Account name memakai REST PATCH agar format request pasti benar.
+      const nameRes=await fetch(APPWRITE_ENDPOINT+'/account/name',{
+        method:'PATCH',
+        credentials:'include',
+        headers:{
+          'Content-Type':'application/json',
+          'Accept':'application/json',
+          'X-Appwrite-Project':APPWRITE_PROJECT_ID
+        },
+        body:JSON.stringify({name:newName})
+      });
+      let nameData=null;
+      try{nameData=await nameRes.json();}catch(e){}
+      if(!nameRes.ok){
+        throw new Error(nameData&&nameData.message?nameData.message:'Gagal menyimpan nama profil.');
+      }
+
+      if(pendingProfileBlob){
         btn.textContent=t('profileImageUploading');
 
         const form=new FormData();
         const fileId=Appwrite.ID.unique();
         form.append('fileId',fileId);
-        form.append('file',file,file.name);
+        form.append('file',pendingProfileBlob,'profile.jpg');
 
         const uploadRes=await fetch(
           APPWRITE_ENDPOINT+'/storage/buckets/'+encodeURIComponent(APPWRITE_BUCKET_ID)+'/files',
@@ -1336,6 +1474,8 @@ loadRemoteAddons();
 
       const nextPrefs=Object.assign({},currentPrefs,{username:newName,avatarFileId});
       await window.dfAppwriteAccount.updatePrefs({prefs:nextPrefs});
+
+      pendingProfileBlob=null;
       setMessage('profileMsg',t('profileSaved'));
       await refresh();
     }catch(e){
