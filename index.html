@@ -1893,7 +1893,8 @@ let target;
   try{
     target = await window.dfAppwriteAccount.createPushTarget({
       targetId: targetId,
-      identifier: token
+      identifier: token,
+      providerId: DF_PUSH_PROVIDER_ID
     });
   }catch(e){
     if(!(e && (e.code === 409 || e.status === 409))){
