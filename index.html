@@ -1874,6 +1874,29 @@ async function setupDfPushNotifications(){
   await navigator.serviceWorker.ready;
 
   const messaging = firebase.messaging();
+
+  // Saat DFCraft sedang terbuka, FCM menyerahkan pesan ke onMessage.
+  // Tampilkan juga sebagai notifikasi sistem HP melalui Service Worker,
+  // supaya notifikasinya muncul di luar halaman web.
+  messaging.onMessage(async function(payload){
+    try{
+      const n = payload.notification || {};
+      const data = payload.data || {};
+      const title = n.title || data.title || "🧩 Add-On baru di DFCraft";
+      const body = n.body || data.body || "Ada Add-On baru di DFCraft.";
+      const reg = await navigator.serviceWorker.ready;
+      await reg.showNotification(title, {
+        body: body,
+        icon: "./dfcraft-favicon.png",
+        badge: "./dfcraft-favicon.png",
+        tag: data.tag || "dfcraft-addon",
+        data: {url: "./"}
+      });
+    }catch(e){
+      console.warn("[DFCraft] Gagal menampilkan notifikasi foreground:", e);
+    }
+  });
+
   const token = await messaging.getToken({
     vapidKey: DF_FCM_VAPID_KEY,
     serviceWorkerRegistration: registration
