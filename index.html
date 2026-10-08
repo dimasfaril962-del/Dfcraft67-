@@ -1805,7 +1805,7 @@ loadRemoteAddons();
 <script>
 /* ===== DFCraft Web Push: Firebase FCM + Appwrite Messaging ===== */
 const DF_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBQJ7qB9pYPIAB0Dbes4P2kvikIfuZU64",
+  apiKey: "AIzaSyBQwJ7qB9pYPIAB0Dbes4P2kvikIfuZU64",
   authDomain: "dfcraft-430ed.firebaseapp.com",
   projectId: "dfcraft-430ed",
   storageBucket: "dfcraft-430ed.firebasestorage.app",
@@ -1849,12 +1849,29 @@ async function setupDfPushNotifications(){
     throw new Error("Izin notifikasi belum diberikan.");
   }
 
-  const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
-  await navigator.serviceWorker.ready;
+  // Pastikan Firebase Web SDK memakai konfigurasi DFCraft Web yang sama
+  // dengan konfigurasi di Firebase Console.
+  if(!window.firebase){
+    throw new Error("Firebase Web SDK belum termuat.");
+  }
 
   if(!window.firebase.apps.length){
     firebase.initializeApp(DF_FIREBASE_CONFIG);
   }
+
+  const app = firebase.app();
+  const actualOptions = app.options || {};
+  if(actualOptions.projectId !== DF_FIREBASE_CONFIG.projectId ||
+     actualOptions.appId !== DF_FIREBASE_CONFIG.appId ||
+     actualOptions.apiKey !== DF_FIREBASE_CONFIG.apiKey){
+    throw new Error("Konfigurasi Firebase yang sedang aktif tidak cocok dengan DFCraft Web.");
+  }
+
+  const registration = await navigator.serviceWorker.register(
+    "./firebase-messaging-sw.js",
+    {scope:"./"}
+  );
+  await navigator.serviceWorker.ready;
 
   const messaging = firebase.messaging();
   const token = await messaging.getToken({
@@ -1866,13 +1883,13 @@ async function setupDfPushNotifications(){
     throw new Error("Token Firebase tidak berhasil dibuat.");
   }
 
-  // Target ID dibuat pendek agar aman terhadap batas panjang ID Appwrite.
   const tokenHash = await dfPushHash(
     currentAppwriteUser.$id + "|" + token
   );
   const targetId = "df-" + tokenHash.slice(0, 28);
 
-  let target;
+  // Lanjutkan bagian Appwrite Messaging yang sudah ada pada file asli.
+let target;
   try{
     target = await window.dfAppwriteAccount.createPushTarget({
       targetId: targetId,
@@ -1940,6 +1957,8 @@ document.addEventListener("DOMContentLoaded", function(){
     dfSetPushState("✅ Notifikasi HP sudah diaktifkan.");
   }
 });
+</script>
+}
 </script>
 
 </body></html>

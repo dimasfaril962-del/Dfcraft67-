@@ -14,26 +14,29 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload) {
-  const n = payload.notification || {};
-  const data = payload.data || {};
-  const title = n.title || data.title || "🧩 Add-On baru di DFCraft";
-  const body = n.body || data.body || "Ada Add-On baru di DFCraft.";
-  self.registration.showNotification(title, {
-    body,
-    icon: "./dfcraft-favicon.png",
-    badge: "./dfcraft-favicon.png",
-    data: { url: "./" },
-    tag: data.tag || "dfcraft-addon"
-  });
+  const notification = payload.notification || {};
+  const title = notification.title || "DFCraft";
+  const options = {
+    body: notification.body || "Ada Add-On atau pembaruan baru di DFCraft.",
+    icon: notification.icon || "./dfcraft-favicon.png",
+    badge: notification.badge || "./dfcraft-favicon.png",
+    data: payload.data || {}
+  };
+  self.registration.showNotification(title, options);
 });
 
 self.addEventListener("notificationclick", function(event) {
   event.notification.close();
-  const url = (event.notification.data && event.notification.data.url) || "./";
-  event.waitUntil(clients.matchAll({type:"window", includeUncontrolled:true}).then(function(list){
-    for(const client of list){
-      if("focus" in client) return client.focus();
-    }
-    if(clients.openWindow) return clients.openWindow(url);
-  }));
+  const target = (event.notification.data && event.notification.data.url) || "./";
+  event.waitUntil(
+    clients.matchAll({type:"window", includeUncontrolled:true}).then(function(list) {
+      for (const client of list) {
+        if ("focus" in client) {
+          client.navigate(target);
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) return clients.openWindow(target);
+    })
+  );
 });
