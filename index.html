@@ -1,4 +1,4 @@
-<!-- DFCraft v4.10.9 — Add-On detail + likes/dislikes/download stats -->
+<!-- DFCraft — Add-On detail + TikTok-style Like/Unlike + download stats -->
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" sizes="256x256" href="./dfcraft-favicon.png">
 <link rel="shortcut icon" href="./dfcraft-favicon.png">
@@ -334,15 +334,14 @@ body.downloads-page #title{margin-top:0}
 .addon-detail-image{width:100%;max-height:58vh;object-fit:contain;display:block;background:#0b0f14}
 .addon-detail-body{padding:18px 16px 30px}
 .addon-detail-meta{color:#b8c2d0;font-size:14px;line-height:1.5;margin-bottom:14px}
-.addon-detail-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 18px}
+.addon-detail-stats{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 18px}
 .addon-stat{background:#1c222a;border:1px solid #303a49;border-radius:14px;padding:13px 8px;text-align:center}
 .addon-stat-value{font-size:20px;font-weight:900}
 .addon-stat-label{font-size:12px;color:#aab5c4;margin-top:4px}
 .addon-detail-actions{display:flex;gap:10px;flex-wrap:wrap}
 .addon-detail-actions button,.addon-detail-actions a{flex:1;min-width:90px;border:0;border-radius:13px;padding:13px 10px;text-align:center;text-decoration:none;font-weight:900;font-size:14px;cursor:pointer}
 .detail-download{background:#9fc5ff;color:#111}
-.detail-like{background:#24394c;color:#9fc5ff}
-.detail-dislike{background:#3b2930;color:#ffb5bd}
+.detail-like{background:#24394c;color:#9fc5ff}.detail-like-combined{font-size:15px!important;min-height:48px}
 .addon-detail-note{margin-top:12px;color:#7f8b9b;font-size:12px;text-align:center;line-height:1.4}
 @media(max-width:420px){.addon-detail-title{font-size:19px}.addon-detail-image{max-height:52vh}.addon-stat-value{font-size:18px}}
 </style>
@@ -383,16 +382,13 @@ body.downloads-page #title{margin-top:0}
   <div class="addon-detail-body">
     <div class="addon-detail-meta" id="addonDetailMeta"></div>
     <div class="addon-detail-stats">
-      <div class="addon-stat"><div class="addon-stat-value" id="detailLikes">0</div><div class="addon-stat-label">👍 Suka</div></div>
-      <div class="addon-stat"><div class="addon-stat-value" id="detailDislikes">0</div><div class="addon-stat-label">👎 Tidak suka</div></div>
       <div class="addon-stat"><div class="addon-stat-value" id="detailDownloads">0</div><div class="addon-stat-label">⬇️ Download</div></div>
     </div>
     <div class="addon-detail-actions">
-      <button class="detail-like" id="detailLikeBtn">👍 Suka</button>
-      <button class="detail-dislike" id="detailDislikeBtn">👎 Tidak suka</button>
+      <button class="detail-like detail-like-combined" id="detailLikeBtn">❤️ Suka • 0</button>
       <a class="detail-download" id="detailDownloadBtn" href="#" target="_blank" rel="noopener">⬇️ Download</a>
     </div>
-    <div class="addon-detail-note">Suka dan tidak suka disimpan di Appwrite berdasarkan akun; statistik Download tetap disimpan di perangkat ini.</div>
+    <div class="addon-detail-note">Suka disimpan di Appwrite berdasarkan akun; tekan lagi untuk membatalkan Suka. Statistik Download tetap disimpan di perangkat ini.</div>
   </div>
 </div>
 
@@ -550,10 +546,9 @@ async function listAddonReactions(addonId, userId=""){
 
 async function getDetailReactionState(id){
   const rows=await listAddonReactions(id);
-  let likes=0,dislikes=0;
+  let likes=0;
   for(const row of rows){
     if(row.type==="like")likes++;
-    else if(row.type==="dislike")dislikes++;
   }
 
   let userType=null;
@@ -563,28 +558,21 @@ async function getDetailReactionState(id){
       userType=mine[0].type;
     }
   }
-  return {likes,dislikes,userType};
+  return {likes,userType};
 }
 
 async function refreshDetailStats(){
   if(!activeDetailItem)return;
-  $("detailLikes").textContent="…";
-  $("detailDislikes").textContent="…";
   try{
     const s=await getDetailReactionState(activeDetailItem.id);
     if(!activeDetailItem)return;
-    $("detailLikes").textContent=s.likes;
-    $("detailDislikes").textContent=s.dislikes;
     activeDetailReactionType=s.userType;
     $("detailLikeBtn").disabled=false;
-    $("detailDislikeBtn").disabled=false;
-    $("detailLikeBtn").textContent=s.userType==="like"?"👍 Sudah suka • batal":"👍 Suka";
-    $("detailDislikeBtn").textContent=s.userType==="dislike"?"👎 Sudah tidak suka • batal":"👎 Tidak suka";
+    $("detailLikeBtn").textContent=s.userType==="like"?`❤️ Disukai • ${s.likes}`:`❤️ Suka • ${s.likes}`;
   }catch(e){
     console.error("[DFCraft] Gagal memuat reaksi:",e);
-    $("detailLikes").textContent="0";
-    $("detailDislikes").textContent="0";
     activeDetailReactionType=null;
+    $("detailLikeBtn").textContent="❤️ Suka • 0";
   }
   const localStats=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}");
   const local=localStats[activeDetailItem.id]||{};
@@ -608,13 +596,9 @@ async function openAddonDetail(item){
   const category=item.cat||"Add-Ons";
   $("addonDetailMeta").innerHTML=`📅 Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>👤 ${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
   $("detailDownloadBtn").href=item.link||"#";
-  $("detailLikes").textContent="…";
-  $("detailDislikes").textContent="…";
   $("detailDownloads").textContent="0";
   $("detailLikeBtn").disabled=false;
-  $("detailDislikeBtn").disabled=false;
-  $("detailLikeBtn").textContent="👍 Suka";
-  $("detailDislikeBtn").textContent="👎 Tidak suka";
+  $("detailLikeBtn").textContent="❤️ Suka • …";
   $("addonDetailModal").style.display="flex";
   $("addonDetailModal").setAttribute("aria-hidden","false");
   await refreshDetailStats();
@@ -643,7 +627,7 @@ function bindDetailCards(){
   });
 }
 
-async function submitDetailReaction(type){
+async function submitDetailReaction(type="like"){
   if(!activeDetailItem)return;
   if(!currentAppwriteUser){
     alert("Silakan masuk ke akun DFCraft terlebih dahulu agar setiap akun hanya dapat memberi 1 reaksi.");
@@ -657,7 +641,8 @@ async function submitDetailReaction(type){
 
   const addonId=activeDetailItem.id;
   const userId=currentAppwriteUser.$id;
-  const btn=type==="like"?$("detailLikeBtn"):$(("detailDislikeBtn"));
+  const btn=$("detailLikeBtn");
+  type="like";
   const oldText=btn.textContent;
   btn.disabled=true;
   btn.textContent="Menyimpan...";
@@ -713,9 +698,8 @@ async function submitDetailReaction(type){
     alert("Gagal memproses reaksi di Appwrite.\n\n"+(e.message||e));
   }finally{
     btn.disabled=false;
-    if(activeDetailReactionType===type){
-      btn.textContent=type==="like"?"👍 Sudah suka • batal":"👎 Sudah tidak suka • batal";
-    }else{
+    // refreshDetailStats() sudah memperbarui teks tombol beserta jumlah Like.
+    if(activeDetailReactionType!==type && !activeDetailItem){
       btn.textContent=oldText;
     }
   }
@@ -724,7 +708,6 @@ async function submitDetailReaction(type){
 $("addonDetailBack").onclick=closeAddonDetail;
 $("addonDetailModal").addEventListener("click",e=>{if(e.target.id==="addonDetailModal")closeAddonDetail();});
 $("detailLikeBtn").onclick=()=>submitDetailReaction("like");
-$("detailDislikeBtn").onclick=()=>submitDetailReaction("dislike");
 $("detailDownloadBtn").onclick=()=>{
   if(!activeDetailItem)return;
   let all={};
