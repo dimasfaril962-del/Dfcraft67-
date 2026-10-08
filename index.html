@@ -576,8 +576,9 @@ async function refreshDetailStats(){
     $("detailLikes").textContent=s.likes;
     $("detailDislikes").textContent=s.dislikes;
     activeDetailReactionType=s.userType;
-    $("detailLikeBtn").disabled=s.userType==="like";
-    $("detailDislikeBtn").disabled=s.userType==="dislike";
+    // Tombol reaction bersifat toggle seperti YouTube/TikTok.
+    $("detailLikeBtn").disabled=false;
+    $("detailDislikeBtn").disabled=false;
     $("detailLikeBtn").textContent=s.userType==="like"?"👍 Sudah suka":"👍 Suka";
     $("detailDislikeBtn").textContent=s.userType==="dislike"?"👎 Sudah tidak suka":"👎 Tidak suka";
   }catch(e){
@@ -646,18 +647,12 @@ function bindDetailCards(){
 async function submitDetailReaction(type){
   if(!activeDetailItem)return;
   if(!currentAppwriteUser){
-    alert("Silakan masuk ke akun DFCraft terlebih dahulu agar setiap akun hanya dapat memberi 1 reaksi.");
+    alert("Silakan masuk ke akun DFCraft terlebih dahulu agar reaksi tersimpan berdasarkan akun.");
     $("authModal").style.display="flex";
     return;
   }
   if(!reactionsTableConfigured()){
     alert("Table reaksi DFCraft belum dikonfigurasi. Isi APPWRITE_REACTIONS_TABLE_ID setelah membuat table addon_reactions di Appwrite.");
-    return;
-  }
-  if(activeDetailReactionType){
-    alert(activeDetailReactionType==="like"
-      ?"Akun ini sudah memberi Like pada Add-On ini."
-      :"Akun ini sudah memberi Tidak suka pada Add-On ini.");
     return;
   }
 
@@ -666,18 +661,32 @@ async function submitDetailReaction(type){
   const btn=type==="like"?$("detailLikeBtn"):$("detailDislikeBtn");
   const oldText=btn.textContent;
   btn.disabled=true;
-  btn.textContent="Menyimpan...";
+  btn.textContent="Memproses...";
+
   try{
-    // Gunakan rowId deterministik dari addonId + userId.
-    // Dengan begitu pasangan akun + Add-On yang sama selalu memakai rowId yang sama,
-    // sehingga klik ulang/race condition tidak membuat baris reaksi kedua.
     const existing=await listAddonReactions(addonId,userId);
-    if(existing[0]){
-      activeDetailReactionType=existing[0].type||null;
-      alert("Akun ini sudah memberi reaksi pada Add-On ini.");
+    const mine=existing[0]||null;
+
+    // Jika menekan reaction yang sedang aktif, hapus reaction tersebut (unlike/undislike).
+    if(mine && mine.type===type){
+      const deletePath="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+        "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+
+        "/rows/"+encodeURIComponent(mine.$id);
+      await appwriteJsonRequest(deletePath,{method:"DELETE"});
+      activeDetailReactionType=null;
+      await refreshDetailStats();
       return;
     }
 
+    // Jika reaction lain sedang aktif, hapus dulu lalu simpan reaction baru.
+    if(mine){
+      const deletePath="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+        "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+
+        "/rows/"+encodeURIComponent(mine.$id);
+      await appwriteJsonRequest(deletePath,{method:"DELETE"});
+    }
+
+    // Row ID deterministik: satu akun + satu Add-On selalu memiliki satu row.
     const pair=String(addonId)+"|"+String(userId);
     const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(pair));
     const hash=Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,36);
@@ -688,21 +697,24 @@ async function submitDetailReaction(type){
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         rowId:hash,
-        data:{addonId:String(addonId),userId:String(userId),type:type}
+        data:{addonId:String(addonId),userId:String(userId),type:type},
+        // Saat Row Security aktif, hanya pemilik reaction yang boleh menghapusnya.
+        permissions:[
+          'read("any")',
+          'delete("user:'+userId+'")'
+        ]
       })
     });
     activeDetailReactionType=type;
     await refreshDetailStats();
   }catch(e){
-    console.error("[DFCraft] Simpan reaksi gagal:",e);
-    if(e && (e.status===409 || e.status===400)){
-      alert("Reaksi tidak dapat ditambahkan. Kemungkinan akun ini sudah memberi reaksi pada Add-On tersebut.");
-    }else{
-      alert("Gagal menyimpan reaksi ke Appwrite.\n\n"+(e.message||e));
-    }
+    console.error("[DFCraft] Reaction gagal:",e);
+    alert("Gagal memproses reaksi di Appwrite.\n\n"+(e.message||e));
   }finally{
-    if(activeDetailReactionType!==type){
-      btn.disabled=false;
+    btn.disabled=false;
+    if(activeDetailReactionType===type){
+      btn.textContent=type==="like"?"👍 Sudah suka":"👎 Sudah tidak suka";
+    }else{
       btn.textContent=oldText;
     }
   }
