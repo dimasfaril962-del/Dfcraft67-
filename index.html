@@ -174,15 +174,17 @@ window.dfAppwriteTables = new Appwrite.TablesDB(appwriteClient);
 window.dfAppwriteStorage = new Appwrite.Storage(appwriteClient);
 // ===== DFCraft Web Push (FCM + Appwrite Messaging) =====
 const DF_FIREBASE_CONFIG = {
-  apiKey: "GANTI_API_KEY_FIREBASE",
-  authDomain: "GANTI_PROJECT.firebaseapp.com",
-  projectId: "GANTI_PROJECT_ID",
-  storageBucket: "GANTI_PROJECT.firebasestorage.app",
-  messagingSenderId: "GANTI_MESSAGING_SENDER_ID",
-  appId: "GANTI_APP_ID"
+  apiKey: "AIzaSyBQwJ7qB9pYPIAB0Dbes4P2kvikIfuZU64",
+  authDomain: "dfcraft-430ed.firebaseapp.com",
+  projectId: "dfcraft-430ed",
+  storageBucket: "dfcraft-430ed.firebasestorage.app",
+  messagingSenderId: "718019451273",
+  appId: "1:718019451273:web:5fdd509e229978df3a2958",
+  measurementId: "G-CNVN31QJ3B"
 };
 const DF_FCM_VAPID_KEY = "BPDHL5QTGfvK9Mg1u4oa44d6WjjrdPLTxvh7Ua5riW4YfnJThBTuqqYPbkwkVZhVDWNCuGx2wdv9mo3r2MGiR38";
-const DF_PUSH_TOPIC_ID = "dfcraft-new-addons";
+const DF_PUSH_TOPIC_ID = "6ac794030007923da8c4";
+const DF_PUSH_PROVIDER_ID = "6ac79339001cd76694f0";
 
 async function dfShortHash(value){
   const bytes = new TextEncoder().encode(String(value));
