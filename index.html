@@ -129,7 +129,7 @@ const APPWRITE_DATABASE_ID = "6abc743a001179d7f44a";
 const APPWRITE_TABLE_ID = "6abc748400257575d303"; // Table: addons
 // Table khusus reaksi: buat di Appwrite dengan kolom addonId, userId, type
 // dan unique index gabungan addonId + userId. Setelah dibuat, isi ID table di bawah.
-const APPWRITE_REACTIONS_TABLE_ID = "GANTI_DENGAN_ID_TABLE_REACTIONS";
+const APPWRITE_REACTIONS_TABLE_ID = "6ac73dea0010f4fcc80d";
 const APPWRITE_BUCKET_ID = "6abc7be5001e2f4484e2";
 const APPWRITE_FUNCTION_ID = "6abf4d4e00211376fa26"; // Pemeriksa Konten DFCraft
 
@@ -668,8 +668,9 @@ async function submitDetailReaction(type){
   btn.disabled=true;
   btn.textContent="Menyimpan...";
   try{
-    // Unique index addonId + userId di Appwrite adalah pengaman kedua,
-    // sehingga klik ganda/race condition tetap tidak membuat dua reaksi.
+    // Gunakan rowId deterministik dari addonId + userId.
+    // Dengan begitu pasangan akun + Add-On yang sama selalu memakai rowId yang sama,
+    // sehingga klik ulang/race condition tidak membuat baris reaksi kedua.
     const existing=await listAddonReactions(addonId,userId);
     if(existing[0]){
       activeDetailReactionType=existing[0].type||null;
@@ -677,13 +678,16 @@ async function submitDetailReaction(type){
       return;
     }
 
+    const pair=String(addonId)+"|"+String(userId);
+    const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(pair));
+    const hash=Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,36);
     const path="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
       "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+"/rows";
     await appwriteJsonRequest(path,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-        rowId:Appwrite.ID.unique(),
+        rowId:hash,
         data:{addonId:String(addonId),userId:String(userId),type:type}
       })
     });
