@@ -248,9 +248,9 @@ window.setupDfPushNotifications = setupDfPushNotifications;
 
 
 // ===== DFCraft Realtime Notifications =====
-let dfRealtime = null;
-let dfAddonSubscription = null;
-let dfRealtimeStarted = false;
+var dfRealtime = null;
+var dfAddonSubscription = null;
+var dfRealtimeStarted = false;
 
 function dfNotificationsEnabled(){
   return localStorage.getItem("dfcraft_notifications") !== "off";
