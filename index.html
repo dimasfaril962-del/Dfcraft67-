@@ -127,6 +127,9 @@ const APPWRITE_ENDPOINT = "https://sgp.cloud.appwrite.io/v1";
 const APPWRITE_PROJECT_ID = "6abc6d9e001123a213d1";
 const APPWRITE_DATABASE_ID = "6abc743a001179d7f44a";
 const APPWRITE_TABLE_ID = "6abc748400257575d303"; // Table: addons
+// Table khusus reaksi: buat di Appwrite dengan kolom addonId, userId, type
+// dan unique index gabungan addonId + userId. Setelah dibuat, isi ID table di bawah.
+const APPWRITE_REACTIONS_TABLE_ID = "GANTI_DENGAN_ID_TABLE_REACTIONS";
 const APPWRITE_BUCKET_ID = "6abc7be5001e2f4484e2";
 const APPWRITE_FUNCTION_ID = "6abf4d4e00211376fa26"; // Pemeriksa Konten DFCraft
 
@@ -389,7 +392,7 @@ body.downloads-page #title{margin-top:0}
       <button class="detail-dislike" id="detailDislikeBtn">👎 Tidak suka</button>
       <a class="detail-download" id="detailDownloadBtn" href="#" target="_blank" rel="noopener">⬇️ Download</a>
     </div>
-    <div class="addon-detail-note">Statistik suka, tidak suka, dan download pada versi ini disimpan di perangkat ini.</div>
+    <div class="addon-detail-note">Suka dan tidak suka disimpan di Appwrite berdasarkan akun; statistik Download tetap disimpan di perangkat ini.</div>
   </div>
 </div>
 
@@ -507,35 +510,97 @@ function searchResultHTML(x){
     
   </article>`;
 }
-const DETAIL_STATS_KEY="dfcraft_detail_stats_v1";
 let activeDetailItem=null;
-function getDetailStats(id){
-  let all={};
-  try{all=JSON.parse(localStorage.getItem(DETAIL_STATS_KEY)||"{}");}catch(e){all={};}
-  const s=all[id]||{};
-  return {likes:Number(s.likes)||0,dislikes:Number(s.dislikes)||0,downloads:Number(s.downloads)||0};
+let activeDetailReactionType=null;
+
+function reactionsTableConfigured(){
+  return !!APPWRITE_REACTIONS_TABLE_ID &&
+    !/^GANTI_DENGAN_ID/i.test(APPWRITE_REACTIONS_TABLE_ID);
 }
-function saveDetailStats(id,stats){
-  let all={};
-  try{all=JSON.parse(localStorage.getItem(DETAIL_STATS_KEY)||"{}");}catch(e){all={};}
-  all[id]=stats;
-  localStorage.setItem(DETAIL_STATS_KEY,JSON.stringify(all));
+
+function reactionQuery(attribute, value){
+  return JSON.stringify({method:"equal",attribute,values:[String(value)]});
 }
+
+async function listAddonReactions(addonId, userId=""){
+  if(!reactionsTableConfigured()){
+    throw new Error("Table reaksi belum dikonfigurasi. Isi APPWRITE_REACTIONS_TABLE_ID di index.html.");
+  }
+  const base="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+    "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+"/rows";
+  const rows=[];
+  let offset=0;
+  const pageSize=100;
+
+  while(true){
+    const params=new URLSearchParams();
+    params.append("queries[]",reactionQuery("addonId",addonId));
+    if(userId) params.append("queries[]",reactionQuery("userId",userId));
+    params.append("queries[]",JSON.stringify({method:"limit",values:[pageSize]}));
+    params.append("queries[]",JSON.stringify({method:"offset",values:[offset]}));
+    const res=await appwriteJsonRequest(base+"?"+params.toString());
+    const batch=Array.isArray(res.rows)?res.rows:[];
+    rows.push(...batch);
+    if(batch.length<pageSize)break;
+    offset+=pageSize;
+    if(offset>100000)throw new Error("Pagination reaksi melebihi batas aman.");
+  }
+  return rows;
+}
+
+async function getDetailReactionState(id){
+  const rows=await listAddonReactions(id);
+  let likes=0,dislikes=0;
+  for(const row of rows){
+    if(row.type==="like")likes++;
+    else if(row.type==="dislike")dislikes++;
+  }
+
+  let userType=null;
+  if(currentAppwriteUser){
+    const mine=await listAddonReactions(id,currentAppwriteUser.$id);
+    if(mine[0] && (mine[0].type==="like" || mine[0].type==="dislike")){
+      userType=mine[0].type;
+    }
+  }
+  return {likes,dislikes,userType};
+}
+
+async function refreshDetailStats(){
+  if(!activeDetailItem)return;
+  $("detailLikes").textContent="…";
+  $("detailDislikes").textContent="…";
+  try{
+    const s=await getDetailReactionState(activeDetailItem.id);
+    if(!activeDetailItem)return;
+    $("detailLikes").textContent=s.likes;
+    $("detailDislikes").textContent=s.dislikes;
+    activeDetailReactionType=s.userType;
+    $("detailLikeBtn").disabled=s.userType==="like";
+    $("detailDislikeBtn").disabled=s.userType==="dislike";
+    $("detailLikeBtn").textContent=s.userType==="like"?"👍 Sudah suka":"👍 Suka";
+    $("detailDislikeBtn").textContent=s.userType==="dislike"?"👎 Sudah tidak suka":"👎 Tidak suka";
+  }catch(e){
+    console.error("[DFCraft] Gagal memuat reaksi:",e);
+    $("detailLikes").textContent="0";
+    $("detailDislikes").textContent="0";
+    activeDetailReactionType=null;
+  }
+  const localStats=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}");
+  const local=localStats[activeDetailItem.id]||{};
+  $("detailDownloads").textContent=Number(local.downloads)||0;
+}
+
 function formatDetailDate(value){
   const d=value?new Date(value):new Date();
   if(Number.isNaN(d.getTime())) return "Tanggal tidak tersedia";
   return d.toLocaleDateString("id-ID",{day:"2-digit",month:"2-digit",year:"numeric"});
 }
-function refreshDetailStats(){
-  if(!activeDetailItem)return;
-  const s=getDetailStats(activeDetailItem.id);
-  $("detailLikes").textContent=s.likes;
-  $("detailDislikes").textContent=s.dislikes;
-  $("detailDownloads").textContent=s.downloads;
-}
-function openAddonDetail(item){
+
+async function openAddonDetail(item){
   if(!item)return;
   activeDetailItem=item;
+  activeDetailReactionType=null;
   $("addonDetailTitle").textContent=item.name||"Add-On";
   $("addonDetailImage").src=item.image||"";
   $("addonDetailImage").alt=item.name||"Add-On";
@@ -543,15 +608,25 @@ function openAddonDetail(item){
   const category=item.cat||"Add-Ons";
   $("addonDetailMeta").innerHTML=`📅 Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>👤 ${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
   $("detailDownloadBtn").href=item.link||"#";
-  refreshDetailStats();
+  $("detailLikes").textContent="…";
+  $("detailDislikes").textContent="…";
+  $("detailDownloads").textContent="0";
+  $("detailLikeBtn").disabled=false;
+  $("detailDislikeBtn").disabled=false;
+  $("detailLikeBtn").textContent="👍 Suka";
+  $("detailDislikeBtn").textContent="👎 Tidak suka";
   $("addonDetailModal").style.display="flex";
   $("addonDetailModal").setAttribute("aria-hidden","false");
+  await refreshDetailStats();
 }
+
 function closeAddonDetail(){
   activeDetailItem=null;
+  activeDetailReactionType=null;
   $("addonDetailModal").style.display="none";
   $("addonDetailModal").setAttribute("aria-hidden","true");
 }
+
 function bindDetailCards(){
   document.querySelectorAll("[data-addon-id]").forEach(card=>{
     card.onclick=(ev)=>{
@@ -568,19 +643,80 @@ function bindDetailCards(){
   });
 }
 
+async function submitDetailReaction(type){
+  if(!activeDetailItem)return;
+  if(!currentAppwriteUser){
+    alert("Silakan masuk ke akun DFCraft terlebih dahulu agar setiap akun hanya dapat memberi 1 reaksi.");
+    $("authModal").style.display="flex";
+    return;
+  }
+  if(!reactionsTableConfigured()){
+    alert("Table reaksi DFCraft belum dikonfigurasi. Isi APPWRITE_REACTIONS_TABLE_ID setelah membuat table addon_reactions di Appwrite.");
+    return;
+  }
+  if(activeDetailReactionType){
+    alert(activeDetailReactionType==="like"
+      ?"Akun ini sudah memberi Like pada Add-On ini."
+      :"Akun ini sudah memberi Tidak suka pada Add-On ini.");
+    return;
+  }
+
+  const addonId=activeDetailItem.id;
+  const userId=currentAppwriteUser.$id;
+  const btn=type==="like"?$("detailLikeBtn"):$("detailDislikeBtn");
+  const oldText=btn.textContent;
+  btn.disabled=true;
+  btn.textContent="Menyimpan...";
+  try{
+    // Unique index addonId + userId di Appwrite adalah pengaman kedua,
+    // sehingga klik ganda/race condition tetap tidak membuat dua reaksi.
+    const existing=await listAddonReactions(addonId,userId);
+    if(existing[0]){
+      activeDetailReactionType=existing[0].type||null;
+      alert("Akun ini sudah memberi reaksi pada Add-On ini.");
+      return;
+    }
+
+    const path="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+      "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+"/rows";
+    await appwriteJsonRequest(path,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        rowId:Appwrite.ID.unique(),
+        data:{addonId:String(addonId),userId:String(userId),type:type}
+      })
+    });
+    activeDetailReactionType=type;
+    await refreshDetailStats();
+  }catch(e){
+    console.error("[DFCraft] Simpan reaksi gagal:",e);
+    if(e && (e.status===409 || e.status===400)){
+      alert("Reaksi tidak dapat ditambahkan. Kemungkinan akun ini sudah memberi reaksi pada Add-On tersebut.");
+    }else{
+      alert("Gagal menyimpan reaksi ke Appwrite.\n\n"+(e.message||e));
+    }
+  }finally{
+    if(activeDetailReactionType!==type){
+      btn.disabled=false;
+      btn.textContent=oldText;
+    }
+  }
+}
+
 $("addonDetailBack").onclick=closeAddonDetail;
 $("addonDetailModal").addEventListener("click",e=>{if(e.target.id==="addonDetailModal")closeAddonDetail();});
-$("detailLikeBtn").onclick=()=>{
-  if(!activeDetailItem)return;
-  const s=getDetailStats(activeDetailItem.id); s.likes++; saveDetailStats(activeDetailItem.id,s); refreshDetailStats();
-};
-$("detailDislikeBtn").onclick=()=>{
-  if(!activeDetailItem)return;
-  const s=getDetailStats(activeDetailItem.id); s.dislikes++; saveDetailStats(activeDetailItem.id,s); refreshDetailStats();
-};
+$("detailLikeBtn").onclick=()=>submitDetailReaction("like");
+$("detailDislikeBtn").onclick=()=>submitDetailReaction("dislike");
 $("detailDownloadBtn").onclick=()=>{
   if(!activeDetailItem)return;
-  const s=getDetailStats(activeDetailItem.id); s.downloads++; saveDetailStats(activeDetailItem.id,s); refreshDetailStats();
+  let all={};
+  try{all=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}");}catch(e){all={};}
+  const s=all[activeDetailItem.id]||{};
+  s.downloads=(Number(s.downloads)||0)+1;
+  all[activeDetailItem.id]=s;
+  localStorage.setItem("dfcraft_detail_stats_v1",JSON.stringify(all));
+  $("detailDownloads").textContent=s.downloads;
 };
 
 function renderSearchMode(q){
