@@ -14,13 +14,20 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload) {
-  const notification = payload.notification || {};
-  const title = notification.title || "DFCraft";
+  // Jika payload memiliki bagian "notification", Firebase Messaging akan
+  // menampilkan notifikasi itu sendiri saat halaman berada di background.
+  // Jangan panggil showNotification() lagi agar tidak muncul dua kali.
+  if (payload && payload.notification) return;
+
+  // Untuk pesan data-only, Service Worker perlu menampilkan notifikasi sendiri.
+  const data = (payload && payload.data) || {};
+  const title = data.title || "DFCraft";
   const options = {
-    body: notification.body || "Ada Add-On atau pembaruan baru di DFCraft.",
-    icon: notification.icon || "./dfcraft-favicon.png",
-    badge: notification.badge || "./dfcraft-favicon.png",
-    data: payload.data || {}
+    body: data.body || "Ada Add-On atau pembaruan baru di DFCraft.",
+    icon: data.icon || "./dfcraft-favicon.png",
+    badge: data.badge || "./dfcraft-favicon.png",
+    data: { url: data.url || "./" },
+    tag: data.tag || "dfcraft-addon"
   };
   self.registration.showNotification(title, options);
 });
