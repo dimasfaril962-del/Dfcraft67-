@@ -35,7 +35,50 @@
 .profile-photo-actions{display:flex;gap:8px;margin-top:9px}
 .profile-photo-actions button{flex:1;border:0;border-radius:11px;padding:10px;background:#2a3749;color:#fff;font-weight:800}
 
-.addon-stat-btn{font-family:inherit;color:inherit;cursor:pointer;width:100%;appearance:none}.addon-stat-btn:active{transform:scale(.98)}.addon-stat-btn.detail-like-stat{background:#24394c}.addon-stat-btn.detail-dislike-stat{background:#1c222a}.addon-stat-btn.is-active{border-color:#9fc5ff;background:#29445c}.addon-stat-btn.is-active .addon-stat-label{color:#9fc5ff;font-weight:900}.addon-detail-actions{display:block;margin-top:2px}.addon-detail-actions a{display:block;width:100%;box-sizing:border-box;border:0;border-radius:13px;padding:14px 10px;text-align:center;text-decoration:none;font-weight:900;font-size:15px;cursor:pointer;min-height:50px}</style>
+.addon-stat-btn{font-family:inherit;color:inherit;cursor:pointer;width:100%;appearance:none}.addon-stat-btn:active{transform:scale(.98)}.addon-stat-btn.detail-like-stat{background:#24394c}.addon-stat-btn.detail-dislike-stat{background:#1c222a}.addon-stat-btn.is-active{border-color:#9fc5ff;background:#29445c}.addon-stat-btn.is-active .addon-stat-label{color:#9fc5ff;font-weight:900}.addon-detail-actions{display:block;margin-top:2px}.addon-detail-actions a{display:block;width:100%;box-sizing:border-box;border:0;border-radius:13px;padding:14px 10px;text-align:center;text-decoration:none;font-weight:900;font-size:15px;cursor:pointer;min-height:50px}
+/* DFCraft monochrome SVG-style interface icons */
+.settings-box [data-i18n="settingsTitle"]::before,
+.settings-box [data-i18n="languageLabel"]::before,
+.settings-box [data-i18n="themeLabel"]::before,
+.settings-box #aboutDfcraftBtn::before,
+.settings-box #notificationBtn::before,
+#dfNotifModal h3::before,
+#enablePushBtn::before,
+#modal h2[data-i18n="addTitle"]::before,
+.auth-title[data-i18n="accountTitle"]::before,
+.auth-box #saveProfileBtn::before,
+.auth-box #logoutBtn::before,
+#dfAboutModal h3::before {
+  content:""; display:inline-block; width:1em; height:1em; margin-right:.42em;
+  vertical-align:-.12em; background-color:currentColor;
+  -webkit-mask:var(--df-icon) center/contain no-repeat;
+  mask:var(--df-icon) center/contain no-repeat;
+}
+.settings-box [data-i18n="settingsTitle"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3H9l-.4 3a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.7 7.7 0 0 0 1.7 1L9 21h6l.4-3a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.5-2.1-1.5ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z'/%3E%3C/svg%3E")}
+.settings-box [data-i18n="languageLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M3 12h18M12 3c5 5 5 13 0 18M12 3c-5 5-5 13 0 18' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E")}
+.settings-box [data-i18n="themeLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 10 10A8 8 0 0 1 12 2Zm-4 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'/%3E%3C/svg%3E")}
+.settings-box #aboutDfcraftBtn::before,#dfAboutModal h3::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M12 10v7m0-11v2' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E")}
+.settings-box #notificationBtn::before,#dfNotifModal h3::before,#enablePushBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4a2 2 0 0 1-4 0Z'/%3E%3C/svg%3E")}
+#modal h2[data-i18n="addTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath stroke='black' stroke-width='3' d='M12 3v18M3 12h18'/%3E%3C/svg%3E")}
+.auth-title[data-i18n="accountTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='7' r='4' fill='black'/%3E%3Cpath fill='black' d='M3 22v-2a9 9 0 0 1 18 0v2Z'/%3E%3C/svg%3E")}
+.auth-box #saveProfileBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 2h14l4 4v16H2V2h2Zm2 2v6h10V4H6Zm0 10v6h12v-6H6Z'/%3E%3C/svg%3E")}
+.auth-box #logoutBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M10 3h11v18H10v-4h2v2h7V5h-7v2h-2V3ZM3 11h10v2H3l3 3-1.4 1.4L0 13l4.6-4.4L6 10l-3 1Z'/%3E%3C/svg%3E")}
+
+
+/* SVG icons inside form fields, replacing emoji placeholders */
+#loginIdentifier,#regEmail,#regPhone,#regUsername,#loginPassword,#regPassword,#regConfirm,
+#name,#link,#profileNameInput{
+  background-repeat:no-repeat!important;background-position:14px center!important;background-size:22px 22px!important;
+  padding-left:46px!important;
+}
+#loginIdentifier,#regEmail{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='2' y='4' width='20' height='16' rx='2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='m3 6 9 7 9-7' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+#regPhone{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='2' width='12' height='20' rx='2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M10 18h4' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+#regUsername,#profileNameInput{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='7' r='4' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M3 22v-2a9 9 0 0 1 18 0v2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+#loginPassword,#regPassword{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='10' width='16' height='12' rx='2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M8 10V7a4 4 0 1 1 8 0v3' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+#regConfirm{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='10' width='16' height='12' rx='2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M8 10V7a4 4 0 1 1 8 0v3' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='m9 16 2 2 4-4' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+#name{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 4h16v16H4z' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M7 8h10M7 12h10M7 16h6' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
+
+</style>
 <style>
 .settings-extra{display:grid;gap:12px;margin-top:14px}
 .settings-action{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:16px;font-weight:700;background:#2d3a50;color:#fff}
@@ -48,7 +91,7 @@
 </style>
 <div class="df-modal-backdrop" id="dfAboutModal">
   <div class="df-modal">
-    <h3 data-i18n="aboutTitle">🛡️ Aturan &amp; Sistem DFCraft</h3>
+    <h3 data-i18n="aboutTitle">Aturan &amp; Sistem DFCraft</h3>
     <div class="df-rules-content">
       <p class="df-rule-good">✅ Keamanan web diprioritaskan</p>
       <p class="df-rule-good">✅ Bisa menambahkan Add-On</p>
@@ -61,16 +104,16 @@
       <p class="df-rule-bad">❌ Dilarang menambahkan APK selain Minecraft</p>
       <p class="df-rule-bad">❌ Tidak semua APK/mod berhasil diperiksa atau ditambahkan</p>
     </div>
-    <p><b data-i18n="aboutVersion">Versi 4.10.10</b></p>
+    <p><b data-i18n="aboutVersion">Versi 4.10.8</b></p>
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
 <div class="df-modal-backdrop" id="dfNotifModal">
   <div class="df-modal">
-    <h3 data-i18n="notificationTitle">🔔 Notifikasi</h3>
+    <h3 data-i18n="notificationTitle">Notifikasi</h3>
     <p data-i18n="notificationInfo">Notifikasi DFCraft dapat digunakan untuk memberi tahu kamu ketika ada Add-On atau pembaruan baru.</p>
     <p id="dfNotifState">Status: Aktif</p>
-    <button class="df-close" id="enablePushBtn">📱 Aktifkan Notifikasi HP</button>
+    <button class="df-close" id="enablePushBtn">Aktifkan Notifikasi HP</button>
     <p id="dfPushState" style="font-size:13px;color:#c9d2df;margin:8px 0;word-break:break-word"></p>
     <button class="df-close" id="toggleNotifBtn" data-i18n="turnOffNotifications">Matikan Notifikasi</button>
     <button class="df-close" data-close-df-modal>Tutup</button>
@@ -94,7 +137,7 @@
     if(!s||!b)return;
     var on=localStorage.getItem('dfcraft_notifications')!=='off';
     var tr=window.dfTranslate || function(k){return k;};
-    s.textContent=(tr('languageLabel')==='🌐 Language'?'Status: ':'Status: ')+(on?tr('active'):tr('inactive'));
+    s.textContent=(tr('languageLabel')===' Language'?'Status: ':'Status: ')+(on?tr('active'):tr('inactive'));
     b.textContent=on?tr('turnOffNotifications'):tr('turnOnNotifications');
   }
   window.dfRefreshNotificationText=refresh;
@@ -362,7 +405,7 @@ body.downloads-page #title{margin-top:0}
 .addon-detail-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 16px}
 .addon-stat{background:#1c222a;border:1px solid #303a49;border-radius:12px;padding:9px 5px;text-align:center;min-width:0}
 .addon-stat-value{font-size:18px;font-weight:900}
-.addon-stat-label{display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;color:#aab5c4;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.df-reaction-icon{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.detail-download .df-reaction-icon{width:19px;height:19px;vertical-align:middle;margin-right:6px}.df-download-icon{width:15px;height:15px}
+.addon-stat-label{font-size:11px;color:#aab5c4;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.df-reaction-icon{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.detail-download .df-reaction-icon{width:19px;height:19px;vertical-align:middle;margin-right:6px}.df-download-icon{width:15px;height:15px}
 .addon-detail-actions{display:flex;flex-direction:column;gap:10px;margin-top:2px}
 .addon-detail-actions button,.addon-detail-actions a{width:100%;box-sizing:border-box;border:0;border-radius:13px;padding:14px 10px;text-align:center;text-decoration:none;font-weight:900;font-size:15px;cursor:pointer;min-height:50px}
 .detail-download{background:#9fc5ff;color:#111}
@@ -388,12 +431,12 @@ body.downloads-page #title{margin-top:0}
 <div id="searchCategoryModal" class="search-category-modal" style="display:none">
   <div class="search-category-box">
     <div class="search-category-title" data-i18n="searchCategory">🔎 Pilih Kategori</div>
-    <button class="search-category-option" data-search-cat="Semua" data-i18n="searchAll">📦 Semua</button>
-    <button class="search-category-option" data-search-cat="Add-Ons" data-i18n="searchAddOns">🧩 Add-Ons</button>
-    <button class="search-category-option" data-search-cat="Worlds" data-i18n="searchWorlds">🌍 Worlds</button>
-    <button class="search-category-option" data-search-cat="Texture Packs" data-i18n="searchTextures">🎨 Texture Packs</button>
-    <button class="search-category-option" data-search-cat="Skin" data-i18n="searchSkin">🧍 Skin</button>
-    <button class="search-category-option" data-search-cat="Minecraft APK" data-i18n="searchApk">📱 Minecraft APK</button>
+    <button class="search-category-option" data-search-cat="Semua" data-i18n="searchAll">Semua</button>
+    <button class="search-category-option" data-search-cat="Add-Ons" data-i18n="searchAddOns">Add-Ons</button>
+    <button class="search-category-option" data-search-cat="Worlds" data-i18n="searchWorlds">Worlds</button>
+    <button class="search-category-option" data-search-cat="Texture Packs" data-i18n="searchTextures">Texture Packs</button>
+    <button class="search-category-option" data-search-cat="Skin" data-i18n="searchSkin">Skin</button>
+    <button class="search-category-option" data-search-cat="Minecraft APK" data-i18n="searchApk">Minecraft APK</button>
     <button class="search-category-close" id="searchCategoryClose" data-i18n="close">Tutup</button>
   </div>
 </div>
@@ -417,11 +460,11 @@ body.downloads-page #title{margin-top:0}
   </div>
 </div>
 
-<nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b>⚙</b><span data-i18n="settings">Pengaturan</span></button></nav>
-<div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">⚙️ Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">🌐 Bahasa</label><select id="languageSelect"><option value="id">🇮🇩 Bahasa Indonesia</option><option value="en">🇬🇧 English</option><option value="ms">🇲🇾 Bahasa Melayu</option><option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option><option value="ja">🇯🇵 日本語</option></select><label class="setting-label" data-i18n="themeLabel">🎨 Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">🌙 Gelap</option><option value="light" data-i18n="light">☀️ Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">🗑️ Hapus semua riwayat Unduhan</button>
+<nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b></b><span data-i18n="settings">Pengaturan</span></button></nav>
+<div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
-  <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">ℹ️ Tentang DFCraft</button>
-  <button class="settings-action" id="notificationBtn" data-i18n="notificationTitle">🔔 Notifikasi</button>
+  <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
+  <button class="settings-action" id="notificationBtn" data-i18n="notificationTitle">Notifikasi</button>
 </div>
 
 
@@ -466,7 +509,7 @@ body.light .df-settings-social .df-social-icon{color:#555f6c}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">➕ Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">🖼️ Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -549,6 +592,7 @@ function searchResultHTML(x){
     
   </article>`;
 }
+function dfSafeText(id,value){const el=document.getElementById(id);if(el)el.textContent=value==null?"":String(value);}
 let activeDetailItem=null;
 let activeDetailReactionType=null;
 
@@ -615,18 +659,18 @@ async function refreshDetailStats(){
     $("detailDislikes").textContent=s.dislikes;
     $("detailLikeBtn").disabled=false;
     $("detailDislikeBtn").disabled=false;
-    $("detailLikeLabelText").textContent=s.userType==="like"?"Disukai":"Suka";
+    dfSafeText("detailLikeLabelText",s.userType==="like"?"Disukai":"Suka");
     $("detailLikeBtn").classList.toggle("is-active",s.userType==="like");
-    $("detailDislikeLabelText").textContent=s.userType==="dislike"?"Disukai":"Tidak suka";
+    dfSafeText("detailDislikeLabelText",s.userType==="dislike"?"Disukai":"Tidak suka");
     $("detailDislikeBtn").classList.toggle("is-active",s.userType==="dislike");
   }catch(e){
     console.error("[DFCraft] Gagal memuat reaksi:",e);
     activeDetailReactionType=null;
     $("detailLikes").textContent="0";
     $("detailDislikes").textContent="0";
-    $("detailLikeLabelText").textContent="Suka";
+    dfSafeText("detailLikeLabelText","Suka");
     $("detailLikeBtn").classList.remove("is-active");
-    $("detailDislikeLabelText").textContent="Tidak suka";
+    dfSafeText("detailDislikeLabelText","Tidak suka");
     $("detailDislikeBtn").classList.remove("is-active");
   }
   const localStats=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}");
@@ -649,16 +693,16 @@ async function openAddonDetail(item){
   $("addonDetailImage").alt=item.name||"Add-On";
   const creator=item.ownerName||"DFCraft";
   const category=item.cat||"Add-Ons";
-  $("addonDetailMeta").innerHTML=`📅 Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>👤 ${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
+  $("addonDetailMeta").innerHTML=`Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
   $("detailDownloadBtn").href=item.link||"#";
   $("detailLikes").textContent="0";
   $("detailDislikes").textContent="0";
   $("detailDownloads").textContent="0";
   $("detailLikeBtn").disabled=false;
   $("detailDislikeBtn").disabled=false;
-  $("detailLikeLabelText").textContent="Suka";
+  dfSafeText("detailLikeLabelText","Suka");
     $("detailLikeBtn").classList.remove("is-active");
-  $("detailDislikeLabelText").textContent="Tidak suka";
+  dfSafeText("detailDislikeLabelText","Tidak suka");
     $("detailDislikeBtn").classList.remove("is-active");
   $("addonDetailModal").style.display="flex";
   $("addonDetailModal").setAttribute("aria-hidden","false");
@@ -703,16 +747,11 @@ async function submitDetailReaction(type){
   const addonId=activeDetailItem.id;
   const userId=currentAppwriteUser.$id;
   const btn=type==="like"?$("detailLikeBtn"):$("detailDislikeBtn");
-  // Ubah teks di dalam span saja agar ikon SVG dan elemen label tidak terhapus.
-  const labelText=type==="like"?$("detailLikeLabelText"):$("detailDislikeLabelText");
-  if(!btn || !labelText){
-    console.error("[DFCraft] Elemen tombol/teks reaksi tidak ditemukan.");
-    alert("Tombol reaksi belum termuat dengan benar. Muat ulang halaman lalu coba lagi.");
-    return;
-  }
-  const oldText=labelText.textContent;
+  const label=type==="like"?$("detailLikeLabelText"):$("detailDislikeLabelText");
+  if(!btn||!label)return;
+  const oldText=label.textContent;
   btn.disabled=true;
-  labelText.textContent="Menyimpan...";
+  label.textContent="Menyimpan...";
 
   try{
     const existing=await listAddonReactions(addonId,userId);
@@ -762,9 +801,7 @@ async function submitDetailReaction(type){
     alert("Gagal memproses reaksi di Appwrite.\n\n"+(e.message||e));
   }finally{
     btn.disabled=false;
-    // Jika penyimpanan gagal dan teks masih status sementara, pulihkan teks lama.
-    // Pada sukses, refreshDetailStats sudah mengatur teks final.
-    if(labelText && labelText.textContent==="Menyimpan...") labelText.textContent=oldText;
+    if(!activeDetailItem) label.textContent=oldText;
   }
 }
 
@@ -941,172 +978,172 @@ $("settings").onclick=()=>{$("settingsModal").style.display="flex";setActiveNav(
 $("closeSettings").onclick=()=>$("settingsModal").style.display="none";
 const translations={
  id:{
-  all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"⚙️ Pengaturan",
-  languageLabel:"🌐 Bahasa",themeLabel:"🎨 Tampilan",dark:"🌙 Gelap",light:"☀️ Terang",
-  clearDownloads:"🗑️ Hapus semua riwayat Unduhan",close:"Tutup",search:"Cari...",recommend:"Rekomendasi",
+  all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"Pengaturan",
+  languageLabel:"Bahasa",themeLabel:"Tampilan",dark:"Gelap",light:"Terang",
+  clearDownloads:"Hapus semua riwayat Unduhan",close:"Tutup",search:"Cari...",recommend:"Rekomendasi",
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skin",minecraftApk:"Minecraft APK",
-  download:"Download",downloadAgain:"Download Lagi",delete:"Hapus Add-On",deleteHistory:"🗑️ Hapus",
+  download:"Download",downloadAgain:"Download Lagi",delete:"Hapus Add-On",deleteHistory:"Hapus",
   empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",
-  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10.10",confirmClear:"Hapus semua riwayat Unduhan?",
+  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Hapus semua riwayat Unduhan?",
   confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus.",
-  searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Worlds",
-  searchTextures:"🎨 Texture Packs",searchSkin:"🧍 Skin",searchApk:"📱 Minecraft APK",
-  addTitle:"➕ Tambah Add-On",namePlaceholder:"Nama Add-On",chooseImage:"🖼️ Pilih gambar dari Galeri",
+  searchCategory:"🔎 Pilih Kategori",searchAll:"Semua",searchAddOns:"Add-Ons",searchWorlds:"Worlds",
+  searchTextures:"Texture Packs",searchSkin:"Skin",searchApk:"Minecraft APK",
+  addTitle:"Tambah Add-On",namePlaceholder:"Nama Add-On",chooseImage:"Pilih gambar dari Galeri",
   noImage:"Belum ada gambar dipilih",mediafirePlaceholder:"Link MediaFire (harus sesuai kategori)",
-  cancel:"Batal",addButton:"Tambahkan",aboutTitle:"ℹ️ Tentang DFCraft",notificationTitle:"🔔 Notifikasi",
+  cancel:"Batal",addButton:"Tambahkan",aboutTitle:"Tentang DFCraft",notificationTitle:"Notifikasi",
   notificationInfo:"Notifikasi DFCraft dapat digunakan untuk memberi tahu kamu ketika ada Add-On atau pembaruan baru.",
   active:"Aktif",inactive:"Nonaktif",turnOffNotifications:"Matikan Notifikasi",turnOnNotifications:"Aktifkan Notifikasi",
-  support:"💖 Support DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Saluran WhatsApp DFCraft",
-  accountTitle:"👤 Masuk / Daftar",login:"Masuk",register:"Daftar",email:"📧 Email",emailGmail:"📧 Gmail / Email",
-  phone:"📱 Nomor HP",username:"👤 Nama pengguna",password:"🔑 Kata sandi",confirmPassword:"🔐 Konfirmasi kata sandi",
-  registerNote:"Silakan daftar kalau kamu belum punya akun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Ganti foto profil",profileSaved:"Profil berhasil diperbarui.",profileSaving:"Menyimpan...",profileImageUploading:"Mengunggah foto profil...",profileImageError:"Foto profil gagal diunggah.",chooseProfilePhoto:"🖼️ Foto Profil",cropTitle:"🖼️ Atur Foto Profil",cropHelp:"Geser gambar untuk mengatur posisi",cropZoom:"Gunakan slider untuk memperbesar / memperkecil",applyCrop:"Terapkan",cancelCrop:"Batal",account:"👤 Akun DFCraft",member:"Member",logout:"🚪 Keluar",
+  support:"Support DFCraft",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"Saluran WhatsApp DFCraft",
+  accountTitle:"Masuk / Daftar",login:"Masuk",register:"Daftar",email:"Email",emailGmail:"Gmail / Email",
+  phone:"Nomor HP",username:"Nama pengguna",password:"Kata sandi",confirmPassword:"Konfirmasi kata sandi",
+  registerNote:"Silakan daftar kalau kamu belum punya akun.",profileNameLabel:"Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"Simpan Profil",changeProfilePhoto:"Ganti foto profil",profileSaved:"Profil berhasil diperbarui.",profileSaving:"Menyimpan...",profileImageUploading:"Mengunggah foto profil...",profileImageError:"Foto profil gagal diunggah.",chooseProfilePhoto:"Foto Profil",cropTitle:"Atur Foto Profil",cropHelp:"Geser gambar untuk mengatur posisi",cropZoom:"Gunakan slider untuk memperbesar / memperkecil",applyCrop:"Terapkan",cancelCrop:"Batal",account:"Akun DFCraft",member:"Member",logout:"Keluar",
   showPassword:"Tampilkan kata sandi",showConfirmPassword:"Tampilkan konfirmasi kata sandi",
   aboutP1:"DFCraft adalah website komunitas untuk mencari, menemukan, dan berbagi berbagai konten Minecraft dalam satu tempat. Di sini tersedia kategori Add-Ons, Worlds, Texture Packs, Skin, dan Minecraft APK.",
   aboutP2:"DFCraft dibuat agar pencarian konten Minecraft menjadi lebih mudah. Kamu bisa menggunakan fitur pencarian, memilih kategori, melihat gambar konten, serta membuka link download yang tersedia.",
   aboutP3:"Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.",
   aboutP4:"DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.",
   aboutP5:"Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.",
-  aboutVersion:"Versi 4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
  },
  en:{
-  all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:"⚙️ Settings",
-  languageLabel:"🌐 Language",themeLabel:"🎨 Appearance",dark:"🌙 Dark",light:"☀️ Light",
-  clearDownloads:"🗑️ Clear download history",close:"Close",search:"Search...",recommend:"Recommendations",
+  all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:" Settings",
+  languageLabel:" Language",themeLabel:"Appearance",dark:"Dark",light:"Light",
+  clearDownloads:"Clear download history",close:"Close",search:"Search...",recommend:"Recommendations",
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs",skins:"Skins",minecraftApk:"Minecraft APK",
-  download:"Download",downloadAgain:"Download Again",delete:"Delete Add-On",deleteHistory:"🗑️ Delete",
+  download:"Download",downloadAgain:"Download Again",delete:"Delete Add-On",deleteHistory:"Delete",
   empty:"No items yet.",emptyDownloads:"No downloaded Add-Ons yet. Press Download on an Add-On to add it here.",
-  downloaded:"Downloaded",about:"DFCraft Web • Version 4.10.10",confirmClear:"Clear all download history?",
+  downloaded:"Downloaded",about:"DFCraft Web • Version 4.10.1",confirmClear:"Clear all download history?",
   confirmReset:"Reset all DFCraft data? Add-Ons and download history will be deleted.",
-  searchCategory:"🔎 Choose Category",searchAll:"📦 All",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Worlds",
-  searchTextures:"🎨 Texture Packs",searchSkin:"🧍 Skin",searchApk:"📱 Minecraft APK",
-  addTitle:"➕ Add Add-On",namePlaceholder:"Add-On Name",chooseImage:"🖼️ Choose image from Gallery",
+  searchCategory:"🔎 Choose Category",searchAll:"All",searchAddOns:"Add-Ons",searchWorlds:"Worlds",
+  searchTextures:"Texture Packs",searchSkin:"Skin",searchApk:"Minecraft APK",
+  addTitle:"Add Add-On",namePlaceholder:"Add-On Name",chooseImage:"Choose image from Gallery",
   noImage:"No image selected",mediafirePlaceholder:"MediaFire link (must match category)",
-  cancel:"Cancel",addButton:"Add",aboutTitle:"ℹ️ About DFCraft",notificationTitle:"🔔 Notifications",
+  cancel:"Cancel",addButton:"Add",aboutTitle:"About DFCraft",notificationTitle:"Notifications",
   notificationInfo:"DFCraft notifications can let you know when a new Add-On or update is available.",
   active:"Active",inactive:"Inactive",turnOffNotifications:"Turn Off Notifications",turnOnNotifications:"Turn On Notifications",
-  support:"💖 Support DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 DFCraft WhatsApp Channel",
-  accountTitle:"👤 Login / Register",login:"Login",register:"Register",email:"📧 Email",emailGmail:"📧 Gmail / Email",
-  phone:"📱 Phone Number",username:"👤 Username",password:"🔑 Password",confirmPassword:"🔐 Confirm Password",
-  registerNote:"Please register if you don't have an account yet.",profileNameLabel:"👤 Profile name",profileNamePlaceholder:"Profile name",saveProfile:"💾 Save Profile",changeProfilePhoto:"Change profile photo",profileSaved:"Profile updated successfully.",profileSaving:"Saving...",profileImageUploading:"Uploading profile photo...",profileImageError:"Profile photo upload failed.",chooseProfilePhoto:"🖼️ Profile Photo",cropTitle:"🖼️ Adjust Profile Photo",cropHelp:"Drag the image to adjust its position",cropZoom:"Use the slider to zoom in / out",applyCrop:"Apply",cancelCrop:"Cancel",account:"👤 DFCraft Account",member:"Member",logout:"🚪 Log Out",
+  support:"Support DFCraft",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"DFCraft WhatsApp Channel",
+  accountTitle:"Login / Register",login:"Login",register:"Register",email:"Email",emailGmail:"Gmail / Email",
+  phone:"Phone Number",username:"Username",password:"Password",confirmPassword:"Confirm Password",
+  registerNote:"Please register if you don't have an account yet.",profileNameLabel:"Profile name",profileNamePlaceholder:"Profile name",saveProfile:"Save Profile",changeProfilePhoto:"Change profile photo",profileSaved:"Profile updated successfully.",profileSaving:"Saving...",profileImageUploading:"Uploading profile photo...",profileImageError:"Profile photo upload failed.",chooseProfilePhoto:"Profile Photo",cropTitle:"Adjust Profile Photo",cropHelp:"Drag the image to adjust its position",cropZoom:"Use the slider to zoom in / out",applyCrop:"Apply",cancelCrop:"Cancel",account:"DFCraft Account",member:"Member",logout:"Log Out",
   showPassword:"Show password",showConfirmPassword:"Show password confirmation",
   aboutP1:"DFCraft is a community website for finding, discovering, and sharing Minecraft content in one place. Available categories include Add-Ons, Worlds, Texture Packs, Skin, and Minecraft APK.",
   aboutP2:"DFCraft makes it easier to find Minecraft content. You can search, choose categories, view content images, and open available download links.",
   aboutP3:"Users with an account can also add content to DFCraft with an image, name, category, and download link. The owner's account name is displayed on added content.",
   aboutP4:"DFCraft continues to grow with category search, download history, appearance settings, language options, and links to DFCraft social media and community channels.",
   aboutP5:"The goal of DFCraft is to provide a simple and comfortable place for Minecraft players to find the content they are looking for.",
-  aboutVersion:"Version 4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"Version 4.10.1",aboutBrand:"DFCraft Web"
  },
  ms:{
-  all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:"⚙️ Tetapan",
-  languageLabel:"🌐 Bahasa",themeLabel:"🎨 Paparan",dark:"🌙 Gelap",light:"☀️ Cerah",
-  clearDownloads:"🗑️ Padam semua sejarah muat turun",close:"Tutup",search:"Cari...",recommend:"Disyorkan",
+  all:"SEMUA",home:"Laman Utama",downloads:"Muat Turun",add:"Tambah",settings:"Tetapan",settingsTitle:" Tetapan",
+  languageLabel:"Bahasa",themeLabel:"Paparan",dark:"Gelap",light:"Cerah",
+  clearDownloads:"Padam semua sejarah muat turun",close:"Tutup",search:"Cari...",recommend:"Disyorkan",
   addOns:"ADD-ONS",worlds:"Dunia",textures:"Pek Tekstur",skins:"Skin",minecraftApk:"APK Minecraft",
-  download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"Padam Add-On",deleteHistory:"🗑️ Padam",
+  download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"Padam Add-On",deleteHistory:"Padam",
   empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",
-  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10.10",confirmClear:"Padam semua sejarah muat turun?",
+  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Padam semua sejarah muat turun?",
   confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam.",
-  searchCategory:"🔎 Pilih Kategori",searchAll:"📦 Semua",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Dunia",
-  searchTextures:"🎨 Pek Tekstur",searchSkin:"🧍 Skin",searchApk:"📱 APK Minecraft",
-  addTitle:"➕ Tambah Add-On",namePlaceholder:"Nama Add-On",chooseImage:"🖼️ Pilih gambar dari Galeri",
+  searchCategory:"🔎 Pilih Kategori",searchAll:"Semua",searchAddOns:"Add-Ons",searchWorlds:"Dunia",
+  searchTextures:"Pek Tekstur",searchSkin:"Skin",searchApk:"APK Minecraft",
+  addTitle:"Tambah Add-On",namePlaceholder:"Nama Add-On",chooseImage:"Pilih gambar dari Galeri",
   noImage:"Tiada gambar dipilih",mediafirePlaceholder:"Pautan MediaFire (mesti sepadan dengan kategori)",
-  cancel:"Batal",addButton:"Tambah",aboutTitle:"ℹ️ Tentang DFCraft",notificationTitle:"🔔 Notifikasi",
+  cancel:"Batal",addButton:"Tambah",aboutTitle:"Tentang DFCraft",notificationTitle:"Notifikasi",
   notificationInfo:"Notifikasi DFCraft boleh memberitahu kamu apabila Add-On atau kemas kini baharu tersedia.",
   active:"Aktif",inactive:"Tidak aktif",turnOffNotifications:"Matikan Notifikasi",turnOnNotifications:"Aktifkan Notifikasi",
-  support:"💖 Sokong DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Saluran WhatsApp DFCraft",
-  accountTitle:"👤 Log Masuk / Daftar",login:"Log Masuk",register:"Daftar",email:"📧 E-mel",emailGmail:"📧 Gmail / E-mel",
-  phone:"📱 Nombor Telefon",username:"👤 Nama pengguna",password:"🔑 Kata laluan",confirmPassword:"🔐 Sahkan kata laluan",
-  registerNote:"Sila daftar jika kamu belum mempunyai akaun.",profileNameLabel:"👤 Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"💾 Simpan Profil",changeProfilePhoto:"Tukar foto profil",profileSaved:"Profil berjaya dikemas kini.",profileSaving:"Menyimpan...",profileImageUploading:"Memuat naik foto profil...",profileImageError:"Foto profil gagal dimuat naik.",chooseProfilePhoto:"🖼️ Foto Profil",cropTitle:"🖼️ Laraskan Foto Profil",cropHelp:"Seret gambar untuk melaraskan kedudukan",cropZoom:"Gunakan peluncur untuk zum",applyCrop:"Guna",cancelCrop:"Batal",account:"👤 Akaun DFCraft",member:"Ahli",logout:"🚪 Log Keluar",
+  support:"Sokong DFCraft",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"Saluran WhatsApp DFCraft",
+  accountTitle:"Log Masuk / Daftar",login:"Log Masuk",register:"Daftar",email:"E-mel",emailGmail:"Gmail / E-mel",
+  phone:"Nombor Telefon",username:"Nama pengguna",password:"Kata laluan",confirmPassword:"Sahkan kata laluan",
+  registerNote:"Sila daftar jika kamu belum mempunyai akaun.",profileNameLabel:"Nama profil",profileNamePlaceholder:"Nama profil",saveProfile:"Simpan Profil",changeProfilePhoto:"Tukar foto profil",profileSaved:"Profil berjaya dikemas kini.",profileSaving:"Menyimpan...",profileImageUploading:"Memuat naik foto profil...",profileImageError:"Foto profil gagal dimuat naik.",chooseProfilePhoto:"Foto Profil",cropTitle:"Laraskan Foto Profil",cropHelp:"Seret gambar untuk melaraskan kedudukan",cropZoom:"Gunakan peluncur untuk zum",applyCrop:"Guna",cancelCrop:"Batal",account:"Akaun DFCraft",member:"Ahli",logout:"Log Keluar",
   showPassword:"Tunjukkan kata laluan",showConfirmPassword:"Tunjukkan pengesahan kata laluan",
   aboutP1:"DFCraft ialah laman komuniti untuk mencari, menemui dan berkongsi kandungan Minecraft dalam satu tempat. Kategori yang tersedia termasuk Add-Ons, Dunia, Pek Tekstur, Skin dan APK Minecraft.",
   aboutP2:"DFCraft memudahkan pencarian kandungan Minecraft. Kamu boleh mencari, memilih kategori, melihat imej kandungan dan membuka pautan muat turun yang tersedia.",
   aboutP3:"Pengguna yang mempunyai akaun juga boleh menambah kandungan ke DFCraft dengan imej, nama, kategori dan pautan muat turun. Nama akaun pemilik akan dipaparkan pada kandungan.",
   aboutP4:"DFCraft terus dibangunkan dengan carian kategori, sejarah muat turun, tetapan paparan, pilihan bahasa dan pautan ke media sosial serta saluran komuniti DFCraft.",
   aboutP5:"Matlamat DFCraft adalah menyediakan tempat yang mudah dan selesa untuk pemain Minecraft mencari kandungan yang mereka perlukan.",
-  aboutVersion:"Versi 4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
  },
  es:{
-  all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:"⚙️ Ajustes",
-  languageLabel:"🌐 Idioma",themeLabel:"🎨 Apariencia",dark:"🌙 Oscuro",light:"☀️ Claro",
-  clearDownloads:"🗑️ Borrar historial de descargas",close:"Cerrar",search:"Buscar...",recommend:"⭐ Recomendaciones",
+  all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:" Ajustes",
+  languageLabel:" Idioma",themeLabel:"Apariencia",dark:"Oscuro",light:"Claro",
+  clearDownloads:"Borrar historial de descargas",close:"Cerrar",search:"Buscar...",recommend:"Recomendaciones",
   addOns:"ADD-ONS",worlds:"Mundos",textures:"Paquetes de texturas",skins:"Skins",minecraftApk:"APK de Minecraft",
-  download:"Descargar",downloadAgain:"Descargar de nuevo",delete:"🗑️ Eliminar Add-On",deleteHistory:"🗑️ Eliminar",
+  download:"Descargar",downloadAgain:"Descargar de nuevo",delete:"Eliminar Add-On",deleteHistory:"Eliminar",
   empty:"Aún no hay elementos.",emptyDownloads:"Aún no hay Add-Ons descargados. Pulsa Descargar en un Add-On para añadirlo aquí.",
   downloaded:"Descargado",about:"DFCraft Web • Versión 4.9.5",confirmClear:"¿Borrar todo el historial de descargas?",
   confirmReset:"¿Restablecer todos los datos de DFCraft? Se eliminarán los Add-Ons y el historial de descargas.",
-  searchCategory:"🔎 Elegir categoría",searchAll:"📦 Todo",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Mundos",
-  searchTextures:"🎨 Paquetes de texturas",searchSkin:"🧍 Skins",searchApk:"📱 APK de Minecraft",
-  addTitle:"➕ Añadir Add-On",namePlaceholder:"Nombre del Add-On",chooseImage:"🖼️ Elegir imagen de la galería",
+  searchCategory:"🔎 Elegir categoría",searchAll:"Todo",searchAddOns:"Add-Ons",searchWorlds:"Mundos",
+  searchTextures:"Paquetes de texturas",searchSkin:"Skins",searchApk:"APK de Minecraft",
+  addTitle:"Añadir Add-On",namePlaceholder:"Nombre del Add-On",chooseImage:"Elegir imagen de la galería",
   noImage:"No se ha seleccionado ninguna imagen",mediafirePlaceholder:"Enlace de MediaFire (debe coincidir con la categoría)",
-  cancel:"Cancelar",addButton:"Añadir",aboutTitle:"ℹ️ Acerca de DFCraft",notificationTitle:"🔔 Notificaciones",
+  cancel:"Cancelar",addButton:"Añadir",aboutTitle:"Acerca de DFCraft",notificationTitle:"Notificaciones",
   notificationInfo:"Las notificaciones de DFCraft pueden avisarte cuando haya un Add-On o una actualización nueva.",
   active:"Activo",inactive:"Inactivo",turnOffNotifications:"Desactivar notificaciones",turnOnNotifications:"Activar notificaciones",
-  support:"💖 Apoyar DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Canal de WhatsApp de DFCraft",
-  accountTitle:"👤 Iniciar sesión / Registrarse",login:"Iniciar sesión",register:"Registrarse",email:"📧 Correo electrónico",emailGmail:"📧 Gmail / Correo",
-  phone:"📱 Número de teléfono",username:"👤 Nombre de usuario",password:"🔑 Contraseña",confirmPassword:"🔐 Confirmar contraseña",
-  registerNote:"Regístrate si todavía no tienes una cuenta.",profileNameLabel:"👤 Nombre del perfil",profileNamePlaceholder:"Nombre del perfil",saveProfile:"💾 Guardar perfil",changeProfilePhoto:"Cambiar foto de perfil",profileSaved:"Perfil actualizado correctamente.",profileSaving:"Guardando...",profileImageUploading:"Subiendo foto de perfil...",profileImageError:"No se pudo subir la foto de perfil.",chooseProfilePhoto:"🖼️ Foto de perfil",cropTitle:"🖼️ Ajustar foto de perfil",cropHelp:"Arrastra la imagen para ajustar su posición",cropZoom:"Usa el control para acercar / alejar",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"👤 Cuenta DFCraft",member:"Miembro",logout:"🚪 Cerrar sesión",
+  support:"Apoyar DFCraft",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"Canal de WhatsApp de DFCraft",
+  accountTitle:"Iniciar sesión / Registrarse",login:"Iniciar sesión",register:"Registrarse",email:"Correo electrónico",emailGmail:"Gmail / Correo",
+  phone:"Número de teléfono",username:"Nombre de usuario",password:"Contraseña",confirmPassword:"Confirmar contraseña",
+  registerNote:"Regístrate si todavía no tienes una cuenta.",profileNameLabel:"Nombre del perfil",profileNamePlaceholder:"Nombre del perfil",saveProfile:"Guardar perfil",changeProfilePhoto:"Cambiar foto de perfil",profileSaved:"Perfil actualizado correctamente.",profileSaving:"Guardando...",profileImageUploading:"Subiendo foto de perfil...",profileImageError:"No se pudo subir la foto de perfil.",chooseProfilePhoto:"Foto de perfil",cropTitle:"Ajustar foto de perfil",cropHelp:"Arrastra la imagen para ajustar su posición",cropZoom:"Usa el control para acercar / alejar",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"Cuenta DFCraft",member:"Miembro",logout:"Cerrar sesión",
   showPassword:"Mostrar contraseña",showConfirmPassword:"Mostrar confirmación de contraseña",
   aboutP1:"DFCraft es un sitio web comunitario para buscar, descubrir y compartir contenido de Minecraft en un solo lugar. Hay categorías de Add-Ons, Mundos, Paquetes de texturas, Skins y APK de Minecraft.",
   aboutP2:"DFCraft facilita encontrar contenido de Minecraft. Puedes buscar, elegir categorías, ver imágenes y abrir los enlaces de descarga disponibles.",
   aboutP3:"Los usuarios con una cuenta también pueden añadir contenido a DFCraft con imagen, nombre, categoría y enlace de descarga. El nombre de la cuenta del propietario se muestra en el contenido añadido.",
   aboutP4:"DFCraft sigue desarrollándose con búsqueda por categorías, historial de descargas, ajustes de apariencia, opciones de idioma y enlaces a las redes sociales y canales de la comunidad DFCraft.",
   aboutP5:"El objetivo de DFCraft es ofrecer un lugar sencillo y cómodo para que los jugadores de Minecraft encuentren el contenido que buscan.",
-  aboutVersion:"Versión 4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versión 4.9.5",aboutBrand:"DFCraft Web"
  },
  pt:{
-  all:"TODOS",home:"Início",downloads:"Downloads",add:"Adicionar",settings:"Configurações",settingsTitle:"⚙️ Configurações",
-  languageLabel:"🌐 Idioma",themeLabel:"🎨 Aparência",dark:"🌙 Escuro",light:"☀️ Claro",
-  clearDownloads:"🗑️ Limpar histórico de downloads",close:"Fechar",search:"Pesquisar...",recommend:"⭐ Recomendaciones",
+  all:"TODOS",home:"Início",downloads:"Downloads",add:"Adicionar",settings:"Configurações",settingsTitle:" Configurações",
+  languageLabel:" Idioma",themeLabel:"Aparência",dark:"Escuro",light:"Claro",
+  clearDownloads:"Limpar histórico de downloads",close:"Fechar",search:"Pesquisar...",recommend:"Recomendaciones",
   addOns:"ADD-ONS",worlds:"Mundos",textures:"Pacotes de textura",skins:"Skins",minecraftApk:"APK do Minecraft",
-  download:"Baixar",downloadAgain:"Baixar novamente",delete:"🗑️ Excluir Add-On",deleteHistory:"🗑️ Excluir",
+  download:"Baixar",downloadAgain:"Baixar novamente",delete:"Excluir Add-On",deleteHistory:"Excluir",
   empty:"Nenhum item ainda.",emptyDownloads:"Nenhum Add-On baixado. Pressione Baixar em um Add-On para adicioná-lo aqui.",
   downloaded:"Baixado",about:"DFCraft Web • Versão 4.10.1",confirmClear:"Limpar todo o histórico de downloads?",
   confirmReset:"Redefinir todos os dados do DFCraft? Add-Ons e histórico de downloads serão excluídos.",
-  searchCategory:"🔎 Escolher categoria",searchAll:"📦 Todos",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 Mundos",
-  searchTextures:"🎨 Pacotes de textura",searchSkin:"🧍 Skins",searchApk:"📱 APK do Minecraft",
-  addTitle:"➕ Adicionar Add-On",namePlaceholder:"Nome do Add-On",chooseImage:"🖼️ Escolher imagem da galeria",
+  searchCategory:"🔎 Escolher categoria",searchAll:"Todos",searchAddOns:"Add-Ons",searchWorlds:"Mundos",
+  searchTextures:"Pacotes de textura",searchSkin:"Skins",searchApk:"APK do Minecraft",
+  addTitle:"Adicionar Add-On",namePlaceholder:"Nome do Add-On",chooseImage:"Escolher imagem da galeria",
   noImage:"Nenhuma imagem selecionada",mediafirePlaceholder:"Link do MediaFire (deve corresponder à categoria)",
-  cancel:"Cancelar",addButton:"Adicionar",aboutTitle:"ℹ️ Sobre o DFCraft",notificationTitle:"🔔 Notificações",
+  cancel:"Cancelar",addButton:"Adicionar",aboutTitle:"Sobre o DFCraft",notificationTitle:"Notificações",
   notificationInfo:"As notificações do DFCraft podem avisar quando houver um novo Add-On ou atualização.",
   active:"Ativo",inactive:"Inativo",turnOffNotifications:"Desativar notificações",turnOnNotifications:"Ativar notificações",
-  support:"💖 Apoiar o DFCraft",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 Canal do WhatsApp DFCraft",
-  accountTitle:"👤 Entrar / Cadastrar",login:"Entrar",register:"Cadastrar",email:"📧 E-mail",emailGmail:"📧 Gmail / E-mail",
-  phone:"📱 Número de telefone",username:"👤 Nome de usuário",password:"🔑 Senha",confirmPassword:"🔐 Confirmar senha",
-  registerNote:"Cadastre-se se você ainda não tiver uma conta.",profileNameLabel:"👤 Nome do perfil",profileNamePlaceholder:"Nome do perfil",saveProfile:"💾 Salvar perfil",changeProfilePhoto:"Alterar foto do perfil",profileSaved:"Perfil atualizado com sucesso.",profileSaving:"Salvando...",profileImageUploading:"Enviando foto do perfil...",profileImageError:"Falha ao enviar a foto do perfil.",chooseProfilePhoto:"🖼️ Foto do perfil",cropTitle:"🖼️ Ajustar foto do perfil",cropHelp:"Arraste a imagem para ajustar a posição",cropZoom:"Use o controle para ampliar / reduzir",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"👤 Conta DFCraft",member:"Membro",logout:"🚪 Sair",
+  support:"Apoiar o DFCraft",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"Canal do WhatsApp DFCraft",
+  accountTitle:"Entrar / Cadastrar",login:"Entrar",register:"Cadastrar",email:"E-mail",emailGmail:"Gmail / E-mail",
+  phone:"Número de telefone",username:"Nome de usuário",password:"Senha",confirmPassword:"Confirmar senha",
+  registerNote:"Cadastre-se se você ainda não tiver uma conta.",profileNameLabel:"Nome do perfil",profileNamePlaceholder:"Nome do perfil",saveProfile:"Salvar perfil",changeProfilePhoto:"Alterar foto do perfil",profileSaved:"Perfil atualizado com sucesso.",profileSaving:"Salvando...",profileImageUploading:"Enviando foto do perfil...",profileImageError:"Falha ao enviar a foto do perfil.",chooseProfilePhoto:"Foto do perfil",cropTitle:"Ajustar foto do perfil",cropHelp:"Arraste a imagem para ajustar a posição",cropZoom:"Use o controle para ampliar / reduzir",applyCrop:"Aplicar",cancelCrop:"Cancelar",account:"Conta DFCraft",member:"Membro",logout:"Sair",
   showPassword:"Mostrar senha",showConfirmPassword:"Mostrar confirmação da senha",
   aboutP1:"DFCraft é um site comunitário para encontrar, descobrir e compartilhar conteúdo de Minecraft em um só lugar. Há categorias de Add-Ons, Mundos, Pacotes de textura, Skins e APK do Minecraft.",
   aboutP2:"O DFCraft facilita encontrar conteúdo de Minecraft. Você pode pesquisar, escolher categorias, ver imagens e abrir os links de download disponíveis.",
   aboutP3:"Usuários com conta também podem adicionar conteúdo ao DFCraft com imagem, nome, categoria e link de download. O nome da conta do proprietário será exibido no conteúdo.",
   aboutP4:"O DFCraft continua sendo desenvolvido com busca por categorias, histórico de downloads, configurações de aparência, opções de idioma e links para as redes sociais e canais da comunidade DFCraft.",
   aboutP5:"O objetivo do DFCraft é oferecer um lugar simples e confortável para jogadores de Minecraft encontrarem o conteúdo que procuram.",
-  aboutVersion:"Versão 4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versão 4.10.1",aboutBrand:"DFCraft Web"
  },
  ja:{
-  all:"すべて",home:"ホーム",downloads:"ダウンロード",add:"追加",settings:"設定",settingsTitle:"⚙️ 設定",
-  languageLabel:"🌐 言語",themeLabel:"🎨 外観",dark:"🌙 ダーク",light:"☀️ ライト",
-  clearDownloads:"🗑️ ダウンロード履歴を削除",close:"閉じる",search:"検索...",recommend:"⭐ おすすめ",
+  all:"すべて",home:"ホーム",downloads:"ダウンロード",add:"追加",settings:"設定",settingsTitle:" 設定",
+  languageLabel:" 言語",themeLabel:"外観",dark:"ダーク",light:"ライト",
+  clearDownloads:"ダウンロード履歴を削除",close:"閉じる",search:"検索...",recommend:"おすすめ",
   addOns:"ADD-ONS",worlds:"ワールド",textures:"テクスチャパック",skins:"スキン",minecraftApk:"Minecraft APK",
-  download:"ダウンロード",downloadAgain:"再ダウンロード",delete:"🗑️ Add-Onを削除",deleteHistory:"🗑️ 削除",
+  download:"ダウンロード",downloadAgain:"再ダウンロード",delete:"Add-Onを削除",deleteHistory:"削除",
   empty:"まだ項目がありません。",emptyDownloads:"ダウンロードしたAdd-Onはありません。Add-Onのダウンロードを押すとここに追加されます。",
   downloaded:"ダウンロード済み",about:"DFCraft Web • バージョン4.9.9",confirmClear:"ダウンロード履歴をすべて削除しますか？",
   confirmReset:"DFCraftの全データをリセットしますか？Add-Onとダウンロード履歴が削除されます。",
-  searchCategory:"🔎 カテゴリを選択",searchAll:"📦 すべて",searchAddOns:"🧩 Add-Ons",searchWorlds:"🌍 ワールド",
-  searchTextures:"🎨 テクスチャパック",searchSkin:"🧍 スキン",searchApk:"📱 Minecraft APK",
-  addTitle:"➕ Add-Onを追加",namePlaceholder:"Add-On名",chooseImage:"🖼️ ギャラリーから画像を選択",
+  searchCategory:"🔎 カテゴリを選択",searchAll:"すべて",searchAddOns:"Add-Ons",searchWorlds:"ワールド",
+  searchTextures:"テクスチャパック",searchSkin:"スキン",searchApk:"Minecraft APK",
+  addTitle:"Add-Onを追加",namePlaceholder:"Add-On名",chooseImage:"ギャラリーから画像を選択",
   noImage:"画像が選択されていません",mediafirePlaceholder:"MediaFireリンク（カテゴリに一致する必要があります）",
-  cancel:"キャンセル",addButton:"追加する",aboutTitle:"ℹ️ DFCraftについて",notificationTitle:"🔔 通知",
+  cancel:"キャンセル",addButton:"追加する",aboutTitle:"DFCraftについて",notificationTitle:"通知",
   notificationInfo:"DFCraftの通知では、新しいAdd-Onやアップデートを知らせることができます。",
   active:"有効",inactive:"無効",turnOffNotifications:"通知をオフにする",turnOnNotifications:"通知をオンにする",
-  support:"💖 DFCraftをサポート",youtube:"▶️ YouTube DFCraft",tiktok:"🎵 TikTok DFCraft",whatsapp:"💬 DFCraft WhatsAppチャンネル",
-  accountTitle:"👤 ログイン / 登録",login:"ログイン",register:"登録",email:"📧 メール",emailGmail:"📧 Gmail / メール",
-  phone:"📱 電話番号",username:"👤 ユーザー名",password:"🔑 パスワード",confirmPassword:"🔐 パスワードを確認",
-  registerNote:"アカウントをお持ちでない場合は登録してください。",profileNameLabel:"👤 プロフィール名",profileNamePlaceholder:"プロフィール名",saveProfile:"💾 プロフィールを保存",changeProfilePhoto:"プロフィール写真を変更",profileSaved:"プロフィールを更新しました。",profileSaving:"保存中...",profileImageUploading:"プロフィール写真をアップロード中...",profileImageError:"プロフィール写真のアップロードに失敗しました。",chooseProfilePhoto:"🖼️ プロフィール写真",cropTitle:"🖼️ プロフィール写真を調整",cropHelp:"画像をドラッグして位置を調整",cropZoom:"スライダーで拡大・縮小",applyCrop:"適用",cancelCrop:"キャンセル",account:"👤 DFCraftアカウント",member:"メンバー",logout:"🚪 ログアウト",
+  support:"DFCraftをサポート",youtube:"YouTube DFCraft",tiktok:"TikTok DFCraft",whatsapp:"DFCraft WhatsAppチャンネル",
+  accountTitle:"ログイン / 登録",login:"ログイン",register:"登録",email:"メール",emailGmail:"Gmail / メール",
+  phone:"電話番号",username:"ユーザー名",password:"パスワード",confirmPassword:"パスワードを確認",
+  registerNote:"アカウントをお持ちでない場合は登録してください。",profileNameLabel:"プロフィール名",profileNamePlaceholder:"プロフィール名",saveProfile:"プロフィールを保存",changeProfilePhoto:"プロフィール写真を変更",profileSaved:"プロフィールを更新しました。",profileSaving:"保存中...",profileImageUploading:"プロフィール写真をアップロード中...",profileImageError:"プロフィール写真のアップロードに失敗しました。",chooseProfilePhoto:"プロフィール写真",cropTitle:"プロフィール写真を調整",cropHelp:"画像をドラッグして位置を調整",cropZoom:"スライダーで拡大・縮小",applyCrop:"適用",cancelCrop:"キャンセル",account:"DFCraftアカウント",member:"メンバー",logout:"ログアウト",
   showPassword:"パスワードを表示",showConfirmPassword:"確認用パスワードを表示",
   aboutP1:"DFCraftは、Minecraftのコンテンツを一か所で探したり、見つけたり、共有したりできるコミュニティサイトです。Add-Ons、ワールド、テクスチャパック、スキン、Minecraft APKのカテゴリがあります。",
   aboutP2:"DFCraftではMinecraftコンテンツを簡単に探せます。検索、カテゴリ選択、画像の確認、利用可能なダウンロードリンクを開くことができます。",
   aboutP3:"アカウントを持つユーザーは、画像、名前、カテゴリ、ダウンロードリンクを付けてDFCraftにコンテンツを追加できます。追加したコンテンツには所有者のアカウント名が表示されます。",
   aboutP4:"DFCraftは、カテゴリ検索、ダウンロード履歴、外観設定、言語設定、DFCraftのSNSやコミュニティチャンネルへのリンクなどを継続的に開発しています。",
   aboutP5:"DFCraftの目的は、Minecraftプレイヤーが探しているコンテンツを簡単で快適に見つけられる場所を作ることです。",
-  aboutVersion:"バージョン4.10.10",aboutBrand:"DFCraft Web"
+  aboutVersion:"バージョン4.9.9",aboutBrand:"DFCraft Web"
  }
 };
 let language=localStorage.getItem("dfcraft_language")||"id";
@@ -1432,25 +1469,25 @@ loadRemoteAddons();
 <div id="authModal" class="auth-modal">
   <div class="auth-box">
     <div id="authLoggedOut">
-      <div class="auth-title" data-i18n="accountTitle">👤 Masuk / Daftar</div>
+      <div class="auth-title" data-i18n="accountTitle">Masuk / Daftar</div>
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLogin" data-i18n="login">Masuk</button>
         <button class="auth-tab" id="tabRegister" data-i18n="register">Daftar</button>
       </div>
 
       <div class="auth-panel active" id="loginPanel">
-        <input id="loginIdentifier" type="text" autocomplete="username" data-i18n-placeholder="email" placeholder="📧 Email">
-        <div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" data-i18n-placeholder="password" placeholder="🔑 Kata sandi"><button type="button" class="password-eye" data-password-target="loginPassword" data-i18n-aria="showPassword" aria-label="Tampilkan kata sandi">👁️</button></div>
+        <input id="loginIdentifier" type="text" autocomplete="username" data-i18n-placeholder="email" placeholder="Email">
+        <div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" data-i18n-placeholder="password" placeholder="Kata sandi"><button type="button" class="password-eye" data-password-target="loginPassword" data-i18n-aria="showPassword" aria-label="Tampilkan kata sandi"></button></div>
         <div id="loginMsg" class="auth-msg"></div>
         <button class="auth-main" id="loginBtn" data-i18n="login">Masuk</button>
       </div>
 
       <div class="auth-panel" id="registerPanel">
-        <input id="regEmail" type="email" autocomplete="email" data-i18n-placeholder="emailGmail" placeholder="📧 Gmail / Email">
-        <input id="regPhone" type="tel" autocomplete="tel" data-i18n-placeholder="phone" placeholder="📱 Nomor HP">
-        <input id="regUsername" type="text" autocomplete="username" data-i18n-placeholder="username" placeholder="👤 Nama pengguna">
-        <div class="password-wrap"><input id="regPassword" type="password" autocomplete="new-password" data-i18n-placeholder="password" placeholder="🔑 Kata sandi"><button type="button" class="password-eye" data-password-target="regPassword" data-i18n-aria="showPassword" aria-label="Tampilkan kata sandi">👁️</button></div>
-        <div class="password-wrap"><input id="regConfirm" type="password" autocomplete="new-password" data-i18n-placeholder="confirmPassword" placeholder="🔐 Konfirmasi kata sandi"><button type="button" class="password-eye" data-password-target="regConfirm" data-i18n-aria="showConfirmPassword" aria-label="Tampilkan konfirmasi kata sandi">👁️</button></div>
+        <input id="regEmail" type="email" autocomplete="email" data-i18n-placeholder="emailGmail" placeholder="Gmail / Email">
+        <input id="regPhone" type="tel" autocomplete="tel" data-i18n-placeholder="phone" placeholder="Nomor HP">
+        <input id="regUsername" type="text" autocomplete="username" data-i18n-placeholder="username" placeholder="Nama pengguna">
+        <div class="password-wrap"><input id="regPassword" type="password" autocomplete="new-password" data-i18n-placeholder="password" placeholder="Kata sandi"><button type="button" class="password-eye" data-password-target="regPassword" data-i18n-aria="showPassword" aria-label="Tampilkan kata sandi"></button></div>
+        <div class="password-wrap"><input id="regConfirm" type="password" autocomplete="new-password" data-i18n-placeholder="confirmPassword" placeholder="Konfirmasi kata sandi"><button type="button" class="password-eye" data-password-target="regConfirm" data-i18n-aria="showConfirmPassword" aria-label="Tampilkan konfirmasi kata sandi"></button></div>
         <div id="regMsg" class="auth-msg"></div>
         <button class="auth-main" id="registerBtn" data-i18n="register">Daftar</button>
         <div class="auth-note" data-i18n="registerNote">Silakan daftar kalau kamu belum punya akun.</div>
@@ -1469,7 +1506,7 @@ loadRemoteAddons();
       </div>
       <input id="profileImageInput" type="file" accept="image/*" style="display:none">
       <div class="profile-crop" id="profileCropEditor">
-        <div class="crop-title" data-i18n="cropTitle">🖼️ Atur Foto Profil</div>
+        <div class="crop-title" data-i18n="cropTitle">Atur Foto Profil</div>
         <div class="crop-stage" id="profileCropStage">
           <canvas id="profileCropCanvas" width="480" height="480"></canvas>
         </div>
@@ -1483,11 +1520,11 @@ loadRemoteAddons();
       </div>
       <div class="profile-edit">
         <input id="profileNameInput" type="text" maxlength="40" autocomplete="nickname" data-i18n-placeholder="profileNamePlaceholder" placeholder="Nama profil">
-        <button class="profile-save" id="saveProfileBtn" data-i18n="saveProfile">💾 Simpan Profil</button>
+        <button class="profile-save" id="saveProfileBtn" data-i18n="saveProfile">Simpan Profil</button>
         <div class="profile-msg" id="profileMsg"></div>
       </div>
       <div class="auth-note" id="profileContact"></div>
-      <button class="auth-main" id="logoutBtn" data-i18n="logout">🚪 Keluar</button>
+      <button class="auth-main" id="logoutBtn" data-i18n="logout">Keluar</button>
       <button class="auth-close" id="authCloseLogged" data-i18n="close">Tutup</button>
     </div>
   </div>
@@ -1546,7 +1583,7 @@ loadRemoteAddons();
       $('profileNameInput').value=username;
       $('profileMeta').textContent='Member • Appwrite';
       setProfileAvatar(getAvatarUrl(prefs.avatarFileId), username);
-      $('profileContact').textContent='📧 '+currentAppwriteUser.email+(prefs.phone?'  •  📱 '+prefs.phone:'');
+      $('profileContact').textContent=''+currentAppwriteUser.email+(prefs.phone?'  •  '+prefs.phone:'');
     }else{
       setProfileAvatar('', 'DF');
     }
@@ -1608,7 +1645,7 @@ loadRemoteAddons();
       if(!input)return;
       const showing=input.type==='text';
       input.type=showing?'password':'text';
-      btn.textContent=showing?'👁️':'🙈';
+      btn.textContent=showing?'':'';
       btn.setAttribute('aria-label',showing?'Tampilkan kata sandi':'Sembunyikan kata sandi');
     });
   });
@@ -1929,7 +1966,7 @@ async function setupDfPushNotifications(){
     try{
       const n = payload.notification || {};
       const data = payload.data || {};
-      const title = n.title || data.title || "🧩 Add-On baru di DFCraft";
+      const title = n.title || data.title || "Add-On baru di DFCraft";
       const body = n.body || data.body || "Ada Add-On baru di DFCraft.";
       const reg = await navigator.serviceWorker.ready;
       await reg.showNotification(title, {
@@ -2033,3 +2070,54 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 
 </body></html>
+<style>
+.password-eye{font-size:0;position:relative}
+.password-eye::before{content:"";display:block;width:24px;height:24px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 5c-5 0-9 4.2-10.5 7 1.5 2.8 5.5 7 10.5 7s9-4.2 10.5-7C21 9.2 17 5 12 5Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 5c-5 0-9 4.2-10.5 7 1.5 2.8 5.5 7 10.5 7s9-4.2 10.5-7C21 9.2 17 5 12 5Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z'/%3E%3C/svg%3E") center/contain no-repeat}
+.password-eye.is-visible::after{content:"";position:absolute;width:27px;height:2px;background:currentColor;transform:rotate(-35deg);top:11px;left:1px}
+</style>
+
+<style>
+/* Fix: keep password visibility SVG inside each password field */
+.auth-box .password-wrap{
+  position:relative!important;display:block!important;width:100%!important;
+  margin:7px 0!important;min-height:0!important;
+}
+.auth-box .password-wrap input{
+  display:block!important;width:100%!important;margin:0!important;
+  min-height:60px;box-sizing:border-box!important;padding-right:58px!important;
+}
+.auth-box .password-wrap .password-eye{
+  position:absolute!important;right:8px!important;top:50%!important;
+  transform:translateY(-50%)!important;width:42px!important;height:42px!important;
+  margin:0!important;z-index:2!important;display:grid!important;place-items:center!important;
+}
+.auth-box .password-wrap .password-eye::before{
+  width:24px!important;height:24px!important;margin:0!important;
+}
+.auth-box .password-wrap .password-eye.is-visible::after{
+  top:20px!important;left:8px!important;width:26px!important;
+}
+/* Keep SVG heading icons as the only heading icons; avoid duplicate symbols. */
+.settings-box h2[data-i18n="settingsTitle"]::before{margin-right:.42em}
+.settings-box .setting-label{display:block}
+</style>
+
+
+<style>
+/* Restore the missing Settings tab icon and keep all four bottom tabs aligned */
+.bottom{display:flex!important;justify-content:space-around!important;align-items:stretch!important}
+.bottom .nav{display:flex!important;flex:1 1 25%!important;min-width:0!important;max-width:25%!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;white-space:nowrap!important}
+.bottom .nav b{display:block!important;font-size:0!important;width:28px!important;height:28px!important;line-height:28px!important;position:relative!important}
+.bottom .nav#home b::before,
+.bottom .nav#downloads b::before,
+.bottom .nav#add b::before,
+.bottom .nav#settings b::before{
+ content:"";display:block;width:26px;height:26px;background:currentColor;
+ -webkit-mask:var(--nav-icon) center/contain no-repeat;mask:var(--nav-icon) center/contain no-repeat;
+}
+.bottom .nav#home b{--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3Z'/%3E%3C/svg%3E")}
+.bottom .nav#downloads b{--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 2h2v11l4-4 1.4 1.4L12 17l-6.4-6.6L7 9l4 4V2ZM4 19h16v3H4z'/%3E%3C/svg%3E")}
+.bottom .nav#add b{--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath stroke='black' stroke-width='2.5' d='M12 3v18M3 12h18'/%3E%3C/svg%3E")}
+.bottom .nav#settings b{--nav-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3H9l-.4 3a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.7 7.7 0 0 0 1.7 1L9 21h6l.4-3a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.5-2.1-1.5ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z'/%3E%3C/svg%3E")}
+.bottom .nav span{display:block!important;font-size:12px!important;line-height:1.2!important}
+</style>
