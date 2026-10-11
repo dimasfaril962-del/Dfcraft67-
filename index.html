@@ -78,6 +78,15 @@
 #regConfirm{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='10' width='16' height='12' rx='2' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M8 10V7a4 4 0 1 1 8 0v3' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='m9 16 2 2 4-4' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
 #name{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 4h16v16H4z' fill='none' stroke='%239da9b8' stroke-width='2'/%3E%3Cpath d='M7 8h10M7 12h10M7 16h6' stroke='%239da9b8' stroke-width='2'/%3E%3C/svg%3E")!important}
 
+
+.card-media,.search-result-media,.recommend-media,.download-media{display:block;object-fit:cover;background:#303844}
+.card-media{width:100%;aspect-ratio:1.4}
+.search-result-media{width:48%;max-width:320px;min-height:112px;object-fit:cover}
+.recommend-media{width:100%;aspect-ratio:1.8}
+.download-media{width:100%;aspect-ratio:1.4}
+.addon-detail-image{width:100%;max-height:58vh;object-fit:contain;display:block;background:#0b0f14}
+.image-preview video{display:block;margin:0 auto}
+@media(max-width:420px){.search-result-media{width:47%;min-height:102px}}
 </style>
 <style>
 .settings-extra{display:grid;gap:12px;margin-top:14px}
@@ -446,7 +455,7 @@ body.downloads-page #title{margin-top:0}
     <button class="addon-detail-back" id="addonDetailBack" aria-label="Kembali">‹</button>
     <div class="addon-detail-title" id="addonDetailTitle">Add-On</div>
   </div>
-  <div class="addon-detail-image-wrap"><img id="addonDetailImage" class="addon-detail-image" src="" alt=""></div>
+  <div class="addon-detail-image-wrap" id="addonDetailMedia"></div>
   <div class="addon-detail-body">
     <div class="addon-detail-meta" id="addonDetailMeta"></div>
     <div class="addon-detail-stats">
@@ -509,7 +518,7 @@ body.light .df-settings-social .df-social-icon{color:#555f6c}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">Pilih gambar dari Galeri</label><input id="image" type="file" accept="image/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada gambar dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs/Shader</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">Pilih gambar, GIF, atau video (maks. 10 detik)</label><input id="image" type="file" accept="image/*,video/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada media dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs/Shader</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -538,10 +547,17 @@ function parseOwner(raw){
   return {id:value,name:""};
 }
 function rowToAddon(row){
-  const image = String(row.image||"");
+  const storedMedia=String(row.image||"");
+  const mediaType=storedMedia.startsWith("video:")?"video":"image";
+  const fileId=mediaType==="video"?storedMedia.slice(6):storedMedia;
+  const image=fileId.startsWith("http")?fileId:appwriteImageUrl(fileId);
   const ownerInfo=parseOwner(row.owner);
   const currentName=(currentAppwriteUser && ownerInfo.id===currentAppwriteUser.$id) ? ((currentAppwriteUser.prefs||{}).username||currentAppwriteUser.name||"") : "";
-  return {id:row.$id,name:row.name||"Tanpa nama",image:image.startsWith("http")?image:appwriteImageUrl(image),link:row.link||"",cat:row.category||"Add-Ons",owner:ownerInfo.id,ownerName:ownerInfo.name||currentName||"DFCraft",fileId:image.startsWith("http")?"":image,createdAt:row.$createdAt||""};
+  return {id:row.$id,name:row.name||"Tanpa nama",image,mediaType,link:row.link||"",cat:row.category||"Add-Ons",owner:ownerInfo.id,ownerName:ownerInfo.name||currentName||"DFCraft",fileId:fileId.startsWith("http")?"":fileId,createdAt:row.$createdAt||""};
+}
+function mediaHTML(x,className="",extra=""){
+  const src=esc(x.image||""), name=esc(x.name||""), cls=esc(className);
+  return x.mediaType==="video" ? `<video class="${cls}" src="${src}" aria-label="${name}" ${extra} muted playsinline preload="metadata" controls></video>` : `<img class="${cls}" src="${src}" alt="${name}" ${extra}>`;
 }
 async function loadRemoteAddons(){
   try {
@@ -577,13 +593,13 @@ function isAddonOwner(x){
 function cardHTML(x){
   const canDelete=isAddonOwner(x);
   const creator=x.ownerName||"DFCraft";
-  return `<article class="card" data-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}" loading="lazy"><div class="body"><div class="name">${esc(x.name)}</div><div class="meta">${esc(creator)}</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}" title="Hanya pemilik Add-On yang dapat menghapus"><svg class="df-trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 14h10l1-14M10 11v6m4-6v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="df-delete-label">${t("delete")}</span></button>`:""}</div></article>`;
+  return `<article class="card" data-addon-id="${esc(x.id)}">${mediaHTML(x,"card-media","loading=\"lazy\"")}<div class="body"><div class="name">${esc(x.name)}</div><div class="meta">${esc(creator)}</div><a class="download" href="${esc(x.link)}" target="_blank" rel="noopener" data-download-id="${esc(x.id)}">${t("download")}</a>${canDelete?`<button class="delete" data-id="${esc(x.id)}" title="Hanya pemilik Add-On yang dapat menghapus"><svg class="df-trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 14h10l1-14M10 11v6m4-6v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="df-delete-label">${t("delete")}</span></button>`:""}</div></article>`;
 }
 function searchResultHTML(x){
   const creator=x.ownerName||"DFCraft";
   const cat=x.cat||"Add-Ons";
   return `<article class="search-result-item" data-search-addon-id="${esc(x.id)}">
-    <img src="${esc(x.image)}" alt="${esc(x.name)}">
+    ${mediaHTML(x,"search-result-media")}
     <div class="search-result-info">
       <div class="search-result-name">${esc(x.name)}</div>
       <div class="search-result-meta">oleh ${esc(creator)}</div>
@@ -689,8 +705,7 @@ async function openAddonDetail(item){
   activeDetailItem=item;
   activeDetailReactionType=null;
   $("addonDetailTitle").textContent=item.name||"Add-On";
-  $("addonDetailImage").src=item.image||"";
-  $("addonDetailImage").alt=item.name||"Add-On";
+  $("addonDetailMedia").innerHTML=mediaHTML(item,"addon-detail-image");
   const creator=item.ownerName||"DFCraft";
   const category=item.cat||"Add-Ons";
   $("addonDetailMeta").innerHTML=`Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
@@ -719,7 +734,7 @@ function closeAddonDetail(){
 function bindDetailCards(){
   document.querySelectorAll("[data-addon-id]").forEach(card=>{
     card.onclick=(ev)=>{
-      if(ev.target.closest("a,button"))return;
+      if(ev.target.closest("a,button,video"))return;
       const item=items.find(x=>x.id===card.dataset.addonId);
       openAddonDetail(item);
     };
@@ -866,7 +881,7 @@ function render(){
     window.dfRecommendationItemsInitialized=true;
   }
   const recItems=Array.isArray(window.dfRecommendationItems)?window.dfRecommendationItems:[];
-  $("recommend").innerHTML=recItems.length?recItems.map(x=>`<div class="recommend-image" data-recommend-addon-id="${esc(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.name)}"></div>`).join(""):`<div class="empty">${t("empty")}</div>`;
+  $("recommend").innerHTML=recItems.length?recItems.map(x=>`<div class="recommend-image" data-recommend-addon-id="${esc(x.id)}">${mediaHTML(x,"recommend-media")}</div>`).join(""):`<div class="empty">${t("empty")}</div>`;
   document.querySelectorAll("[data-recommend-addon-id]").forEach(el=>el.onclick=()=>openAddonDetail(items.find(x=>x.id===el.dataset.recommendAddonId)));
   bindDeleteButtons();bindDownloadLinks();bindDetailCards();startRecommendAuto();
 }
@@ -915,8 +930,8 @@ async function deleteRemoteAddon(item){
   }
 }
 function bindDeleteButtons(){document.querySelectorAll(".delete").forEach(b=>b.onclick=async()=>{const id=b.dataset.id;const item=items.find(x=>x.id===id);if(!item)return;if(confirm(`Hapus Add-On "${item.name}"?`))await deleteRemoteAddon(item);})}
-function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));})}
-function downloadCardHTML(x){let date=new Date(x.downloadedAt);let when=isNaN(date)?"":date.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});return `<article class="download-card"><img src="${esc(x.image)}" alt="${esc(x.name)}"><div class="download-body"><div class="download-name">${esc(x.name)}</div><div class="download-date">${t("downloaded")}: ${esc(when)}</div><div class="download-actions"><a class="redownload" href="${esc(x.link)}" target="_blank" rel="noopener">${t("downloadAgain")}</a><button class="remove-download" data-remove-download="${esc(x.id)}">${t("deleteHistory")}</button></div></div></article>`}
+function bindDownloadLinks(){document.querySelectorAll("[data-download-id]").forEach(a=>a.onclick=()=>{const id=a.dataset.downloadId;const item=items.find(x=>x.id===id);if(!item)return;downloads=downloads.filter(x=>x.id!==id);downloads.unshift({id:item.id,name:item.name,image:item.image,mediaType:item.mediaType||"image",link:item.link,cat:item.cat,downloadedAt:new Date().toISOString()});localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));})}
+function downloadCardHTML(x){let date=new Date(x.downloadedAt);let when=isNaN(date)?"":date.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});return `<article class="download-card">${mediaHTML(x,"download-media")}<div class="download-body"><div class="download-name">${esc(x.name)}</div><div class="download-date">${t("downloaded")}: ${esc(when)}</div><div class="download-actions"><a class="redownload" href="${esc(x.link)}" target="_blank" rel="noopener">${t("downloadAgain")}</a><button class="remove-download" data-remove-download="${esc(x.id)}">${t("deleteHistory")}</button></div></div></article>`}
 function setActiveNav(activeId){
   document.querySelectorAll(".bottom .nav").forEach(n=>n.classList.remove("active"));
   const el=$(activeId);
@@ -932,7 +947,26 @@ function renderDownloads(){
   document.querySelectorAll("[data-remove-download]").forEach(b=>b.onclick=()=>{downloads=downloads.filter(x=>x.id!==b.dataset.removeDownload);localStorage.setItem("dfcraft_web2_downloads",JSON.stringify(downloads));renderDownloads()});
 }
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{page="home";current=b.dataset.cat;render()});
-$("image").onchange=e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith("image/"))return alert("Pilih file gambar.");selectedImageFile=file;const url=URL.createObjectURL(file);$("imagePreview").innerHTML=`<img src="${url}" alt="Preview">`;};
+$("image").onchange=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const isImage=file.type.startsWith("image/"),isVideo=file.type.startsWith("video/");
+  if(!isImage&&!isVideo){e.target.value="";return alert("Pilih gambar, GIF, atau video.");}
+  if(isVideo){
+    const tempUrl=URL.createObjectURL(file),probe=document.createElement("video");
+    probe.preload="metadata";probe.src=tempUrl;
+    probe.onloadedmetadata=()=>{
+      const duration=probe.duration;URL.revokeObjectURL(tempUrl);
+      if(!Number.isFinite(duration)||duration<=0){e.target.value="";return alert("Durasi video tidak dapat dibaca. Coba video lain.");}
+      if(duration>10.05){e.target.value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada media dipilih";return alert("Video maksimal 10 detik. Pilih video yang durasinya 10 detik atau kurang.");}
+      selectedImageFile=file;const previewUrl=URL.createObjectURL(file);
+      $("imagePreview").innerHTML=`<video src="${previewUrl}" controls muted playsinline style="max-width:100%;max-height:180px;border-radius:8px"></video><div style="margin-top:6px">Video • ${duration.toFixed(1)} detik</div>`;
+    };
+    probe.onerror=()=>{URL.revokeObjectURL(tempUrl);e.target.value="";alert("Video tidak bisa dibaca. Coba format MP4 atau WebM.");};
+    return;
+  }
+  selectedImageFile=file;const url=URL.createObjectURL(file);
+  $("imagePreview").innerHTML=`<img src="${url}" alt="Preview" style="max-width:100%;max-height:180px;border-radius:8px"><div style="margin-top:6px">${file.type==="image/gif"?"GIF":"Gambar"}</div>`;
+};
 $("search").oninput=()=>{
   if(page!=="home")return;
   render();
@@ -989,7 +1023,7 @@ const translations={
   searchCategory:"🔎 Pilih Kategori",searchAll:"Semua",searchAddOns:"Add-Ons",searchWorlds:"Worlds",
   searchTextures:"Texture Packs/Shader",searchSkin:"Skin",searchApk:"Minecraft APK",
   addTitle:"Tambah Add-On",namePlaceholder:"Nama Add-On",chooseImage:"Pilih gambar dari Galeri",
-  noImage:"Belum ada gambar dipilih",mediafirePlaceholder:"Link MediaFire (harus sesuai kategori)",
+  noImage:"Belum ada media dipilih",mediafirePlaceholder:"Link MediaFire (harus sesuai kategori)",
   cancel:"Batal",addButton:"Tambahkan",aboutTitle:"Tentang DFCraft",notificationTitle:"Notifikasi",
   notificationInfo:"Notifikasi DFCraft dapat digunakan untuk memberi tahu kamu ketika ada Add-On atau pembaruan baru.",
   active:"Aktif",inactive:"Nonaktif",turnOffNotifications:"Matikan Notifikasi",turnOnNotifications:"Aktifkan Notifikasi",
@@ -1344,7 +1378,7 @@ function isBlockedJennyLink(link){
 $("save").onclick=async()=>{
   const name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value==="Texture Packs/Shader"?"Texture Packs":$("cat").value;
   if(!currentAppwriteUser){alert("Silakan masuk terlebih dahulu.");return;}
-  if(!name||!selectedImageFile||!link)return alert("Isi nama, pilih gambar dari galeri, dan isi link MediaFire.");
+  if(!name||!selectedImageFile||!link)return alert("Isi nama, pilih gambar/GIF/video, dan isi link MediaFire.");
   if(isBlockedJennyName(name)){
     alert("❌ Add-On dengan nama Jenny tidak dapat ditambahkan ke DFCraft.\n\nNama tersebut diblokir untuk menjaga DFCraft tetap sesuai untuk pengguna di bawah 18 tahun.");
     return;
@@ -1386,7 +1420,7 @@ $("save").onclick=async()=>{
     const imageUrl = appwriteImageUrl(imageId);
     const row = await createAddonRow({
       name,
-      image: imageId,
+      image: (selectedImageFile.type||"").startsWith("video/") ? "video:"+imageId : imageId,
       link,
       category: cat,
       owner: JSON.stringify({
@@ -1395,8 +1429,9 @@ $("save").onclick=async()=>{
       })
     });
     const creatorName=((currentAppwriteUser.prefs||{}).username || currentAppwriteUser.name || "DFCraft");
-    items.unshift({id:row.$id,name,image:imageUrl,link,cat,owner:currentAppwriteUser.$id,ownerName:creatorName,fileId:imageId,createdAt:row.$createdAt||new Date().toISOString()});
-    ["name","link"].forEach(id=>$(id).value="");if($("linkValidationStatus"))$("linkValidationStatus").textContent="";$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada gambar dipilih";$("modal").style.display="none";page="home";render();
+    const mediaType=(selectedImageFile.type||"").startsWith("video/")?"video":"image";
+    items.unshift({id:row.$id,name,image:imageUrl,mediaType,link,cat,owner:currentAppwriteUser.$id,ownerName:creatorName,fileId:imageId,createdAt:row.$createdAt||new Date().toISOString()});
+    ["name","link"].forEach(id=>$(id).value="");if($("linkValidationStatus"))$("linkValidationStatus").textContent="";$("image").value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada media dipilih";$("modal").style.display="none";page="home";render();
   } catch(e) { console.error(e); alert("Gagal menyimpan Add-On ke Appwrite: "+(e.message||e)); } finally { btn.disabled=false;btn.textContent="Tambahkan"; }
 };
 let recTimer=null;
