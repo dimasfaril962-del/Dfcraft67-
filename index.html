@@ -1206,6 +1206,8 @@ function updateLinkValidationStatus(){
   const linkEl=$("link"), status=$("linkValidationStatus"), catEl=$("cat");
   if(!linkEl||!status||!catEl)return;
   const link=linkEl.value.trim();
+  // Nama tampilan baru tetap memakai kategori internal lama agar kompatibel.
+  const selectedCategory=catEl.value==="Texture Packs/Shader"?"Texture Packs":catEl.value;
   if(!link){status.textContent="";return;}
   if(isBlockedJennyLink(link)){
     status.textContent="🚫 Link MediaFire ini diblokir.";
@@ -1217,18 +1219,18 @@ function updateLinkValidationStatus(){
     status.style.color="#ff8a8a";
     return;
   }
-  const check=validateCategoryLink(link,catEl.value);
+  const check=validateCategoryLink(link,selectedCategory);
   if(check.ok){
-    status.textContent = catEl.value === "Minecraft APK"
+    status.textContent = selectedCategory === "Minecraft APK"
       ? "✅ File .apk diterima untuk kategori Minecraft APK."
-      : ((catEl.value === "Add-Ons" && check.type === "Texture Packs")
+      : ((selectedCategory === "Add-Ons" && check.type === "Texture Packs")
         ? "✅ File .mcpack diterima untuk kategori Add-Ons."
-        : "✅ Jenis file cocok dengan kategori: "+check.type);
+        : "✅ Jenis file cocok dengan kategori: "+(check.type==="Texture Packs"?"Texture Packs/Shader":check.type));
     status.style.color="#8ee6a8";
   }else{
     const detected=detectMediaFileType(link);
     status.textContent=detected.known
-      ?"❌ File terdeteksi: "+detected.type+" — kategori saat ini: "+catEl.value
+      ?"❌ File terdeteksi: "+(detected.type==="Texture Packs"?"Texture Packs/Shader":detected.type)+" — kategori saat ini: "+(selectedCategory==="Texture Packs"?"Texture Packs/Shader":selectedCategory)
       :"⚠️ Jenis file belum dapat dikenali dari link.";
     status.style.color="#ffb36b";
   }
