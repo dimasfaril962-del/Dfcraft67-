@@ -638,7 +638,17 @@ async function listAddonReactions(addonId, userId=""){
     params.append("queries[]",JSON.stringify({method:"limit",values:[pageSize]}));
     params.append("queries[]",JSON.stringify({method:"offset",values:[offset]}));
     const res=await appwriteJsonRequest(base+"?"+params.toString());
-    const batch=Array.isArray(res.rows)?res.rows:[];
+    // Appwrite kadang dapat mengembalikan body kosong/null pada respons yang
+    // tidak berisi hasil. Jangan langsung membaca res.rows dari null.
+    // Jika bentuk respons tidak valid, hentikan dengan pesan yang jelas agar
+    // kegagalan API tidak menyamar sebagai data reaksi kosong.
+    if(!res || typeof res!=="object"){
+      throw new Error("Respons daftar reaksi Appwrite kosong. Periksa ID database/tabel reaksi dan koneksi Appwrite.");
+    }
+    if(!Array.isArray(res.rows)){
+      throw new Error("Respons Appwrite tidak memiliki daftar rows. Periksa struktur tabel reaksi dan format API.");
+    }
+    const batch=res.rows;
     rows.push(...batch);
     if(batch.length<pageSize)break;
     offset+=pageSize;
@@ -816,7 +826,14 @@ async function submitDetailReaction(type){
     alert("Gagal memproses reaksi di Appwrite.\n\n"+(e.message||e));
   }finally{
     btn.disabled=false;
-    if(!activeDetailItem) label.textContent=oldText;
+    // Pulihkan label setelah sukses maupun gagal, jangan biarkan "Menyimpan..."
+    // tertinggal jika pemuatan ulang statistik mengalami error.
+    if(!activeDetailItem){
+      label.textContent=oldText;
+    }else{
+      dfSafeText("detailLikeLabelText",activeDetailReactionType==="like"?"Disukai":"Suka");
+      dfSafeText("detailDislikeLabelText",activeDetailReactionType==="dislike"?"Disukai":"Tidak suka");
+    }
   }
 }
 
