@@ -657,17 +657,40 @@ async function listAddonReactions(addonId, userId=""){
   return rows;
 }
 
+function getReactionCountCache(){
+  try{return JSON.parse(localStorage.getItem("dfcraft_reaction_counts_v1")||"{}")||{};}
+  catch(e){return {};}
+}
+function saveReactionCountCache(id, counts){
+  try{
+    const cache=getReactionCountCache();
+    cache[String(id)]={likes:Number(counts.likes)||0,dislikes:Number(counts.dislikes)||0,updatedAt:Date.now()};
+    localStorage.setItem("dfcraft_reaction_counts_v1",JSON.stringify(cache));
+  }catch(e){}
+}
+function showCachedReactionCounts(id){
+  const cached=getReactionCountCache()[String(id)];
+  if(!cached)return false;
+  $("detailLikes").textContent=String(Number(cached.likes)||0);
+  $("detailDislikes").textContent=String(Number(cached.dislikes)||0);
+  return true;
+}
+
 async function getDetailReactionState(id){
-  const rows=await listAddonReactions(id);
+  // Ambil hitungan publik dan reaksi akun secara bersamaan agar login/detail
+  // tidak menunggu dua permintaan jaringan secara berurutan.
+  const jobs=[listAddonReactions(id)];
+  if(currentAppwriteUser) jobs.push(listAddonReactions(id,currentAppwriteUser.$id));
+  const results=await Promise.all(jobs);
+  const rows=results[0];
   let likes=0,dislikes=0;
   for(const row of rows){
     if(row.type==="like")likes++;
     else if(row.type==="dislike")dislikes++;
   }
-
   let userType=null;
   if(currentAppwriteUser){
-    const mine=await listAddonReactions(id,currentAppwriteUser.$id);
+    const mine=results[1]||[];
     if(mine[0] && (mine[0].type==="like" || mine[0].type==="dislike")){
       userType=mine[0].type;
     }
@@ -687,6 +710,7 @@ async function refreshDetailStats(){
     activeDetailReactionType=s.userType;
     $("detailLikes").textContent=String(s.likes);
     $("detailDislikes").textContent=String(s.dislikes);
+    saveReactionCountCache(itemId,s);
     $("detailLikeBtn").disabled=false;
     $("detailDislikeBtn").disabled=false;
     dfSafeText("detailLikeLabelText",s.userType==="like"?"Disukai":"Suka");
@@ -726,8 +750,13 @@ async function openAddonDetail(item){
   const category=item.cat||"Add-Ons";
   $("addonDetailMeta").innerHTML=`Ditambahkan: <b>${esc(formatDetailDate(item.createdAt))}</b><br>${esc(creator)} &nbsp; • &nbsp; ${esc(category)}`;
   $("detailDownloadBtn").href=item.link||"#";
-  $("detailLikes").textContent="0";
-  $("detailDislikes").textContent="0";
+  // Tampilkan hitungan terakhir dengan segera, lalu sinkronkan dari Appwrite.
+  // Jadi angka tidak berkedip menjadi 0 setiap kali detail dibuka/login.
+  const hasCachedCounts=showCachedReactionCounts(item.id);
+  if(!hasCachedCounts){
+    $("detailLikes").textContent="…";
+    $("detailDislikes").textContent="…";
+  }
   $("detailDownloads").textContent="0";
   $("detailLikeBtn").disabled=false;
   $("detailDislikeBtn").disabled=false;
