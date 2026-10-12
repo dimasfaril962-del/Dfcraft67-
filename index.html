@@ -676,13 +676,17 @@ async function getDetailReactionState(id){
 }
 
 async function refreshDetailStats(){
-  if(!activeDetailItem)return;
+  // Simpan referensi item/id sebelum request asynchronous. Modal bisa ditutup
+  // atau item bisa berganti saat request masih berjalan.
+  const itemAtStart=activeDetailItem;
+  if(!itemAtStart || !itemAtStart.id)return;
+  const itemId=String(itemAtStart.id);
   try{
-    const s=await getDetailReactionState(activeDetailItem.id);
-    if(!activeDetailItem)return;
+    const s=await getDetailReactionState(itemId);
+    if(activeDetailItem!==itemAtStart)return;
     activeDetailReactionType=s.userType;
-    $("detailLikes").textContent=s.likes;
-    $("detailDislikes").textContent=s.dislikes;
+    $("detailLikes").textContent=String(s.likes);
+    $("detailDislikes").textContent=String(s.dislikes);
     $("detailLikeBtn").disabled=false;
     $("detailDislikeBtn").disabled=false;
     dfSafeText("detailLikeLabelText",s.userType==="like"?"Disukai":"Suka");
@@ -690,17 +694,19 @@ async function refreshDetailStats(){
     dfSafeText("detailDislikeLabelText",s.userType==="dislike"?"Disukai":"Tidak suka");
     $("detailDislikeBtn").classList.toggle("is-active",s.userType==="dislike");
   }catch(e){
-    console.error("[DFCraft] Gagal memuat reaksi:",e);
-    activeDetailReactionType=null;
-    $("detailLikes").textContent="0";
-    $("detailDislikes").textContent="0";
-    dfSafeText("detailLikeLabelText","Suka");
-    $("detailLikeBtn").classList.remove("is-active");
-    dfSafeText("detailDislikeLabelText","Tidak suka");
-    $("detailDislikeBtn").classList.remove("is-active");
+    // Jangan mengubah angka menjadi 0 saat API gagal: 0 akan terlihat seperti
+    // reaksi terhapus padahal kita hanya gagal membacanya dari Appwrite.
+    console.error("[DFCraft] Gagal memuat reaksi dari Appwrite; angka lama dipertahankan:",e);
+    if(activeDetailItem===itemAtStart){
+      $("detailLikeBtn").disabled=false;
+      $("detailDislikeBtn").disabled=false;
+    }
+    return;
   }
-  const localStats=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}");
-  const local=localStats[activeDetailItem.id]||{};
+  if(activeDetailItem!==itemAtStart)return;
+  let localStats={};
+  try{localStats=JSON.parse(localStorage.getItem("dfcraft_detail_stats_v1")||"{}")||{};}catch(e){}
+  const local=localStats[itemId]||{};
   $("detailDownloads").textContent=Number(local.downloads)||0;
 }
 
@@ -769,7 +775,11 @@ async function submitDetailReaction(type){
     return;
   }
 
-  const addonId=activeDetailItem.id;
+  // Simpan item yang sedang direaksikan; jangan membaca activeDetailItem.id
+  // lagi setelah request async karena modal dapat ditutup saat request berjalan.
+  const targetItem=activeDetailItem;
+  if(!targetItem || !targetItem.id)return;
+  const addonId=String(targetItem.id);
   const userId=currentAppwriteUser.$id;
   const btn=type==="like"?$("detailLikeBtn"):$("detailDislikeBtn");
   const label=type==="like"?$("detailLikeLabelText"):$("detailDislikeLabelText");
