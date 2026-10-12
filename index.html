@@ -763,6 +763,26 @@ function bindDetailCards(){
   });
 }
 
+async function deleteReactionRowSafely(rowId){
+  const path="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
+    "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+
+    "/rows/"+encodeURIComponent(String(rowId));
+  try{
+    await appwriteJsonRequest(path,{method:"DELETE"});
+    return true;
+  }catch(e){
+    const message=String((e&&e.message)||"").toLowerCase();
+    // A stale reaction can already have been removed by another request/device.
+    // Treat only a confirmed missing-row response as an idempotent delete.
+    if(Number(e&&e.status)===404 &&
+       (message.includes("could not be found") || message.includes("not found") || message.includes("does not exist"))){
+      console.warn("[DFCraft] Baris reaksi sudah tidak ada; melanjutkan dengan aman.",rowId);
+      return false;
+    }
+    throw e;
+  }
+}
+
 async function submitDetailReaction(type){
   if(!activeDetailItem)return;
   if(!currentAppwriteUser){
@@ -794,10 +814,7 @@ async function submitDetailReaction(type){
 
     // Tekan reaction yang sama lagi = batalkan reaction.
     if(mine && mine.type===type){
-      const path="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
-        "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+
-        "/rows/"+encodeURIComponent(mine.$id);
-      await appwriteJsonRequest(path,{method:"DELETE"});
+      await deleteReactionRowSafely(mine.$id);
       activeDetailReactionType=null;
       await refreshDetailStats();
       return;
@@ -805,10 +822,7 @@ async function submitDetailReaction(type){
 
     // Berpindah dari Like ke Tidak suka (atau sebaliknya): hapus reaction lama.
     if(mine){
-      const deletePath="/tablesdb/"+encodeURIComponent(APPWRITE_DATABASE_ID)+
-        "/tables/"+encodeURIComponent(APPWRITE_REACTIONS_TABLE_ID)+
-        "/rows/"+encodeURIComponent(mine.$id);
-      await appwriteJsonRequest(deletePath,{method:"DELETE"});
+      await deleteReactionRowSafely(mine.$id);
     }
 
     const pair=String(addonId)+"|"+String(userId);
