@@ -1525,6 +1525,13 @@ function detectMediaFileType(link){
     return {type:isWorldMap?"Worlds":"Texture Packs",url:u,known:true};
   }
 
+  // Skin Pack sering memakai ekstensi .mcpack juga. Jika nama file secara
+  // jelas menyebut skin pack, klasifikasikan sebagai Skin sebelum aturan umum
+  // .mcpack yang digunakan untuk Texture Packs/Shader.
+  if(/(?:^|[^a-z0-9])skin[ _+-]*pack(?:[^a-z0-9]|$)/i.test(u) && /\.mcpack(?:$|[/?#&])/i.test(u)){
+    return {type:"Skin",url:u,known:true};
+  }
+
   const patterns=[
     ["Minecraft APK",/\.apk(?:$|[/?#&])/i],
     ["Add-Ons",/\.mcaddon(?:$|[/?#&])/i],
