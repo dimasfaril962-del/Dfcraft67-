@@ -1020,7 +1020,7 @@ $("image").onchange=e=>{
       if(!Number.isFinite(duration)||duration<=0){e.target.value="";return alert("Durasi video tidak dapat dibaca. Coba video lain.");}
       if(duration>10.05){e.target.value="";selectedImageFile=null;$("imagePreview").textContent="Belum ada media dipilih";return alert("Video maksimal 10 detik. Pilih video yang durasinya 10 detik atau kurang.");}
       selectedImageFile=file;const previewUrl=URL.createObjectURL(file);
-      $("imagePreview").innerHTML=`<video src="${previewUrl}" controls muted playsinline style="max-width:100%;max-height:180px;border-radius:8px"></video><div style="margin-top:6px">Video • ${duration.toFixed(1)} detik</div>`;
+      $("imagePreview").innerHTML=`<video src="${previewUrl}" controls autoplay muted loop playsinline style="max-width:100%;max-height:180px;border-radius:8px"></video><div style="margin-top:6px">Video • ${duration.toFixed(1)} detik</div>`;
     };
     probe.onerror=()=>{URL.revokeObjectURL(tempUrl);e.target.value="";alert("Video tidak bisa dibaca. Coba format MP4 atau WebM.");};
     return;
