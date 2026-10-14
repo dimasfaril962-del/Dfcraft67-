@@ -577,7 +577,7 @@ function rowToAddon(row){
 }
 function mediaHTML(x,className="",extra=""){
   const src=esc(x.image||""), name=esc(x.name||""), cls=esc(className);
-  return x.mediaType==="video" ? `<video class="${cls}" src="${src}" aria-label="${name}" ${extra} muted playsinline preload="metadata" controls></video>` : `<img class="${cls}" src="${src}" alt="${name}" ${extra}>`;
+  return x.mediaType==="video" ? `<video class="${cls}" src="${src}" aria-label="${name}" ${extra} autoplay muted loop playsinline preload="auto"></video>` : `<img class="${cls}" src="${src}" alt="${name}" ${extra}>`;
 }
 async function loadRemoteAddons(){
   try {
