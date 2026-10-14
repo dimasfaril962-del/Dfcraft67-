@@ -545,13 +545,8 @@ document.addEventListener("click",function(ev){
   if(!downloadLink || currentAppwriteUser) return;
   ev.preventDefault();
   ev.stopImmediatePropagation();
-  const msg=$("socialLoginMsg");
-  if(msg){
-    msg.textContent="⚠️ WARNING: Anda belum login. Kamu harus login akun terlebih dahulu untuk mendownload Add-On.";
-    msg.style.display="block";
-  }
-  const modal=$("authModal");
-  if(modal) modal.style.display="flex";
+  // Gunakan dialog alert bawaan browser/Android, seperti peringatan pada gambar 1.
+  alert("Anda belum login. Silakan masuk ke akun DFCraft terlebih dahulu untuk download Add-On dan lainnya.");
 },true);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
