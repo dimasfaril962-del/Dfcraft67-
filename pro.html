@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>DFCraft Pro</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--text:#f4f7fb;--muted:#aab7ca;--blue:#55a7ff;--cyan:#62d8e8;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at 50% -15%,#1d4771 0,transparent 42%),var(--bg);font-family:system-ui,Arial,sans-serif}
+.wrap{width:min(960px,92%);margin:auto;padding:24px 0 48px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:12px}
+.brand{font-weight:800;font-size:1.1rem}.brand span,h1 span{color:var(--cyan)}.back{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:10px 14px;border-radius:12px;font-size:.9rem}
+.hero{text-align:center;padding:20px 0 26px}.gem{width:72px;height:72px;margin:0 auto 14px;display:grid;place-items:center;border-radius:22px;font-size:2rem;background:linear-gradient(145deg,#244f85,#162b4a);border:1px solid rgba(98,216,232,.35)}
+h1{margin:0;font-size:clamp(2rem,6vw,3.2rem)}.sub{color:var(--muted);max-width:600px;margin:12px auto 0;line-height:1.6}.section-title{font-size:1.2rem;margin:28px 0 14px}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.plan{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 14px;cursor:pointer;text-align:left;color:var(--text);min-height:130px;transition:.18s}
+.plan:hover{transform:translateY(-2px);border-color:var(--blue)}.plan.selected{border:2px solid var(--blue);background:linear-gradient(160deg,#1a3556,#121d30);padding:17px 13px}
+.duration{color:var(--muted);font-size:.9rem}.price{display:block;font-size:1.55rem;font-weight:800;margin-top:10px}.plan small{color:var(--cyan);display:block;margin-top:5px}
+.features,.checkout,.notice{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px}.features ul{margin:12px 0 0;padding-left:22px;color:#dce6f4;line-height:1.9}
+.checkout{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}.checkout p{color:var(--muted);margin:5px 0 0;font-size:.9rem}.total{font-size:1.7rem;font-weight:800;color:var(--cyan)}
+.pay{width:100%;margin-top:16px;padding:14px 18px;border:0;border-radius:13px;color:#071321;background:linear-gradient(90deg,var(--cyan),var(--blue));font-size:1rem;font-weight:800;cursor:pointer}
+.notice{color:var(--muted);font-size:.88rem;line-height:1.6}footer{text-align:center;color:#8493a9;font-size:.8rem;margin-top:28px}
+@media(max-width:700px){.plans{grid-template-columns:repeat(2,1fr)}}@media(max-width:420px){.wrap{width:94%;padding-top:16px}.checkout{grid-template-columns:1fr}.total{font-size:1.5rem}.plan{min-height:118px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header><div class="brand">DF<span>Craft</span></div><a class="back" href="index.html">← Kembali</a></header>
+<section class="hero"><div class="gem">💎</div><h1>DFCraft <span>Pro</span></h1><p class="sub">Tingkatkan pengalamanmu di DFCraft! Nikmati kebebasan mengunggah Add-On, mengunduh tanpa batas kuota khusus, dan akses fitur eksklusif.</p></section>
+<h2 class="section-title">Pilih paket berlangganan</h2>
+<section class="plans" aria-label="Pilihan paket">
+<button class="plan selected" type="button" data-name="5 Hari" data-price="3000"><span class="duration">5 Hari</span><strong class="price">Rp3.000</strong><small>Paket singkat</small></button>
+<button class="plan" type="button" data-name="1 Bulan" data-price="20000"><span class="duration">1 Bulan</span><strong class="price">Rp20.000</strong><small>Paket bulanan</small></button>
+<button class="plan" type="button" data-name="5 Bulan" data-price="50000"><span class="duration">5 Bulan</span><strong class="price">Rp50.000</strong><small>Lebih hemat</small></button>
+<button class="plan" type="button" data-name="1 Tahun" data-price="100000"><span class="duration">1 Tahun</span><strong class="price">Rp100.000</strong><small>Paket tahunan</small></button>
+</section>
+<section class="features"><h2 style="margin:0">Keuntungan DFCraft Pro</h2><ul><li>Upload Add-On lebih banyak.</li><li>Download tanpa batas kuota khusus akun Gratis.</li><li>Mengganti nama akun.</li><li>Mengganti foto profil.</li><li>Mendapatkan badge 💎 Pro.</li><li>Prioritas bantuan saat mengalami masalah.</li><li>Mengelola dan melihat riwayat Add-On yang diunggah.</li></ul></section>
+<section class="checkout"><div><strong id="selected-name">Paket 5 Hari</strong><p>Masa aktif Pro sesuai paket yang dipilih.</p></div><div class="total" id="selected-price">Rp3.000</div></section>
+<button class="pay" id="pay-button" type="button">Lanjut ke pembayaran</button>
+<div class="notice"><strong>Informasi:</strong> Ini adalah rancangan halaman dan pemilih paket. Pembayaran belum terhubung ke QRIS, DANA, atau penyedia pembayaran. Status Pro hanya boleh aktif setelah pembayaran diverifikasi. Jika masa Pro habis, akun kembali menjadi Gratis dan Add-On yang sudah diunggah tetap tersimpan.</div>
+<footer>© DFCraft — Halaman keanggotaan Pro</footer>
+</main>
+<script>
+const plans=document.querySelectorAll('.plan');
+const selectedName=document.getElementById('selected-name');
+const selectedPrice=document.getElementById('selected-price');
+const payButton=document.getElementById('pay-button');
+let selectedPlan={name:'5 Hari',price:3000};
+const rupiah=value=>'Rp'+Number(value).toLocaleString('id-ID');
+plans.forEach(plan=>plan.addEventListener('click',()=>{
+  plans.forEach(item=>item.classList.remove('selected'));
+  plan.classList.add('selected');
+  selectedPlan={name:plan.dataset.name,price:Number(plan.dataset.price)};
+  selectedName.textContent='Paket '+selectedPlan.name;
+  selectedPrice.textContent=rupiah(selectedPlan.price);
+}));
+payButton.addEventListener('click',()=>{
+  alert('Paket dipilih: '+selectedPlan.name+'\nHarga: '+rupiah(selectedPlan.price)+'\n\nPembayaran belum dihubungkan. Integrasi akan ditambahkan setelah metode pembayaran dan backend DFCraft siap.');
+});
+</script>
+</body>
+</html>
