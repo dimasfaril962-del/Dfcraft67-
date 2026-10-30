@@ -479,6 +479,7 @@ body.downloads-page #title{margin-top:0}
 <nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b></b><span data-i18n="settings">Pengaturan</span></button></nav>
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
+  <button class="settings-action" id="dfcraftProBtn" type="button">💎 DFCraft Pro</button>
   <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
   <button class="settings-action" id="notificationBtn" data-i18n="notificationTitle">Notifikasi</button>
 </div>
@@ -2209,6 +2210,18 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 }
+</script>
+
+
+<script>
+(function(){
+  var proButton = document.getElementById('dfcraftProBtn');
+  if (proButton) {
+    proButton.addEventListener('click', function(){
+      window.location.href = 'dfcraft-pro-page-separate.html';
+    });
+  }
+})();
 </script>
 
 </body></html>
