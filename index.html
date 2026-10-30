@@ -535,6 +535,22 @@ let current="Semua",page="home";
 let selectedImageFile=null;
 let currentAppwriteUser=null;
 let appwriteReady=false;
+const DFC_FREE_DOWNLOAD_LIMIT = 10;
+const DFC_FREE_UPLOAD_LIMIT = 1;
+// Prototype quota: stored on this device. Production account-wide enforcement
+// must be moved to a trusted backend before accepting real Pro payments.
+function dfIsPro(){ return localStorage.getItem("dfcraft_pro_status") === "active"; }
+function dfDownloadKey(){ return "dfcraft_free_downloads_" + (currentAppwriteUser ? currentAppwriteUser.$id : "guest"); }
+function dfDownloadCount(){ return Number(localStorage.getItem(dfDownloadKey()) || 0); }
+function dfCanDownload(){
+  if(dfIsPro()) return true;
+  return dfDownloadCount() < DFC_FREE_DOWNLOAD_LIMIT;
+}
+function dfCanUpload(){
+  if(dfIsPro()) return true;
+  if(!currentAppwriteUser) return false;
+  return items.filter(x => String(x.owner||"") === String(currentAppwriteUser.$id)).length < DFC_FREE_UPLOAD_LIMIT;
+}
 const $=id=>document.getElementById(id);
 
 // Wajib login sebelum membuka link download Add-On, termasuk dari riwayat unduhan.
@@ -543,11 +559,19 @@ document.addEventListener("click",function(ev){
   const downloadLink=ev.target && ev.target.closest
     ? ev.target.closest("#detailDownloadBtn,[data-download-id],.redownload")
     : null;
-  if(!downloadLink || currentAppwriteUser) return;
-  ev.preventDefault();
-  ev.stopImmediatePropagation();
-  // Gunakan dialog alert bawaan browser/Android, seperti peringatan pada gambar 1.
-  alert("Anda belum login. Silakan masuk ke akun DFCraft terlebih dahulu untuk download Add-On dan lainnya.");
+  if(!downloadLink) return;
+  if(!currentAppwriteUser){
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    alert("Anda belum login. Silakan masuk ke akun DFCraft terlebih dahulu untuk download Add-On dan lainnya.");
+    return;
+  }
+  if(!dfCanDownload()){
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    showFreeProWarning("Batas unduhan akun Gratis sudah tercapai (10 unduhan).", "Tingkatkan ke Pro untuk membuka unduhan tanpa batas!");
+    return;
+  }
+  // Hitung setiap tindakan download pada perangkat ini.
+  localStorage.setItem(dfDownloadKey(), String(dfDownloadCount()+1));
 },true);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
 function appwriteImageUrl(fileId){
@@ -1442,6 +1466,10 @@ function isBlockedJennyLink(link){
 $("save").onclick=async()=>{
   const name=$("name").value.trim(),link=$("link").value.trim(),cat=$("cat").value==="Texture Packs/Shader"?"Texture Packs":$("cat").value;
   if(!currentAppwriteUser){alert("Silakan masuk terlebih dahulu.");return;}
+  if(!dfCanUpload()){
+    showFreeProWarning("Kamu sudah menambahkan 1 Add-On dengan akun Gratis.", "Tingkatkan ke Pro untuk menambahkan lebih banyak Add-On!");
+    return;
+  }
   if(!name||!selectedImageFile||!link)return alert("Isi nama, pilih gambar/GIF/video, dan isi link MediaFire.");
   if(isBlockedJennyName(name)){
     alert("❌ Add-On dengan nama Jenny tidak dapat ditambahkan ke DFCraft.\n\nNama tersebut diblokir untuk menjaga DFCraft tetap sesuai untuk pengguna di bawah 18 tahun.");
@@ -1839,6 +1867,10 @@ loadRemoteAddons();
   }
 
   function openProfileGallery(){
+    if(!dfIsPro()){
+      setMessage('profileMsg','Fitur ganti foto profil hanya tersedia untuk DFCraft Pro.');
+      return;
+    }
     const input=$('profileImageInput');
     if(input) input.click();
   }
@@ -1922,6 +1954,10 @@ loadRemoteAddons();
       return;
     }
 
+    if(!dfIsPro()){
+      setMessage('profileMsg','Fitur ganti nama dan foto profil hanya tersedia untuk DFCraft Pro.');
+      return;
+    }
     const btn=$('saveProfileBtn');
     const newName=$('profileNameInput').value.trim();
     if(!newName){
@@ -2221,6 +2257,45 @@ document.addEventListener("DOMContentLoaded", function(){
       window.location.href = 'pro.html';
     });
   }
+})();
+</script>
+
+
+<style>
+#dfFreeProOverlay{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.72)}
+#dfFreeProOverlay.show{display:flex}
+#dfFreeProCard{width:min(440px,100%);padding:25px 22px;border-radius:22px;background:#1b2432;color:#f5f7fb;box-shadow:0 18px 60px rgba(0,0,0,.45);text-align:center;border:1px solid rgba(255,255,255,.1)}
+#dfFreeProCard .df-pro-gem{font-size:42px;margin-bottom:8px}
+#dfFreeProCard h2{margin:4px 0 12px;font-size:24px}
+#dfFreeProCard p{color:#c0cada;line-height:1.55;margin:8px 0}
+#dfFreeProCard .df-pro-cta{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:14px;background:linear-gradient(90deg,#62d8e8,#55a7ff);color:#071321;font-weight:800;font-size:16px}
+#dfFreeProCard .df-pro-close{width:100%;border:1px solid rgba(255,255,255,.14);border-radius:13px;padding:12px;margin-top:9px;background:#303c50;color:#fff;font-weight:700;font-size:15px}
+</style>
+<div id="dfFreeProOverlay" role="dialog" aria-modal="true" aria-labelledby="dfFreeProTitle">
+ <div id="dfFreeProCard">
+  <div class="df-pro-gem">💎</div>
+  <h2 id="dfFreeProTitle">Batas akun Gratis tercapai</h2>
+  <p id="dfFreeProMessage"></p>
+  <p id="dfFreeProActionText"></p>
+  <button class="df-pro-cta" type="button" id="dfFreeProGo">💎 Lihat DFCraft Pro</button>
+  <button class="df-pro-close" type="button" id="dfFreeProDismiss">Nanti saja</button>
+ </div>
+</div>
+<script>
+function showFreeProWarning(message, actionText){
+  var overlay=document.getElementById('dfFreeProOverlay');
+  if(!overlay){ alert(message+' '+actionText); return; }
+  document.getElementById('dfFreeProMessage').textContent=message;
+  document.getElementById('dfFreeProActionText').textContent=actionText;
+  overlay.classList.add('show');
+}
+(function(){
+ var overlay=document.getElementById('dfFreeProOverlay');
+ var close=document.getElementById('dfFreeProDismiss');
+ var go=document.getElementById('dfFreeProGo');
+ if(close) close.addEventListener('click',function(){overlay.classList.remove('show');});
+ if(overlay) overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.classList.remove('show');});
+ if(go) go.addEventListener('click',function(){window.location.href='pro.html';});
 })();
 </script>
 
