@@ -1988,6 +1988,20 @@ loadRemoteAddons();
 
 
 
+
+<script>
+(function(){
+  function showAbout(){var modal=document.getElementById('dfAboutModal');if(modal)modal.style.display='flex';}
+  function closeAbout(target){var modal=target.closest('#dfAboutModal');if(modal)modal.style.display='none';}
+  document.addEventListener('click',function(event){
+    var target=event.target;
+    if(target.closest && target.closest('#aboutDfcraftBtn')) showAbout();
+    if(target.hasAttribute && target.hasAttribute('data-close-df-modal')) closeAbout(target);
+    if(target && target.id==='dfAboutModal') target.style.display='none';
+  });
+})();
+</script>
+
 </body></html>
 <style>
 .password-eye{font-size:0;position:relative}
