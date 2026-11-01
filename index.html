@@ -41,9 +41,6 @@
 .settings-box [data-i18n="languageLabel"]::before,
 .settings-box [data-i18n="themeLabel"]::before,
 .settings-box #aboutDfcraftBtn::before,
-.settings-box #notificationBtn::before,
-#dfNotifModal h3::before,
-#enablePushBtn::before,
 #modal h2[data-i18n="addTitle"]::before,
 .auth-title[data-i18n="accountTitle"]::before,
 .auth-box #saveProfileBtn::before,
@@ -58,7 +55,6 @@
 .settings-box [data-i18n="languageLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M3 12h18M12 3c5 5 5 13 0 18M12 3c-5 5-5 13 0 18' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E")}
 .settings-box [data-i18n="themeLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 10 10A8 8 0 0 1 12 2Zm-4 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'/%3E%3C/svg%3E")}
 .settings-box #aboutDfcraftBtn::before,#dfAboutModal h3::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M12 10v7m0-11v2' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E")}
-.settings-box #notificationBtn::before,#dfNotifModal h3::before,#enablePushBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4a2 2 0 0 1-4 0Z'/%3E%3C/svg%3E")}
 #modal h2[data-i18n="addTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath stroke='black' stroke-width='3' d='M12 3v18M3 12h18'/%3E%3C/svg%3E")}
 .auth-title[data-i18n="accountTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='7' r='4' fill='black'/%3E%3Cpath fill='black' d='M3 22v-2a9 9 0 0 1 18 0v2Z'/%3E%3C/svg%3E")}
 .auth-box #saveProfileBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 2h14l4 4v16H2V2h2Zm2 2v6h10V4H6Zm0 10v6h12v-6H6Z'/%3E%3C/svg%3E")}
@@ -117,49 +113,6 @@
     <button class="df-close" data-close-df-modal>OK</button>
   </div>
 </div>
-<div class="df-modal-backdrop" id="dfNotifModal">
-  <div class="df-modal">
-    <h3 data-i18n="notificationTitle">Notifikasi</h3>
-    <p data-i18n="notificationInfo">Notifikasi DFCraft dapat digunakan untuk memberi tahu kamu ketika ada Add-On atau pembaruan baru.</p>
-    <p id="dfNotifState">Status: Aktif</p>
-    <button class="df-close" id="enablePushBtn">Aktifkan Notifikasi HP</button>
-    <p id="dfPushState" style="font-size:13px;color:#c9d2df;margin:8px 0;word-break:break-word"></p>
-    <button class="df-close" id="toggleNotifBtn" data-i18n="turnOffNotifications">Matikan Notifikasi</button>
-    <button class="df-close" data-close-df-modal>Tutup</button>
-  </div>
-</div>
-<script>
-(function(){
-  function show(id){var e=document.getElementById(id); if(e)e.style.display='flex';}
-  function hide(e){var m=e.closest('.df-modal-backdrop'); if(m)m.style.display='none';}
-  document.addEventListener('click',function(ev){
-    var t=ev.target;
-    if(t.id==='aboutDfcraftBtn') show('dfAboutModal');
-    if(t.id==='notificationBtn') show('dfNotifModal');
-    if(t.hasAttribute('data-close-df-modal')) hide(t);
-    if(t.classList && t.classList.contains('df-modal-backdrop')) t.style.display='none';
-  });
-  var state=localStorage.getItem('dfcraft_notifications');
-  if(state===null){state='on';localStorage.setItem('dfcraft_notifications','on');}
-  function refresh(){
-    var s=document.getElementById('dfNotifState'), b=document.getElementById('toggleNotifBtn');
-    if(!s||!b)return;
-    var on=localStorage.getItem('dfcraft_notifications')!=='off';
-    var tr=window.dfTranslate || function(k){return k;};
-    s.textContent=(tr('languageLabel')===' Language'?'Status: ':'Status: ')+(on?tr('active'):tr('inactive'));
-    b.textContent=on?tr('turnOffNotifications'):tr('turnOnNotifications');
-  }
-  window.dfRefreshNotificationText=refresh;
-  document.addEventListener('click',function(ev){
-    if(ev.target.id==='toggleNotifBtn'){
-      var on=localStorage.getItem('dfcraft_notifications')!=='off';
-      localStorage.setItem('dfcraft_notifications',on?'off':'on');
-      refresh();
-    }
-  });
-  refresh();
-})();
-</script>
 
 
 
@@ -196,8 +149,6 @@
 .auth-note{font-size:13px;color:#b9c4d3;line-height:1.45;margin:8px 0}
 </style>
 
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
 // ===== APPWRITE DFCraft =====
@@ -480,7 +431,6 @@ body.downloads-page #title{margin-top:0}
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
   <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
-  <button class="settings-action" id="notificationBtn" data-i18n="notificationTitle">Notifikasi</button>
 </div>
 
 
@@ -2030,186 +1980,6 @@ loadRemoteAddons();
 })();
 </script>
 
-<script>
-/* ===== DFCraft Web Push: Firebase FCM + Appwrite Messaging ===== */
-const DF_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBQwJ7qB9pYPIAB0Dbes4P2kvikIfuZU64",
-  authDomain: "dfcraft-430ed.firebaseapp.com",
-  projectId: "dfcraft-430ed",
-  storageBucket: "dfcraft-430ed.firebasestorage.app",
-  messagingSenderId: "718019451273",
-  appId: "1:718019451273:web:5fdd509e229978df3a2958",
-  measurementId: "G-CNVN31QJ3B"
-};
-
-const DF_FCM_VAPID_KEY =
-  "BPDHL5QTGfvK9Mg1u4oa44d6WjjrdPLTxvh7Ua5riW4YfnJThBTuqqYPbkwkVZhVDWNCuGx2wdv9mo3r2MGiR38";
-
-const DF_PUSH_TOPIC_ID = "6ac794030007923da8c4";
-const DF_PUSH_PROVIDER_ID = "6ac79339001cd76694f0";
-
-async function dfPushHash(value){
-  const data = new TextEncoder().encode(String(value));
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(digest))
-    .map(x => x.toString(16).padStart(2,"0"))
-    .join("");
-}
-
-function dfSetPushState(message){
-  const el = document.getElementById("dfPushState");
-  if(el) el.textContent = message || "";
-}
-
-async function setupDfPushNotifications(){
-  if(typeof currentAppwriteUser === "undefined" || !currentAppwriteUser){
-    throw new Error("Silakan masuk ke akun DFCraft terlebih dahulu.");
-  }
-
-  if(!window.isSecureContext ||
-     !("Notification" in window) ||
-     !("serviceWorker" in navigator)){
-    throw new Error("Notifikasi membutuhkan HTTPS dan browser yang mendukung Service Worker.");
-  }
-
-  const permission = await Notification.requestPermission();
-  if(permission !== "granted"){
-    throw new Error("Izin notifikasi belum diberikan.");
-  }
-
-  // Pastikan Firebase Web SDK memakai konfigurasi DFCraft Web yang sama
-  // dengan konfigurasi di Firebase Console.
-  if(!window.firebase){
-    throw new Error("Firebase Web SDK belum termuat.");
-  }
-
-  if(!window.firebase.apps.length){
-    firebase.initializeApp(DF_FIREBASE_CONFIG);
-  }
-
-  const app = firebase.app();
-  const actualOptions = app.options || {};
-  if(actualOptions.projectId !== DF_FIREBASE_CONFIG.projectId ||
-     actualOptions.appId !== DF_FIREBASE_CONFIG.appId ||
-     actualOptions.apiKey !== DF_FIREBASE_CONFIG.apiKey){
-    throw new Error("Konfigurasi Firebase yang sedang aktif tidak cocok dengan DFCraft Web.");
-  }
-
-  const registration = await navigator.serviceWorker.register(
-    "./firebase-messaging-sw.js",
-    {scope:"./"}
-  );
-  await navigator.serviceWorker.ready;
-
-  const messaging = firebase.messaging();
-
-  // Saat DFCraft sedang terbuka, FCM menyerahkan pesan ke onMessage.
-  // Tampilkan juga sebagai notifikasi sistem HP melalui Service Worker,
-  // supaya notifikasinya muncul di luar halaman web.
-  messaging.onMessage(async function(payload){
-    try{
-      const n = payload.notification || {};
-      const data = payload.data || {};
-      const title = n.title || data.title || "Add-On baru di DFCraft";
-      const body = n.body || data.body || "Ada Add-On baru di DFCraft.";
-      const reg = await navigator.serviceWorker.ready;
-      await reg.showNotification(title, {
-        body: body,
-        icon: "./dfcraft-favicon.png",
-        badge: "./dfcraft-favicon.png",
-        tag: data.tag || "dfcraft-addon",
-        data: {url: "./"}
-      });
-    }catch(e){
-      console.warn("[DFCraft] Gagal menampilkan notifikasi foreground:", e);
-    }
-  });
-
-  const token = await messaging.getToken({
-    vapidKey: DF_FCM_VAPID_KEY,
-    serviceWorkerRegistration: registration
-  });
-
-  if(!token){
-    throw new Error("Token Firebase tidak berhasil dibuat.");
-  }
-
-  const tokenHash = await dfPushHash(
-    currentAppwriteUser.$id + "|" + token
-  );
-  const targetId = "df-" + tokenHash.slice(0, 28);
-
-  // Lanjutkan bagian Appwrite Messaging yang sudah ada pada file asli.
-let target;
-  try{
-    target = await window.dfAppwriteAccount.createPushTarget({
-      targetId: targetId,
-      identifier: token,
-      providerId: DF_PUSH_PROVIDER_ID
-    });
-  }catch(e){
-    if(!(e && (e.code === 409 || e.status === 409))){
-      throw e;
-    }
-    target = { $id: targetId };
-  }
-
-  const messagingApi = new Appwrite.Messaging(appwriteClient);
-  const subscriberHash = await dfPushHash(
-    currentAppwriteUser.$id + "|" + DF_PUSH_TOPIC_ID
-  );
-  const subscriberId = "sub-" + subscriberHash.slice(0, 28);
-
-  try{
-    await messagingApi.createSubscriber({
-      topicId: DF_PUSH_TOPIC_ID,
-      subscriberId: subscriberId,
-      targetId: target.$id || targetId
-    });
-  }catch(e){
-    if(!(e && (e.code === 409 || e.status === 409))){
-      throw e;
-    }
-  }
-
-  localStorage.setItem("dfcraft_push_enabled","on");
-  localStorage.setItem("dfcraft_notifications","on");
-  dfSetPushState("✅ Notifikasi HP aktif dan perangkat sudah berlangganan DFCraft.");
-  if(typeof window.dfRefreshNotificationText === "function"){
-    window.dfRefreshNotificationText();
-  }
-  return true;
-}
-
-window.setupDfPushNotifications = setupDfPushNotifications;
-
-document.addEventListener("click", async function(ev){
-  const btn = ev.target.closest("#enablePushBtn");
-  if(!btn) return;
-
-  btn.disabled = true;
-  const oldText = btn.textContent;
-  btn.textContent = "⏳ Mengaktifkan...";
-
-  try{
-    await setupDfPushNotifications();
-    btn.textContent = "✅ Notifikasi HP Aktif";
-  }catch(e){
-    console.error("[DFCraft Push]", e);
-    dfSetPushState("❌ " + (e.message || "Gagal mengaktifkan notifikasi."));
-    btn.textContent = oldText;
-  }finally{
-    btn.disabled = false;
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function(){
-  if("Notification" in window && Notification.permission === "granted" &&
-     localStorage.getItem("dfcraft_push_enabled") === "on"){
-    dfSetPushState("✅ Notifikasi HP sudah diaktifkan.");
-  }
-});
-</script>
 }
 </script>
 
