@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10151b">
+<title>Aturan DFCraft</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#10151b;color:#fff;font-family:Arial,sans-serif;min-height:100vh}
+header{padding:20px 18px;background:#171e28}
+h1{font-size:24px;margin:0}
+main{max-width:720px;margin:0 auto;padding:24px 18px 36px}
+.panel{background:#1c2531;border-radius:20px;padding:22px}
+h2{font-size:28px;margin:0 0 22px}
+h3{font-size:17px;margin:20px 0 10px}
+ul{list-style:none;padding:0;margin:0}
+li{padding:11px 0;line-height:1.5;border-bottom:1px solid #303b49}
+li:last-child{border-bottom:0}
+.allowed{color:#a8e6b4}
+.blocked{color:#ff5b68}
+.actions{margin-top:22px}
+.actions button{width:100%;border:0;border-radius:14px;padding:16px 10px;font-size:16px;font-weight:800;background:#303b4d;color:#fff}
+</style>
+</head>
+<body>
+<header><h1>Aturan DFCraft</h1></header>
+<main>
+  <section class="panel">
+    <h3 class="allowed">✅ Yang diperbolehkan</h3>
+    <ul>
+      <li>✅ Bisa membagikan Add-On.</li>
+      <li>✅ Login menggunakan akun Google.</li>
+      <li>✅ Mencari Add-On, Texture Pack, Shader, Map, dan APK Minecraft.</li>
+      <li>✅ Boleh membagikan tautan kepada teman atau di media sosial.</li>
+    </ul>
+    <h3 class="blocked">❎ Yang tidak diperbolehkan</h3>
+    <ul class="blocked">
+      <li>❎ Tidak semua Add-On bisa dibagikan.</li>
+      <li>❎ Tidak bisa mengunduh Add-On tanpa login akun.</li>
+      <li>❎ Dilarang membagikan Add-On terlarang, termasuk Jenny.</li>
+      <li>❎ Dilarang membagikan file yang mengandung virus.</li>
+    </ul>
+  </section>
+  <div class="actions">
+    <button id="exitBtn" type="button">Keluar</button>
+  </div>
+</main>
+<script>
+document.getElementById('exitBtn').addEventListener('click',()=>{
+  // Kembali ke halaman utama DFCraft.
+  location.href='index.html';
+});
+</script>
+</body>
+</html>

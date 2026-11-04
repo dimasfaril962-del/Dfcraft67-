@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10151b">
+<title>Tentang DFCraft</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#10151b;color:#fff;font-family:Arial,sans-serif}
+header{background:#171e28;padding:18px}
+header h1{margin:0;font-size:22px}
+main{width:min(760px,100%);margin:0 auto;padding:28px 18px 36px}
+.hero{text-align:center;padding:12px 10px 24px}
+.logo{width:112px;height:112px;object-fit:contain;display:block;margin:0 auto 16px;border-radius:24px}
+.hero h2{font-size:28px;margin:0;font-weight:800}
+.content{background:#1c2531;border-radius:20px;padding:22px;line-height:1.7}
+.content h3{font-size:18px;margin:22px 0 8px;color:#9fc5ff}
+.content h3:first-child{margin-top:0}
+.content p{margin:0 0 12px;color:#e3e9f2}
+.info{display:grid;gap:10px;margin:14px 0 4px}
+.info-item{background:#263447;border-radius:13px;padding:13px 15px}
+.info-item strong{display:block;color:#9fc5ff;font-size:13px;margin-bottom:3px}
+.info-item span{font-weight:700}
+.actions{margin-top:20px}
+.actions button{width:100%;border:0;border-radius:14px;padding:15px;background:#303b4d;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+.small{font-size:13px;color:#aeb9c8;margin-top:18px}
+</style>
+</head>
+<body>
+<header><h1>DFCraft</h1></header>
+<main>
+  <section class="hero">
+    <img class="logo" src="data:image/png;base64,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" alt="Logo DFCraft" onerror="this.style.display='none'">
+    <h2>Tentang DFCraft</h2>
+  </section>
+
+  <section class="content">
+    <h3>Apa itu DFCraft?</h3>
+    <p>DFCraft adalah web komunitas untuk membantu pemain Minecraft menemukan, melihat, dan berbagi tautan konten Minecraft dalam satu tempat. DFCraft dibuat agar pencarian berbagai konten Minecraft terasa lebih praktis dan tertata.</p>
+
+    <div class="info">
+      <div class="info-item">
+        <strong>Tanggal perilisan</strong>
+        <span>Selasa, 1 September 2026</span>
+      </div>
+      <div class="info-item">
+        <strong>Nama web</strong>
+        <span>DFCraft</span>
+      </div>
+    </div>
+
+    <h3>Tujuan DFCraft</h3>
+    <p>DFCraft bertujuan menjadi tempat berbagi dan menemukan referensi konten Minecraft, memudahkan pengguna menjelajahi berbagai kategori, serta membantu komunitas saling membagikan tautan konten.</p>
+
+    <h3>Kegunaan DFCraft</h3>
+    <p>Melalui DFCraft, pengguna dapat mencari Add-On, Texture Pack, Shader, Map, dan konten Minecraft lainnya. Pengguna juga dapat melihat informasi konten, membuka tautan unduhan, menyimpan riwayat unduhan, serta membagikan tautan kepada teman atau melalui media sosial.</p>
+
+    <h3>Penggunaan yang bertanggung jawab</h3>
+    <p>Pengguna perlu masuk ke akun untuk menggunakan fitur yang memerlukan login dan mengikuti aturan DFCraft saat membagikan konten. Setiap file dari internet tetap perlu diperiksa dengan hati-hati; DFCraft tidak dapat menjamin semua file bebas dari risiko.</p>
+
+    <p class="small">DFCraft Web • Informasi tentang DFCraft</p>
+  </section>
+
+  <div class="actions">
+    <button id="exitBtn" type="button">Keluar</button>
+  </div>
+</main>
+<script>
+document.getElementById('exitBtn').addEventListener('click',()=>{
+  location.href='index.html';
+});
+</script>
+</body>
+</html>
