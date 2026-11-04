@@ -347,23 +347,6 @@ body.downloads-page #title{margin-top:0}
 @media(max-width:420px){.addon-detail-title{font-size:19px}.addon-detail-image{max-height:52vh}.addon-stat-value{font-size:17px}.addon-stat-label{font-size:10px}}
 </style>
 
-
-<style id="df-login-required-style">
-.df-login-required{position:fixed;inset:0;z-index:300000;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(3,8,16,.78);backdrop-filter:blur(7px)}
-.df-login-required.show{display:flex}
-.df-login-card{width:min(420px,100%);padding:25px 22px 20px;border:1px solid #3a526f;border-radius:24px;background:linear-gradient(155deg,#202e40,#121a26 72%);box-shadow:0 22px 70px #0009;text-align:center;color:#f4f7fb}
-.df-login-mark{width:62px;height:62px;margin:0 auto 15px;border-radius:19px;display:grid;place-items:center;background:linear-gradient(145deg,#78b5ff,#3979d8);color:#081525;font-size:30px;font-weight:1000;box-shadow:0 8px 24px #3988e655}
-.df-login-card h2{font-size:22px;margin:0 0 10px;font-weight:900}
-.df-login-card p{font-size:14px;line-height:1.55;color:#c2cede;margin:0 0 20px}
-.df-login-google{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:52px;border:0;border-radius:14px;background:#fff;color:#202733;font-size:15px;font-weight:900;cursor:pointer}
-.df-login-google svg{width:22px;height:22px}
-.df-login-later{width:100%;margin-top:10px;padding:12px;border:1px solid #40516a;border-radius:13px;background:#263448;color:#e4ebf5;font-weight:800;cursor:pointer}
-.df-login-card .df-login-foot{margin:14px 0 0;font-size:11px;color:#8fa0b6}
-body.light .df-login-card{background:linear-gradient(155deg,#fff,#eaf0f8);color:#18202a;border-color:#c7d4e5}
-body.light .df-login-card p{color:#526174}
-body.light .df-login-later{background:#edf2f8;color:#243348;border-color:#cbd5e1}
-</style>
-
 </head><body>
 <header class="top"><input id="search" class="search" placeholder="Cari..."><div class="avatar account-avatar" id="accountAvatar" title="Akun DFCraft">DF</div></header>
 
@@ -414,7 +397,7 @@ body.light .df-login-later{background:#edf2f8;color:#243348;border-color:#cbd5e1
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
   <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
-<button class="settings-action" id="rulesDfcraftBtn" type="button" onclick="window.location.href='aturan.html'">Aturan DFCraft</button>
+<button class="settings-action" id="rulesDfcraftBtn" type="button" onclick="window.location.href='DFCraft-halaman-aturan-final.html'">Aturan DFCraft</button>
 </div>
 
 
@@ -459,7 +442,7 @@ body.light .df-settings-social .df-social-icon{color:#555f6c}
 })();
 </script>
 
-<div class="about" data-i18n="about">DFCraft Web • Versi 4.9.8</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">Pilih gambar, GIF, atau video (maks. 10 detik)</label><input id="image" type="file" accept="image/*,video/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada media dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs/Shader</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
+<div class="about" data-i18n="about">DFCraft Web • Versi 67.9.9</div><div class="actions"><button class="cancel" id="closeSettings" data-i18n="close">Tutup</button></div></div></div><div id="modal" class="modal" style="display:none"><div class="box"><h2 data-i18n="addTitle">Tambah Add-On</h2><input id="name" data-i18n-placeholder="namePlaceholder" placeholder="Nama Add-On"><label class="file-label" for="image" data-i18n="chooseImage">Pilih gambar, GIF, atau video (maks. 10 detik)</label><input id="image" type="file" accept="image/*,video/*" style="display:none"><div id="imagePreview" class="image-preview" data-i18n="noImage">Belum ada media dipilih</div><input id="link" data-i18n-placeholder="mediafirePlaceholder" placeholder="Link MediaFire (harus sesuai kategori)"><div id="linkValidationStatus" style="margin-top:8px;font-size:13px;color:#aeb8c8"></div><select id="cat"><option>Add-Ons</option><option>Worlds</option><option>Texture Packs/Shader</option><option>Skin</option><option>Minecraft APK</option></select><div class="actions"><button class="cancel" id="cancel" data-i18n="cancel">Batal</button><button class="save" id="save" data-i18n="addButton">Tambahkan</button></div></div></div>
 <script>
 // Tidak ada Add-On contoh bawaan.
 let items=[];
@@ -481,7 +464,7 @@ document.addEventListener("click",function(ev){
   if(!downloadLink) return;
   if(!currentAppwriteUser){
     ev.preventDefault(); ev.stopImmediatePropagation();
-    window.dfShowLoginRequired("Untuk mengunduh Add-On, silakan masuk ke akun DFCraft terlebih dahulu.");
+    window.showDFLoginNotice("Silakan login terlebih dahulu untuk mengunduh Add-On.");
   }
 },true);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
@@ -742,7 +725,7 @@ async function deleteReactionRowSafely(rowId){
 async function submitDetailReaction(type){
   if(!activeDetailItem)return;
   if(!currentAppwriteUser){
-    window.dfShowLoginRequired("Untuk memberi reaksi, silakan masuk ke akun DFCraft terlebih dahulu. Setiap akun hanya dapat memberi satu reaksi pada setiap Add-On.");
+    window.showDFLoginNotice("Silakan login terlebih dahulu agar setiap akun hanya dapat memberikan satu reaksi.");
     return;
   }
   if(!reactionsTableConfigured()){
@@ -998,8 +981,7 @@ $("downloads").onclick=()=>{page="downloads";renderDownloads()};
 $("add").onclick=()=>{
   setActiveNav("add");
   if(!currentAppwriteUser){
-    alert("Silakan masuk/daftar terlebih dahulu untuk menambahkan Add-On.");
-    $("authModal").style.display="flex";
+    window.showDFLoginNotice("Silakan login terlebih dahulu untuk menambahkan Add-On ke DFCraft.");
     return;
   }
   $("modal").style.display="flex";
@@ -1014,7 +996,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Worlds",textures:"Texture Packs/Shader",skins:"Skin",minecraftApk:"Minecraft APK",
   download:"Download",downloadAgain:"Download Lagi",delete:"Hapus Add-On",deleteHistory:"Hapus",
   empty:"Belum ada item.",emptyDownloads:"Belum ada Add-On yang diunduh. Tekan tombol Download pada Add-On untuk memasukkannya ke sini.",
-  downloaded:"Diunduh",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Hapus semua riwayat Unduhan?",
+  downloaded:"Diunduh",about:"DFCraft Web • Versi 67.9.9",confirmClear:"Hapus semua riwayat Unduhan?",
   confirmReset:"Reset semua data DFCraft? Data Add-On dan riwayat Unduhan akan dihapus.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"Semua",searchAddOns:"Add-Ons",searchWorlds:"Worlds",
   searchTextures:"Texture Packs/Shader",searchSkin:"Skin",searchApk:"Minecraft APK",
@@ -1033,7 +1015,7 @@ const translations={
   aboutP3:"Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.",
   aboutP4:"DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.",
   aboutP5:"Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.",
-  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 67.9.9",aboutBrand:"DFCraft Web"
  },
  en:{
   all:"ALL",home:"Home",downloads:"Downloads",add:"Add",settings:"Settings",settingsTitle:" Settings",
@@ -1070,7 +1052,7 @@ const translations={
   addOns:"ADD-ONS",worlds:"Dunia",textures:"Texture Packs/Shader",skins:"Skin",minecraftApk:"APK Minecraft",
   download:"Muat Turun",downloadAgain:"Muat Turun Lagi",delete:"Padam Add-On",deleteHistory:"Padam",
   empty:"Tiada item lagi.",emptyDownloads:"Belum ada Add-On dimuat turun. Tekan Muat Turun pada Add-On untuk menambahkannya di sini.",
-  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 4.10.2",confirmClear:"Padam semua sejarah muat turun?",
+  downloaded:"Dimuat turun",about:"DFCraft Web • Versi 67.9.9",confirmClear:"Padam semua sejarah muat turun?",
   confirmReset:"Tetapkan semula semua data DFCraft? Add-On dan sejarah muat turun akan dipadam.",
   searchCategory:"🔎 Pilih Kategori",searchAll:"Semua",searchAddOns:"Add-Ons",searchWorlds:"Dunia",
   searchTextures:"Texture Packs/Shader",searchSkin:"Skin",searchApk:"APK Minecraft",
@@ -1089,7 +1071,7 @@ const translations={
   aboutP3:"Pengguna yang mempunyai akaun juga boleh menambah kandungan ke DFCraft dengan imej, nama, kategori dan pautan muat turun. Nama akaun pemilik akan dipaparkan pada kandungan.",
   aboutP4:"DFCraft terus dibangunkan dengan carian kategori, sejarah muat turun, tetapan paparan, pilihan bahasa dan pautan ke media sosial serta saluran komuniti DFCraft.",
   aboutP5:"Matlamat DFCraft adalah menyediakan tempat yang mudah dan selesa untuk pemain Minecraft mencari kandungan yang mereka perlukan.",
-  aboutVersion:"Versi 4.10.2",aboutBrand:"DFCraft Web"
+  aboutVersion:"Versi 67.9.9",aboutBrand:"DFCraft Web"
  },
  es:{
   all:"TODO",home:"Inicio",downloads:"Descargas",add:"Añadir",settings:"Ajustes",settingsTitle:" Ajustes",
@@ -1516,6 +1498,53 @@ loadRemoteAddons();
 
 
 
+
+
+<style>
+.df-login-notice{position:fixed;inset:0;z-index:300000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,8,16,.78);backdrop-filter:blur(7px)}
+.df-login-notice.show{display:flex}
+.df-login-notice-card{width:min(420px,100%);padding:25px 22px 20px;border:1px solid #405574;border-radius:24px;background:linear-gradient(155deg,#202d40,#121a27 72%);box-shadow:0 24px 80px rgba(0,0,0,.55);text-align:center;color:#f5f8ff}
+.df-login-notice-mark{width:62px;height:62px;margin:0 auto 15px;border-radius:19px;display:grid;place-items:center;background:linear-gradient(145deg,#a9d0ff,#4389df);color:#10213a;font-size:29px;font-weight:1000;box-shadow:0 8px 24px #4389df44}
+.df-login-notice-card h2{font-size:22px;margin:0 0 9px;font-weight:900}
+.df-login-notice-card p{font-size:14px;line-height:1.55;color:#bdc9da;margin:0 0 20px}
+.df-login-notice-google{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:52px;border:0;border-radius:14px;background:#f7f9fc;color:#202733;font-size:15px;font-weight:900;cursor:pointer}
+.df-login-notice-google svg{width:21px;height:21px}
+.df-login-notice-close{width:100%;margin-top:10px;min-height:45px;border:1px solid #42516a;border-radius:13px;background:#263449;color:#dce7f7;font-size:14px;font-weight:800;cursor:pointer}
+.df-login-notice-google:active,.df-login-notice-close:active{transform:scale(.985)}
+</style>
+<div class="df-login-notice" id="dfLoginNotice" role="dialog" aria-modal="true" aria-labelledby="dfLoginNoticeTitle">
+  <div class="df-login-notice-card">
+    <div class="df-login-notice-mark">DF</div>
+    <h2 id="dfLoginNoticeTitle">Login diperlukan</h2>
+    <p id="dfLoginNoticeText">Silakan login ke akun DFCraft untuk melanjutkan.</p>
+    <button type="button" class="df-login-notice-google" id="dfNoticeGoogleBtn">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.63 5.91c4.45-4.11 7.14-10.17 7.14-17.56Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.79l-7.63-5.91c-2.12 1.42-4.84 2.26-8.28 2.26-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
+      Login dengan Google
+    </button>
+    <button type="button" class="df-login-notice-close" id="dfNoticeCloseBtn">Nanti saja</button>
+  </div>
+</div>
+<script>
+(function(){
+  const notice=document.getElementById('dfLoginNotice');
+  const message=document.getElementById('dfLoginNoticeText');
+  window.showDFLoginNotice=function(text){
+    if(message) message.textContent=text||'Silakan login ke akun DFCraft untuk melanjutkan.';
+    if(notice) notice.classList.add('show');
+  };
+  function closeNotice(){if(notice)notice.classList.remove('show');}
+  document.getElementById('dfNoticeCloseBtn').addEventListener('click',closeNotice);
+  document.getElementById('dfNoticeGoogleBtn').addEventListener('click',function(){
+    closeNotice();
+    const auth=document.getElementById('authModal');
+    if(auth) auth.style.display='flex';
+    if(window.DFCraftRefreshAuth) window.DFCraftRefreshAuth();
+    const google=document.getElementById('googleLoginBtn');
+    if(google) google.focus();
+  });
+  notice.addEventListener('click',function(e){if(e.target===notice)closeNotice();});
+})();
+</script>
 
 
 <div id="authModal" class="auth-modal">
@@ -1974,43 +2003,13 @@ loadRemoteAddons();
 
 <script>
 (function(){
+  function showAbout(){var modal=document.getElementById('dfAboutModal');if(modal)modal.style.display='flex';}
+  function closeAbout(target){var modal=target.closest('#dfAboutModal');if(modal)modal.style.display='none';}
   document.addEventListener('click',function(event){
-    var button=event.target.closest && event.target.closest('#aboutDfcraftBtn');
-    if(button) window.location.href='tentang.html';
-  });
-})();
-</script>
-
-
-<div class="df-login-required" id="dfLoginRequired" role="dialog" aria-modal="true" aria-labelledby="dfLoginRequiredTitle">
-  <div class="df-login-card">
-    <div class="df-login-mark" aria-hidden="true">DF</div>
-    <h2 id="dfLoginRequiredTitle">Login diperlukan</h2>
-    <p id="dfLoginRequiredText">Silakan masuk ke akun DFCraft terlebih dahulu untuk melanjutkan.</p>
-    <button type="button" class="df-login-google" id="dfLoginRequiredGoogle">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.63 5.91c4.45-4.11 7.14-10.17 7.14-17.56Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.79l-7.63-5.91c-2.12 1.42-4.84 2.26-8.28 2.26-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
-      Masuk dengan Google
-    </button>
-    <button type="button" class="df-login-later" id="dfLoginRequiredClose">Nanti saja</button>
-    <p class="df-login-foot">Satu akun DFCraft untuk satu reaksi pada setiap Add-On.</p>
-  </div>
-</div>
-<script id="df-login-required-script">
-(function(){
-  var dialog=document.getElementById('dfLoginRequired');
-  window.dfShowLoginRequired=function(message){
-    var text=document.getElementById('dfLoginRequiredText');
-    if(text) text.textContent=message||'Silakan masuk ke akun DFCraft terlebih dahulu untuk melanjutkan.';
-    if(dialog) dialog.classList.add('show');
-  };
-  function close(){if(dialog)dialog.classList.remove('show');}
-  document.getElementById('dfLoginRequiredClose').addEventListener('click',close);
-  dialog.addEventListener('click',function(e){if(e.target===dialog)close();});
-  document.getElementById('dfLoginRequiredGoogle').addEventListener('click',function(){
-    close();
-    var googleButton=document.getElementById('googleLoginBtn');
-    if(googleButton) googleButton.click();
-    else {var auth=document.getElementById('authModal');if(auth)auth.style.display='flex';}
+    var target=event.target;
+    if(target.closest && target.closest('#aboutDfcraftBtn')) showAbout();
+    if(target.hasAttribute && target.hasAttribute('data-close-df-modal')) closeAbout(target);
+    if(target && target.id==='dfAboutModal') target.style.display='none';
   });
 })();
 </script>
