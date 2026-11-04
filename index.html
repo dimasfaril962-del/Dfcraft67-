@@ -396,8 +396,8 @@ body.downloads-page #title{margin-top:0}
 <nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b></b><span data-i18n="settings">Pengaturan</span></button></nav>
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
-  <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
-<button class="settings-action" id="rulesDfcraftBtn" type="button" onclick="window.location.href='DFCraft-halaman-aturan-final.html'">Aturan DFCraft</button>
+  <button class="settings-action" id="aboutDfcraftBtn" type="button" data-i18n="aboutTitle">Tentang DFCraft</button>
+<button class="settings-action" id="rulesDfcraftBtn" type="button" data-i18n="rulesTitle">Aturan DFCraft</button>
 </div>
 
 
@@ -2003,13 +2003,16 @@ loadRemoteAddons();
 
 <script>
 (function(){
-  function showAbout(){var modal=document.getElementById('dfAboutModal');if(modal)modal.style.display='flex';}
-  function closeAbout(target){var modal=target.closest('#dfAboutModal');if(modal)modal.style.display='none';}
-  document.addEventListener('click',function(event){
-    var target=event.target;
-    if(target.closest && target.closest('#aboutDfcraftBtn')) showAbout();
-    if(target.hasAttribute && target.hasAttribute('data-close-df-modal')) closeAbout(target);
-    if(target && target.id==='dfAboutModal') target.style.display='none';
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if (!target || !target.closest) return;
+    if (target.closest('#aboutDfcraftBtn')) {
+      window.location.href = 'tentang.html';
+      return;
+    }
+    if (target.closest('#rulesDfcraftBtn')) {
+      window.location.href = 'aturan.html';
+    }
   });
 })();
 </script>
