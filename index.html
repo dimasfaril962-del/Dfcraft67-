@@ -54,7 +54,7 @@
 .settings-box [data-i18n="settingsTitle"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3H9l-.4 3a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.7 7.7 0 0 0 1.7 1L9 21h6l.4-3a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.5-2.1-1.5ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z'/%3E%3C/svg%3E")}
 .settings-box [data-i18n="languageLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M3 12h18M12 3c5 5 5 13 0 18M12 3c-5 5-5 13 0 18' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E")}
 .settings-box [data-i18n="themeLabel"]{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 10 10A8 8 0 0 1 12 2Zm-4 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5-3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'/%3E%3C/svg%3E")}
-.settings-box #aboutDfcraftBtn::before,#dfAboutModal h3::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M12 10v7m0-11v2' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E")}
+.settings-box #aboutDfcraftBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M12 10v7m0-11v2' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E")}
 #modal h2[data-i18n="addTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath stroke='black' stroke-width='3' d='M12 3v18M3 12h18'/%3E%3C/svg%3E")}
 .auth-title[data-i18n="accountTitle"]::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='7' r='4' fill='black'/%3E%3Cpath fill='black' d='M3 22v-2a9 9 0 0 1 18 0v2Z'/%3E%3C/svg%3E")}
 .auth-box #saveProfileBtn::before{--df-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 2h14l4 4v16H2V2h2Zm2 2v6h10V4H6Zm0 10v6h12v-6H6Z'/%3E%3C/svg%3E")}
@@ -88,36 +88,8 @@
 .settings-extra{display:grid;gap:12px;margin-top:14px}
 .settings-action{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:16px;font-weight:700;background:#2d3a50;color:#fff}
 .settings-action:active{transform:scale(.99)}
-.df-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:99999;padding:20px}
-.df-modal{width:min(520px,100%);background:#1b2430;color:#fff;border-radius:22px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.45)}
-.df-modal h3{margin:0 0 12px;font-size:24px}
-.df-modal p{margin:8px 0;line-height:1.5;color:#d8dee8}
-.df-modal .df-close{margin-top:18px;width:100%;padding:13px;border:0;border-radius:14px;background:#9fc2ff;color:#111;font-weight:800;font-size:16px}
+
 </style>
-<div class="df-modal-backdrop" id="dfAboutModal">
-  <div class="df-modal">
-    <h3 data-i18n="aboutTitle">Aturan &amp; Sistem DFCraft</h3>
-    <div class="df-rules-content">
-      <p class="df-rule-good">✅ Keamanan web diprioritaskan</p>
-      <p class="df-rule-good">✅ Bisa menambahkan Add-On</p>
-      <p class="df-rule-good">✅ Sistem pemeriksaan konten diterapkan</p>
-      <p class="df-rule-good">✅ Sistem ketat untuk Add-On yang dilarang</p>
-      <p class="df-rule-good">✅ Bisa share link web DFCraft</p>
-      <p class="df-rule-good">✅ Tidak semua mod/APK akan gagal ditambahkan</p>
-      <p class="df-rule-bad">❌ Dilarang menambahkan Add-On dari Marketplace</p>
-      <p class="df-rule-bad">❌ Dilarang menambahkan Add-On Jenny</p>
-      <p class="df-rule-bad">❌ Dilarang menambahkan APK selain Minecraft</p>
-      <p class="df-rule-bad">❌ Tidak semua APK/mod berhasil diperiksa atau ditambahkan</p>
-    </div>
-    <p><b data-i18n="aboutVersion">Versi 4.10.8</b></p>
-    <button class="df-close" data-close-df-modal>OK</button>
-  </div>
-</div>
-
-
-
-
-
 <style>
 .account-avatar{cursor:pointer;user-select:none}
 .auth-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:99999;padding:18px}
@@ -338,13 +310,7 @@ body.downloads-page .chips{display:none!important}
 body.downloads-page .section{padding-top:12px}
 body.downloads-page #title{margin-top:0}
 </style><style>
-#dfAboutModal .df-modal{max-height:82vh;overflow-y:auto}
-#dfAboutModal .df-modal p{font-size:16px;line-height:1.65}
-#dfAboutModal .df-rules-content{margin-top:14px;padding:16px;border-radius:16px;background:#141a21;border:1px solid #344154}
-#dfAboutModal .df-rules-content p{margin:0 0 18px;line-height:1.5}
-#dfAboutModal .df-rules-content p:last-child{margin-bottom:0}
-#dfAboutModal .df-rules-content .df-rule-good{color:#a8e6b4}
-#dfAboutModal .df-rules-content .df-rule-bad{color:#e7a5b0}
+
 
 </style>
 
@@ -431,6 +397,7 @@ body.downloads-page #title{margin-top:0}
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
   <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
+<button class="settings-action" id="rulesDfcraftBtn" type="button" onclick="window.location.href='DFCraft-halaman-aturan-final.html'">Aturan DFCraft</button>
 </div>
 
 
