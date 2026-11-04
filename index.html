@@ -396,8 +396,8 @@ body.downloads-page #title{margin-top:0}
 <nav class="bottom"><button class="nav active" id="home"><b>⌂</b><span data-i18n="home">Beranda</span></button><button class="nav" id="downloads"><b>↓</b><span data-i18n="downloads">Unduhan</span></button><button class="nav" id="add"><b>＋</b><span data-i18n="add">Tambah</span></button><button class="nav" id="settings"><b></b><span data-i18n="settings">Pengaturan</span></button></nav>
 <div id="settingsModal" class="modal" style="display:none"><div class="box settings-box"><h2 data-i18n="settingsTitle">Pengaturan</h2><label class="setting-label" data-i18n="languageLabel">Bahasa</label><select id="languageSelect"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="ms">Bahasa Melayu</option><option value="es">Español</option><option value="pt">🇧🇷 Português</option><option value="ja">日本語</option></select><label class="setting-label" data-i18n="themeLabel">Tampilan</label><select id="themeSelect"><option value="dark" data-i18n="dark">Gelap</option><option value="light" data-i18n="light">Terang</option></select><button class="setting-action" id="clearDownloads" data-i18n="clearDownloads">Hapus semua riwayat Unduhan</button>
 <div class="settings-extra">
-  <button class="settings-action" id="aboutDfcraftBtn" type="button" data-i18n="aboutTitle">Tentang DFCraft</button>
-<button class="settings-action" id="rulesDfcraftBtn" type="button">Aturan DFCraft</button>
+  <button class="settings-action" id="aboutDfcraftBtn" data-i18n="aboutTitle">Tentang DFCraft</button>
+<button class="settings-action" id="rulesDfcraftBtn" type="button" data-i18n="rulesTitle" onclick="window.location.href='aturan.html'">Aturan DFCraft</button>
 </div>
 
 
@@ -464,7 +464,7 @@ document.addEventListener("click",function(ev){
   if(!downloadLink) return;
   if(!currentAppwriteUser){
     ev.preventDefault(); ev.stopImmediatePropagation();
-    window.showDFLoginNotice("Silakan login terlebih dahulu untuk mengunduh Add-On.");
+    window.showDFLoginNotice(t("loginRequiredDownload"));
   }
 },true);
 function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
@@ -725,7 +725,7 @@ async function deleteReactionRowSafely(rowId){
 async function submitDetailReaction(type){
   if(!activeDetailItem)return;
   if(!currentAppwriteUser){
-    window.showDFLoginNotice("Silakan login terlebih dahulu agar setiap akun hanya dapat memberikan satu reaksi.");
+    window.showDFLoginNotice(t("loginRequiredReaction"));
     return;
   }
   if(!reactionsTableConfigured()){
@@ -981,13 +981,14 @@ $("downloads").onclick=()=>{page="downloads";renderDownloads()};
 $("add").onclick=()=>{
   setActiveNav("add");
   if(!currentAppwriteUser){
-    window.showDFLoginNotice("Silakan login terlebih dahulu untuk menambahkan Add-On ke DFCraft.");
+    window.showDFLoginNotice(t("loginRequiredAdd"));
     return;
   }
   $("modal").style.display="flex";
 };
 $("settings").onclick=()=>{$("settingsModal").style.display="flex";setActiveNav("settings");applyLanguage();};
 $("closeSettings").onclick=()=>$("settingsModal").style.display="none";
+const DFCraft_VERSION = "67.9.9"; // Ubah satu nilai ini setiap rilis DFCraft.
 const translations={
  id:{
   all:"SEMUA",home:"Beranda",downloads:"Unduhan",add:"Tambah",settings:"Pengaturan",settingsTitle:"Pengaturan",
@@ -1015,6 +1016,17 @@ const translations={
   aboutP3:"Pengguna yang memiliki akun juga dapat menambahkan konten ke DFCraft beserta gambar, nama, kategori, dan link download. Nama akun pemilik akan ditampilkan pada konten yang ditambahkan.",
   aboutP4:"DFCraft terus dikembangkan dengan fitur pencarian berdasarkan kategori, riwayat unduhan, pengaturan tampilan, pilihan bahasa, serta tautan ke media sosial dan saluran komunitas DFCraft.",
   aboutP5:"Tujuan DFCraft adalah membuat tempat yang sederhana dan nyaman bagi pemain Minecraft untuk menemukan konten yang mereka cari.",
+  rulesTitle:'Aturan DFCraft',
+  loginNoticeTitle:'Login diperlukan',
+  loginNoticeDefault:'Silakan login ke akun DFCraft untuk melanjutkan.',
+  loginWithGoogle:'Login dengan Google',
+  later:'Nanti saja',
+  authTitle:'Login Akun',
+  authIntro:'Pilih akun untuk masuk/login.',
+  authGoogle:'Lanjutkan dengan Google',
+  loginRequiredDownload:'Silakan login terlebih dahulu untuk mengunduh Add-On.',
+  loginRequiredAdd:'Silakan login terlebih dahulu untuk menambahkan Add-On ke DFCraft.',
+  loginRequiredReaction:'Silakan login terlebih dahulu agar setiap akun hanya dapat memberikan satu reaksi.',
   aboutVersion:"Versi 67.9.9",aboutBrand:"DFCraft Web"
  },
  en:{
@@ -1043,6 +1055,17 @@ const translations={
   aboutP3:"Users with an account can also add content to DFCraft with an image, name, category, and download link. The owner's account name is displayed on added content.",
   aboutP4:"DFCraft continues to grow with category search, download history, appearance settings, language options, and links to DFCraft social media and community channels.",
   aboutP5:"The goal of DFCraft is to provide a simple and comfortable place for Minecraft players to find the content they are looking for.",
+  rulesTitle:'DFCraft Rules',
+  loginNoticeTitle:'Login required',
+  loginNoticeDefault:'Please log in to your DFCraft account to continue.',
+  loginWithGoogle:'Continue with Google',
+  later:'Maybe later',
+  authTitle:'Account Login',
+  authIntro:'Choose an account to sign in.',
+  authGoogle:'Continue with Google',
+  loginRequiredDownload:'Please log in first to download an Add-On.',
+  loginRequiredAdd:'Please log in first to add an Add-On to DFCraft.',
+  loginRequiredReaction:'Please log in first. Each account can give only one reaction.',
   aboutVersion:"Version 4.10.1",aboutBrand:"DFCraft Web"
  },
  ms:{
@@ -1071,6 +1094,17 @@ const translations={
   aboutP3:"Pengguna yang mempunyai akaun juga boleh menambah kandungan ke DFCraft dengan imej, nama, kategori dan pautan muat turun. Nama akaun pemilik akan dipaparkan pada kandungan.",
   aboutP4:"DFCraft terus dibangunkan dengan carian kategori, sejarah muat turun, tetapan paparan, pilihan bahasa dan pautan ke media sosial serta saluran komuniti DFCraft.",
   aboutP5:"Matlamat DFCraft adalah menyediakan tempat yang mudah dan selesa untuk pemain Minecraft mencari kandungan yang mereka perlukan.",
+  rulesTitle:'Peraturan DFCraft',
+  loginNoticeTitle:'Log masuk diperlukan',
+  loginNoticeDefault:'Sila log masuk ke akaun DFCraft untuk meneruskan.',
+  loginWithGoogle:'Log masuk dengan Google',
+  later:'Nanti dahulu',
+  authTitle:'Log Masuk Akaun',
+  authIntro:'Pilih akaun untuk log masuk.',
+  authGoogle:'Teruskan dengan Google',
+  loginRequiredDownload:'Sila log masuk dahulu untuk memuat turun Add-On.',
+  loginRequiredAdd:'Sila log masuk dahulu untuk menambah Add-On ke DFCraft.',
+  loginRequiredReaction:'Sila log masuk dahulu. Setiap akaun hanya boleh memberikan satu reaksi.',
   aboutVersion:"Versi 67.9.9",aboutBrand:"DFCraft Web"
  },
  es:{
@@ -1099,6 +1133,17 @@ const translations={
   aboutP3:"Los usuarios con una cuenta también pueden añadir contenido a DFCraft con imagen, nombre, categoría y enlace de descarga. El nombre de la cuenta del propietario se muestra en el contenido añadido.",
   aboutP4:"DFCraft sigue desarrollándose con búsqueda por categorías, historial de descargas, ajustes de apariencia, opciones de idioma y enlaces a las redes sociales y canales de la comunidad DFCraft.",
   aboutP5:"El objetivo de DFCraft es ofrecer un lugar sencillo y cómodo para que los jugadores de Minecraft encuentren el contenido que buscan.",
+  rulesTitle:'Reglas de DFCraft',
+  loginNoticeTitle:'Se requiere iniciar sesión',
+  loginNoticeDefault:'Inicia sesión en tu cuenta de DFCraft para continuar.',
+  loginWithGoogle:'Iniciar sesión con Google',
+  later:'Más tarde',
+  authTitle:'Inicio de sesión',
+  authIntro:'Elige una cuenta para iniciar sesión.',
+  authGoogle:'Continuar con Google',
+  loginRequiredDownload:'Inicia sesión primero para descargar un Add-On.',
+  loginRequiredAdd:'Inicia sesión primero para añadir un Add-On a DFCraft.',
+  loginRequiredReaction:'Inicia sesión primero. Cada cuenta solo puede dar una reacción.',
   aboutVersion:"Versión 4.9.5",aboutBrand:"DFCraft Web"
  },
  pt:{
@@ -1127,6 +1172,17 @@ const translations={
   aboutP3:"Usuários com conta também podem adicionar conteúdo ao DFCraft com imagem, nome, categoria e link de download. O nome da conta do proprietário será exibido no conteúdo.",
   aboutP4:"O DFCraft continua sendo desenvolvido com busca por categorias, histórico de downloads, configurações de aparência, opções de idioma e links para as redes sociais e canais da comunidade DFCraft.",
   aboutP5:"O objetivo do DFCraft é oferecer um lugar simples e confortável para jogadores de Minecraft encontrarem o conteúdo que procuram.",
+  rulesTitle:'Regras do DFCraft',
+  loginNoticeTitle:'Login necessário',
+  loginNoticeDefault:'Entre na sua conta DFCraft para continuar.',
+  loginWithGoogle:'Entrar com Google',
+  later:'Agora não',
+  authTitle:'Login da conta',
+  authIntro:'Escolha uma conta para entrar.',
+  authGoogle:'Continuar com o Google',
+  loginRequiredDownload:'Faça login primeiro para baixar um Add-On.',
+  loginRequiredAdd:'Faça login primeiro para adicionar um Add-On ao DFCraft.',
+  loginRequiredReaction:'Faça login primeiro. Cada conta pode dar apenas uma reação.',
   aboutVersion:"Versão 4.10.1",aboutBrand:"DFCraft Web"
  },
  ja:{
@@ -1155,9 +1211,33 @@ const translations={
   aboutP3:"アカウントを持つユーザーは、画像、名前、カテゴリ、ダウンロードリンクを付けてDFCraftにコンテンツを追加できます。追加したコンテンツには所有者のアカウント名が表示されます。",
   aboutP4:"DFCraftは、カテゴリ検索、ダウンロード履歴、外観設定、言語設定、DFCraftのSNSやコミュニティチャンネルへのリンクなどを継続的に開発しています。",
   aboutP5:"DFCraftの目的は、Minecraftプレイヤーが探しているコンテンツを簡単で快適に見つけられる場所を作ることです。",
+  rulesTitle:'DFCraftのルール',
+  loginNoticeTitle:'ログインが必要です',
+  loginNoticeDefault:'続行するにはDFCraftアカウントにログインしてください。',
+  loginWithGoogle:'Googleでログイン',
+  later:'後で',
+  authTitle:'アカウントにログイン',
+  authIntro:'ログインするアカウントを選択してください。',
+  authGoogle:'Googleで続行',
+  loginRequiredDownload:'Add-Onをダウンロードするには、先にログインしてください。',
+  loginRequiredAdd:'Add-OnをDFCraftに追加するには、先にログインしてください。',
+  loginRequiredReaction:'先にログインしてください。各アカウントが送信できるリアクションは1回です。',
   aboutVersion:"バージョン4.9.9",aboutBrand:"DFCraft Web"
  }
 };
+
+// Semua label versi mengambil satu sumber agar tidak berbeda antarbahasa.
+const versionLabels = {id:"Versi",en:"Version",ms:"Versi",es:"Versión",pt:"Versão",ja:"バージョン"};
+Object.keys(translations).forEach(code => {
+  const label = versionLabels[code] || "Version";
+  translations[code].about = code === "ja"
+    ? `DFCraft Web • ${label}${DFCraft_VERSION}`
+    : `DFCraft Web • ${label} ${DFCraft_VERSION}`;
+  translations[code].aboutVersion = code === "ja"
+    ? `${label}${DFCraft_VERSION}`
+    : `${label} ${DFCraft_VERSION}`;
+});
+
 let language=localStorage.getItem("dfcraft_language")||"id";
 let theme=localStorage.getItem("dfcraft_theme")||"dark";
 function t(k){return (translations[language]&&translations[language][k])||translations.id[k]||k}
@@ -1515,13 +1595,13 @@ loadRemoteAddons();
 <div class="df-login-notice" id="dfLoginNotice" role="dialog" aria-modal="true" aria-labelledby="dfLoginNoticeTitle">
   <div class="df-login-notice-card">
     <div class="df-login-notice-mark">DF</div>
-    <h2 id="dfLoginNoticeTitle">Login diperlukan</h2>
-    <p id="dfLoginNoticeText">Silakan login ke akun DFCraft untuk melanjutkan.</p>
+    <h2 id="dfLoginNoticeTitle" data-i18n="loginNoticeTitle">Login diperlukan</h2>
+    <p id="dfLoginNoticeText" data-i18n="loginNoticeDefault">Silakan login ke akun DFCraft untuk melanjutkan.</p>
     <button type="button" class="df-login-notice-google" id="dfNoticeGoogleBtn">
       <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.63 5.91c4.45-4.11 7.14-10.17 7.14-17.56Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.79l-7.63-5.91c-2.12 1.42-4.84 2.26-8.28 2.26-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
-      Login dengan Google
+      <span data-i18n="loginWithGoogle">Login dengan Google</span>
     </button>
-    <button type="button" class="df-login-notice-close" id="dfNoticeCloseBtn">Nanti saja</button>
+    <button type="button" class="df-login-notice-close" id="dfNoticeCloseBtn" data-i18n="later">Nanti saja</button>
   </div>
 </div>
 <script>
@@ -1529,7 +1609,7 @@ loadRemoteAddons();
   const notice=document.getElementById('dfLoginNotice');
   const message=document.getElementById('dfLoginNoticeText');
   window.showDFLoginNotice=function(text){
-    if(message) message.textContent=text||'Silakan login ke akun DFCraft untuk melanjutkan.';
+    if(message) message.textContent=text||(window.dfTranslate?window.dfTranslate('loginNoticeDefault'):'Silakan login ke akun DFCraft untuk melanjutkan.');
     if(notice) notice.classList.add('show');
   };
   function closeNotice(){if(notice)notice.classList.remove('show');}
@@ -1550,11 +1630,11 @@ loadRemoteAddons();
 <div id="authModal" class="auth-modal">
   <div class="auth-box">
     <div id="authLoggedOut">
-      <div class="auth-title">Login Akun</div>
-      <div class="social-login-intro">Pilih akun untuk masuk/login.</div>
+      <div class="auth-title" data-i18n="authTitle">Login Akun</div>
+      <div class="social-login-intro" data-i18n="authIntro">Pilih akun untuk masuk/login.</div>
       <button type="button" class="social-login-btn google-login" id="googleLoginBtn">
         <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.63 5.91c4.45-4.11 7.14-10.17 7.14-17.56Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.79l-7.63-5.91c-2.12 1.42-4.84 2.26-8.28 2.26-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
-        Lanjutkan dengan Google
+        <span data-i18n="authGoogle">Lanjutkan dengan Google</span>
       </button>
       <div id="socialLoginMsg" class="auth-msg"></div>
 
@@ -2003,16 +2083,13 @@ loadRemoteAddons();
 
 <script>
 (function(){
-  document.addEventListener('click', function(event){
-    var target = event.target;
-    if (!target || !target.closest) return;
-    if (target.closest('#aboutDfcraftBtn')) {
-      window.location.href = 'tentang.html';
-      return;
-    }
-    if (target.closest('#rulesDfcraftBtn')) {
-      window.location.href = 'aturan.html';
-    }
+  function showAbout(){var modal=document.getElementById('dfAboutModal');if(modal)modal.style.display='flex';}
+  function closeAbout(target){var modal=target.closest('#dfAboutModal');if(modal)modal.style.display='none';}
+  document.addEventListener('click',function(event){
+    var target=event.target;
+    if(target.closest && target.closest('#aboutDfcraftBtn')) showAbout();
+    if(target.hasAttribute && target.hasAttribute('data-close-df-modal')) closeAbout(target);
+    if(target && target.id==='dfAboutModal') target.style.display='none';
   });
 })();
 </script>
